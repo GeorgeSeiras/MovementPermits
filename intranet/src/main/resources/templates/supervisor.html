@@ -1,15 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/supervisor.css">
 <title>Supervisor</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../static/supervisor.css">
 </head>
 <body>
-<div id="test"><p>asfasfasf</p></div>
 	<div class="tab">
 		<button class="tablinks" onclick="changeTab(event,'Pending')">Pending
 			Review</button>
@@ -58,33 +56,35 @@
 					var status = "<td>" + permits[i].status + "<td>";
 					var from = "<td>" + permits[i].fromDate + "<td>";
 					var to = "<td>" + permits[i].toDate + "<td>";
-					var button = "<button onclick = viewPermit(permits[i].id)>" +View+"</button>";
+					var button = "<button onclick = viewPermit(permits[i].id)>"
+							+ View + "</button>";
 					$("#permitTable").append(tr + name + status + from + to);
 				}
 			}
 		})
 
 		function changeTab(evt, cityName) {
-		  // Declare all variables
-		  var i, tabcontent, tablinks;
-		
-		  // Get all elements with class="tabcontent" and hide them
-		  tabcontent = document.getElementsByClassName("tabcontent");
-		  for (i = 0; i < tabcontent.length; i++) {
-		    tabcontent[i].style.display = "none";
-		  }
-		
-		  // Get all elements with class="tablinks" and remove the class "active"
-		  tablinks = document.getElementsByClassName("tablinks");
-		  for (i = 0; i < tablinks.length; i++) {
-		    tablinks[i].className = tablinks[i].className.replace(" active", "");
-		  }
-		
-		  // Show the current tab, and add an "active" class to the button that opened the tab
-		  document.getElementById(cityName).style.display = "block";
-		  evt.currentTarget.className += " active";
+			// Declare all variables
+			var i, tabcontent, tablinks;
+
+			// Get all elements with class="tabcontent" and hide them
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+
+			// Get all elements with class="tablinks" and remove the class "active"
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(
+						" active", "");
+			}
+
+			// Show the current tab, and add an "active" class to the button that opened the tab
+			document.getElementById(cityName).style.display = "block";
+			evt.currentTarget.className += " active";
 		}
-			
+
 		function viewPermit(id) {
 			window.location.replace(BASE_URL + "/permits/" + id)
 		}
