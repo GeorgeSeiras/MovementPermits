@@ -5,9 +5,11 @@
 <head>
 <meta charset="ISO-8859-1">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/supervisor.css">
 <title>Supervisor</title>
 </head>
 <body>
+<div id="test"><p>asfasfasf</p></div>
 	<div class="tab">
 		<button class="tablinks" onclick="changeTab(event,'Pending')">Pending
 			Review</button>
