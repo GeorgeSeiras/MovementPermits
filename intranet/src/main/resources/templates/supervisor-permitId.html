@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<div>
+		<table class="permit" id="permit">
+		</table>
+	</div>
+	<form id="statusChange"></form>
+	<script type="text/javascript">
+		var permits;
+
+		const permitId = getPermitId();
+		permitToTable("permit", permit)
+		$.ajax({
+			url : BASE_URL + "/permits?id=" + permitId,
+			type : "GET",
+			cache : false,
+			success : function(response) {
+				const permits = JSON.parse(response);
+				permitToTable("#permit", permit)
+			}
+		})
+		function permitToTable(table, permit) {
+			const id = "<td>" + permit.id + "<td>";
+			const userId = "<td>" + permit.user_id + "<td>";
+			const start_date = "<td>" + permit.start_date + "<td>";
+			const end_date = "<td>" + permit.end_date + "<td>";
+			const type = "<td>" + permit.type + "<td>";
+			const address = "<td>" + permit.address + "<td>";
+			const status = "<td>" + permit.status + "<td>";
+			if (permit.status === NULL) {
+				const approveButton = makeRadioButton("newStatus", "Approve",
+						"Approve");
+				const denyButton = makeRadioButton("newStatus", "Deny", "Deny");
+				const statusChangeDiv = document.getElementById("statusChange");
+				statusChangeDiv.appendChild(approveButton);
+				statusChangeDiv.appendChild(denyButton);
+				const submitButton = document.createElement("input");
+				submitButton.innerHtml = "Update Status";
+				submitButton.onclick = changeStatus(permit)
+				statusChangeDiv.appendChild(submitButton);
+
+			}
+		}
+
+		function changeStatus(permit) {
+			const newStatus = $('input[name=newStatus]:checked',
+					'#statusChange').val()
+			$.ajax({
+				url : "localhost:8080" + "/permits/" + permit.id + "/status",
+				type : "POST",
+				data : "status:" + newStatus,
+				cache : false,
+				success : function(response) {
+					const newPermit = JSON.parse(response);
+					$("#permit tr").remove();
+					permitToTable("permit", permit);
+				}
+			})
+		}
+
+		function makeRadioButton(name, value, text) {
+			var label = document.createElement("label");
+			var radio = document.createElement("input");
+			radio.type = "radio";
+			radio.name = name;
+			radio.value = value;
+			label.appendChild(radio);
+			label.appendChild(document.createTextNode(text));
+			return label;
+		}
+
+		function getPermitId() {
+			const queryString = window.location.search;
+			const urlParams = new URLSearchParams(queryString);
+			return urlParams.get('permitId');
+		}
+	</script>
+</body>
+</html>
