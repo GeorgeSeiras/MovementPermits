@@ -5,7 +5,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link href="../static/css/supervisor.css" th:href="@{/css/supervisor.css}" rel="stylesheet" >
+<link href="../static/css/supervisor.css"
+	th:href="@{/css/supervisor.css}" rel="stylesheet">
 </head>
 <body>
 	<div class="tab">
@@ -14,9 +15,13 @@
 		<button class="tablinks" onclick="changeTab(event,'Permits')">Permits</button>
 	</div>
 
-	<div id="Pending" class="tabcontent"></div>
+	<div id="Pending" class="tabcontent">
+		<table class="pendingTable"></table>
+	</div>
 
-	<div id="Permits" class="tabcontent"></div>
+	<div id="Permits" class="tabcontent">
+		<table class="permitsTable"></table>
+	</div>
 
 	<script type="text/javascript">
 		const BASE_URL = "http://localhost:8080";
@@ -39,7 +44,7 @@
 			cache : false,
 			success : function(response) {
 				const permits = JSON.parse(response);
-
+				permitsToTable("#pendingTable", permits)
 			}
 		})
 		//get and show the permits for my department
@@ -49,20 +54,21 @@
 			cache : false,
 			success : function(response) {
 				const permits = JSON.parse(response)
-				var table = $("<table/>").attr("id", "permitTable");
-				$("#Permits").append(table)
-				for (var i = 0; i < permits.length; i++) {
-					var name = "<td>" + permits[i].name + "<td>";
-					var status = "<td>" + permits[i].status + "<td>";
-					var from = "<td>" + permits[i].fromDate + "<td>";
-					var to = "<td>" + permits[i].toDate + "<td>";
-					var button = "<button onclick = viewPermit(permits[i].id)>"
-							+ View + "</button>";
-					$("#permitTable").append(tr + name + status + from + to);
-				}
+				permitsToTable("#permitsTable", permits)
 			}
 		})
 
+		function permitsToTable(tablename, permits) {
+			for (var i = 0; i < permits.length; i++) {
+				var name = "<td>" + permits[i].name + "<td>";
+				var status = "<td>" + permits[i].status + "<td>";
+				var from = "<td>" + permits[i].fromDate + "<td>";
+				var to = "<td>" + permits[i].toDate + "<td>";
+				var button = "<button th:onclick = viewPermit(permits[i].id)>"
+						+ View + "</button>";
+				$(tablename).append(tr + name + status + from + to);
+			}
+		}
 		function changeTab(evt, cityName) {
 			// Declare all variables
 			var i, tabcontent, tablinks;
