@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class SupervisorController {
 	
 	@GetMapping("/supervisor")
+
 	public String supervisor() {
 		return "supervisor";
 	}
@@ -14,6 +15,6 @@ public class SupervisorController {
 	
 	@GetMapping("/supervisor/permit")
 	public String supervisorPermits() {
-		return "supervisor-permitid";
+		return "supervisor-permit";
 	}
 }
