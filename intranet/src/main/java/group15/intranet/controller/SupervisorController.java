@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class SupervisorController {
 	
-	@GetMapping(value={"/","/home","/supervisor"})
+	@GetMapping("/supervisor")
 	public String hello() {
 		return "supervisor";
 	}
