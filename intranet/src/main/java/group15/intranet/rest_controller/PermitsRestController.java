@@ -19,11 +19,6 @@ public class PermitsRestController {
 	@Autowired
 	PermitRepository permitRepository;
 	
-	@GetMapping("/permits")
-	public List<Object> getAllPermits(){
-		return null;
-	}
-	
 	@GetMapping("/permits/{id}")
 	public Permit getPermitById(@PathVariable int id){
 		Optional<Permit> permit = permitRepository.findById(id);

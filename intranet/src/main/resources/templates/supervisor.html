@@ -44,12 +44,11 @@
 	</div>
 
 	<script type="text/javascript">
-		const BASE_URL = "http://localhost:8080";
 		const myCookie = readCookie(user);
 		var user;
 		//get me
 		$.ajax({
-			url : BASE_URL + "/supervisor/me?token=" + myCookie,
+			url : "/supervisor/me?token=" + myCookie,
 			type : "GET",
 			cache : false,
 			success : function(response) {
@@ -59,7 +58,7 @@
 		})
 		//get and show permit requests pending review
 		$.ajax({
-			url : BASE_URL + "/permits?status=pending",
+			url : "/permits?status=pending",
 			type : "GET",
 			cache : false,
 			success : function(response) {
@@ -69,7 +68,7 @@
 		})
 		//get and show the permits for my department
 		$.ajax({
-			url : BASE_URL + "/permits?dep=" + user.depID,
+			url : "/permits?dep=" + user.depID,
 			type : "GET",
 			cache : false,
 			success : function(response) {
@@ -96,7 +95,7 @@
 					"&depId=" + depId)
 
 			$.ajax({
-				url : BASE_URL + "/permits=?" + queryParameter,
+				url : "/permits=?" + queryParameter,
 				type : "GET",
 				cache : false,
 				success : function(response) {
@@ -122,7 +121,7 @@
 			const finalQueryParameters = string.concat(queryParameter,
 					"&depId=" + depId)
 			$.ajax({
-				url : BASE_URL + "/permits=?" + finalQueryParameters,
+				url : "/permits=?" + finalQueryParameters,
 				type : "GET",
 				cache : false,
 				success : function(response) {
@@ -168,7 +167,7 @@
 		}
 
 		function viewPermit(id) {
-			window.location.replace(BASE_URL + "/permits/" + id)
+			window.location.replace("/permits/" + id)
 		}
 
 		function readCookie(name) {
