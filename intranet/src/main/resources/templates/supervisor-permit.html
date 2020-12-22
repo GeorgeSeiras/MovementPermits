@@ -19,7 +19,7 @@
 		const permitId = getPermitId();
 		permitToTable("permit", permit)
 		$.ajax({
-			url : BASE_URL + "/permits?id=" + permitId,
+			url : "/permits?id=" + permitId,
 			type : "GET",
 			cache : false,
 			success : function(response) {
@@ -54,7 +54,7 @@
 			const newStatus = $('input[name=newStatus]:checked',
 					'#statusChange').val()
 			$.ajax({
-				url : "localhost:8080" + "/permits/" + permit.id + "/status",
+				url : "/permits/" + permit.id + "/status",
 				type : "POST",
 				data : "status:" + newStatus,
 				cache : false,
