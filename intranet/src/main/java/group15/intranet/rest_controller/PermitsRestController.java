@@ -21,22 +21,19 @@ public class PermitsRestController {
 	PermitRepository permitRepository;
 
 
-	@GetMapping("/permits/{permitID}")
-	public Permit getPermitById(@PathVariable int permitID) {
-		Optional<Permit> permit = permitRepository.findById(permitID);
+	@GetMapping("/permits/{id}")
+	public Permit getPermitById(@PathVariable int id) {
+		Optional<Permit> permit = permitRepository.findById(id);
 		return permit.get();
 	}
 
 	@GetMapping("/permits")
 	@ResponseBody
-	public List<Permit> getPermits(@RequestParam (required=false) String id) {
-		System.out.println(id);
-		Permit example = Permit.builder()
-				.permitID(Integer.parseInt(id))
-				.build();
-		List<Permit> list = permitRepository.findAll(Example.of(example));
-		System.out.println(list);
-		return permitRepository.findAll(Example.of(example));
+	public List<Permit> getAllStudents(@RequestParam (required = false) String status){
+			Permit example = Permit.builder()
+					.status(status)
+					.build();
+			return permitRepository.findAll(Example.of(example));
 	}
 
 }

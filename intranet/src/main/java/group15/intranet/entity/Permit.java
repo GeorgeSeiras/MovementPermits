@@ -21,9 +21,12 @@ public class Permit {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "permit_id")
 	private int permitID;
+	
+	@Column(name = "user_id")
+	private int userId;
 
 	@Column(name = "status")
-	private boolean status;
+	private String status;
 
 	@Column(name = "start_date")
 	private Date startDate;
@@ -45,11 +48,11 @@ public class Permit {
 		this.permitID = permitID;
 	}
 
-	public boolean getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -93,6 +96,14 @@ public class Permit {
 
 	public Permit() {
 
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 }
