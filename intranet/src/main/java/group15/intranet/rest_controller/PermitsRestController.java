@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,23 +19,24 @@ public class PermitsRestController {
 
 	@Autowired
 	PermitRepository permitRepository;
-	
-	@GetMapping("/permits")
-	public List<Object> getAllPermits(){
-		return null;
-	}
-	
-	@GetMapping("/permits/{id}")
-	public Permit getPermitById(@PathVariable int id){
-		Optional<Permit> permit = permitRepository.findById(id);
+
+
+	@GetMapping("/permits/{permitID}")
+	public Permit getPermitById(@PathVariable int permitID) {
+		Optional<Permit> permit = permitRepository.findById(permitID);
 		return permit.get();
 	}
-	
+
 	@GetMapping("/permits")
 	@ResponseBody
-	public Permit getPermits(@RequestParam("first")int id, @RequestParam("second") boolean status) {
-		Optional<Permit> permit = permitRepository.findById(id);
-		return permit.get();
+	public List<Permit> getPermits(@RequestParam (required=false) String id) {
+		System.out.println(id);
+		Permit example = Permit.builder()
+				.permitID(Integer.parseInt(id))
+				.build();
+		List<Permit> list = permitRepository.findAll(Example.of(example));
+		System.out.println(list);
+		return permitRepository.findAll(Example.of(example));
 	}
-	
+
 }

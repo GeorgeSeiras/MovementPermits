@@ -23,7 +23,7 @@ public class Permit {
 	private int permitID;
 
 	@Column(name = "status")
-	private int status;
+	private boolean status;
 
 	@Column(name = "start_date")
 	private Date startDate;
@@ -45,11 +45,11 @@ public class Permit {
 		this.permitID = permitID;
 	}
 
-	public int getStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 
