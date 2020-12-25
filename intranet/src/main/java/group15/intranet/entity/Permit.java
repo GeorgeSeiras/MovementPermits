@@ -2,6 +2,7 @@ package group15.intranet.entity;
 
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -98,6 +99,7 @@ public class Permit {
 
 	}
 
+	
 	public int getUserId() {
 		return userId;
 	}
