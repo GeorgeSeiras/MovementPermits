@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Human Resources</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+		
+
+	<div id="Permits" class="tabcontent">
+		<table class="permitsTable"></table>
+		<form>
+			<p>
+				<select id="searchBy" name="dropdown">
+					<option value="Name" selected>Name</option>
+					<option value="StartDate">Start Date</option>
+					<option value="EndDate">End Date</option>
+				</select> <input type="text" id="searchValue" placeholder="Search...">
+				<button type="button" onclick="permitSearch()">Search</button>
+			</p>
+		</form>
+	</div>
+
+
+	<script type="text/javascript">
+		//get and show approved permits
+		$.ajax({
+			url :  "/permits?status=approved",
+			type : "GET",
+			cache : false,
+			success : function(response) {
+				const permits = JSON.parse(response);
+				permitsToTable("#pendingTable", permits)
+			}
+		})
+
+		function permitSearch() {
+			const dropdownValue = document.getElementById("searchBy").value;
+			const searchValue = document.getElementById("searchValue").value
+			var queryParameter;
+			if (dropdownValue === "Name") {
+				const fullname = searchValue.split(" ");
+				queryParameter = "fname=" + fullname[0] + "&lname="
+						+ fullname[1];
+			} else if (dropdownValue === "StartDate") {
+				queryParameter = "start_date=" + searchValue;
+			} else if (dropdownValue === "EndDate") {
+				queryParameter = "end_date=" + searchValue;
+			}
+			const finalQueryParameters = string.concat(queryParameter,
+					"&depId=" + depId)
+			$.ajax({
+				url : BASE_URL + "/permits=?" + finalQueryParameters,
+				type : "GET",
+				cache : false,
+				success : function(response) {
+					const permits = JSON.parse(response)
+					permitsToTable("#permitsTable", permits)
+				}
+			});
+		}
+
+		//remove all existing rows of the permit table, and populate it with the new permits
+		function permitsToTable(tablename, permits) {
+			$(tablename).remove();
+			for (var i = 0; i < permits.length; i++) {
+				var name = "<td>" + permits[i].name + "<td>";
+				var status = "<td>" + permits[i].status + "<td>";
+				var from = "<td>" + permits[i].fromDate + "<td>";
+				var to = "<td>" + permits[i].toDate + "<td>";
+				var button = "<button th:onclick = viewPermit(permits[i].id)>"
+						+ View + "</button>";
+				$(tablename).append(tr + name + status + from + to);
+			}
+		}
+	</script>
+</body>
+</html>
