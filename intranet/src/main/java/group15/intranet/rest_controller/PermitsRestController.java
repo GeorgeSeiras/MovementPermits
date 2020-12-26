@@ -23,7 +23,6 @@ public class PermitsRestController {
 	@Autowired
 	PermitServiceImpl permitService;
 
-
 	@GetMapping("/permits/{id}")
 	public Permit getPermitById(@PathVariable int id) {
 		return this.permitService.getPermitById(id);

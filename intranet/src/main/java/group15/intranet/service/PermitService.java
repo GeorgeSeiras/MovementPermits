@@ -11,4 +11,10 @@ public interface PermitService {
 	
 	Permit getPermitById(int id);
 
+	void deleteById(int id);
+	
+	void addPermit(Permit p);
+
+	void updatePermit(int id, String status);
+
 }
