@@ -21,8 +21,6 @@ public class PermitServiceImpl implements PermitService {
 	@Autowired
 	PermitRepository permitRepository;
 
-
-
 	@Override
 	public Permit getPermitById(int id) {
 		return permitRepository.findById(id);
@@ -43,18 +41,29 @@ public class PermitServiceImpl implements PermitService {
 			list.add(new SearchCriteria("lname", searchParams.get("lname"), SearchOperation.EQUAL));
 		}
 		if (searchParams.containsKey("start_date")) {
-			java.util.Date utilDate;
+			java.util.Date utilDate = null;
+			java.sql.Date sqlDate = null;
+
 			try {
+
 				utilDate = new SimpleDateFormat("yyy-MM-dd").parse(searchParams.get("start_date"));
-				java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-				list.add(new SearchCriteria("startDate", sqlDate, SearchOperation.EQUAL));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+				sqlDate = new java.sql.Date(utilDate.getTime());
+
+			} catch (ParseException e) {}
+
+			list.add(new SearchCriteria("startDate", sqlDate, SearchOperation.EQUAL));
 		}
 		if (searchParams.containsKey("end_date")) {
+			java.util.Date utilDate = null;
+			java.sql.Date sqlDate = null;
+
+			try {
+
+				utilDate = new SimpleDateFormat("yyy-MM-dd").parse(searchParams.get("end_date"));
+				sqlDate = new java.sql.Date(utilDate.getTime());
+
+			} catch (ParseException e) {}
+			
 			list.add(new SearchCriteria("endDate", searchParams.get("end_date"), SearchOperation.EQUAL));
 		}
 		if (searchParams.containsKey("status")) {
