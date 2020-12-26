@@ -7,11 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import group15.intranet.criteria.SearchCriteria;
 import group15.intranet.criteria.SearchOperation;
 import group15.intranet.entity.Permit;
+import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
 import group15.intranet.repository.PermitRepository;
 import group15.intranet.specification.PermitSpecification;
 
@@ -64,7 +67,7 @@ public class PermitServiceImpl implements PermitService {
 
 			} catch (ParseException e) {}
 			
-			list.add(new SearchCriteria("endDate", searchParams.get("end_date"), SearchOperation.EQUAL));
+			list.add(new SearchCriteria("endDate", sqlDate, SearchOperation.EQUAL));
 		}
 		if (searchParams.containsKey("status")) {
 			list.add(new SearchCriteria("status", searchParams.get("status"), SearchOperation.EQUAL));
@@ -87,10 +90,11 @@ public class PermitServiceImpl implements PermitService {
 	}
 
 	@Override
-	public void updatePermit(int id, String status) {
+	public ResponseEntity<Permit> updatePermit(int id, UpdatePermitDetailsRequestModel permitDetails) {
 		Permit permit = permitRepository.findById(id);
-	    permit.setStatus(status);
+	    permit.setStatus(permitDetails.getStatus());
 	    permitRepository.save(permit);
+	    return new ResponseEntity<Permit>(permit,HttpStatus.OK);
 	}
 	
 	

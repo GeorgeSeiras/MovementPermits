@@ -3,7 +3,10 @@ package group15.intranet.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
+
 import group15.intranet.entity.Permit;
+import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
 
 public interface PermitService {
 	
@@ -15,6 +18,6 @@ public interface PermitService {
 	
 	void addPermit(Permit p);
 
-	void updatePermit(int id, String status);
+	ResponseEntity<Permit> updatePermit(int id, UpdatePermitDetailsRequestModel permitDetails);
 
 }
