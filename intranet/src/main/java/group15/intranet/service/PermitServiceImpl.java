@@ -62,5 +62,28 @@ public class PermitServiceImpl implements PermitService {
 		}
 		return permitRepository.findAll(PermitSpecification.buildQuery(list));
 	}
+	
+	@Override
+	public void deleteById(int id) {
+		
+		permitRepository.deleteById(id);
+		
+	}
+
+	@Override
+	public void addPermit(Permit p) {
+		
+		permitRepository.save(p);
+		
+	}
+
+	@Override
+	public void updatePermit(int id, String status) {
+		Permit permit = permitRepository.findById(id);
+	    permit.setStatus(status);
+	    permitRepository.save(permit);
+	}
+	
+	
 
 }
