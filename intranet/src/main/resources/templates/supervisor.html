@@ -10,13 +10,44 @@
 </head>
 <body>
 	<div class="tab">
-		<button class="tablinks" onclick="changeTab(event,'Pending')">Pending
+		<button class="tablinks" onclick="changeTab(event,'Pending')">Permits</button>
+		<button class="tablinks" onclick="changeTab(event,'Permits')">Pending
 			Review</button>
-		<button class="tablinks" onclick="changeTab(event,'Permits')">Permits</button>
 	</div>
 
 	<div id="Pending" class="tabcontent">
-		<table class="pendingTable"></table>
+		<table id="pendingTable" class="pendingTable">
+			<tr>
+				<th>FirstName</th>
+				<th>LastName</th>
+				<th>From</th>
+				<th>To</th>
+				<th>Type</th>
+				<th>Status</th>
+				<th>View</th>
+			</tr>
+		</table>
+		<form>
+			<p>
+				<select id="searchBy" name="dropdown">
+					<option value="Name" selected>Name</option>
+					<option value="StartDate">Start Date</option>
+					<option value="EndDate">End Date</option>
+				</select> <input type="text" id="searchValue" placeholder="Search...">
+				<button type="button" onclick="permitSearch()">Search</button>
+			</p>
+		</form>
+	</div>
+	<div id="Permits" class="tabcontent">
+		<table id="permitsTable" class="permitsTable">
+			<tr>
+				<th>Name</th>
+				<th>Status</th>
+				<th>From</th>
+				<th>To</th>
+				<th>View</th>
+			</tr>
+		</table>
 		<form>
 			<p>
 				<select id="searchByPending" name="dropdown">
@@ -29,25 +60,13 @@
 		</form>
 	</div>
 
-	<div id="Permits" class="tabcontent">
-		<table class="permitsTable"></table>
-		<form>
-			<p>
-				<select id="searchBy" name="dropdown">
-					<option value="Name" selected>Name</option>
-					<option value="StartDate">Start Date</option>
-					<option value="EndDate">End Date</option>
-				</select> <input type="text" id="searchValue" placeholder="Search...">
-				<button type="button" onclick="permitSearch()">Search</button>
-			</p>
-		</form>
-	</div>
+
 
 	<script type="text/javascript">
 		const myCookie = readCookie(user);
 		var user;
 		//get me
-		$.ajax({
+		/*$.ajax({
 			url : "/supervisor/me?token=" + myCookie,
 			type : "GET",
 			cache : false,
@@ -55,25 +74,16 @@
 				console.log(response)
 				user = JSON.parse(response);
 			}
-		})
-		//get and show permit requests pending review
-		$.ajax({
-			url : "/permits?status=pending",
-			type : "GET",
-			cache : false,
-			success : function(response) {
-				const permits = JSON.parse(response);
-				permitsToTable("#pendingTable", permits)
-			}
-		})
+		})*/
+
 		//get and show the permits for my department
 		$.ajax({
-			url : "/permits?dep=" + user.depID,
+			url : "/permits",//"/permits?dep=" + user.depID,
 			type : "GET",
 			cache : false,
 			success : function(response) {
-				const permits = JSON.parse(response)
-				permitsToTable("#permitsTable", permits)
+				const permits = response //JSON.parse(response)
+				permitsToTable(permits)
 			}
 		})
 
@@ -93,14 +103,13 @@
 			}
 			const finalQueryParameters = string.concat(queryParameter,
 					"&depId=" + depId)
-
 			$.ajax({
 				url : "/permits=?" + queryParameter,
 				type : "GET",
 				cache : false,
 				success : function(response) {
 					const permits = JSON.parse(response)
-					permitsToTable("#permitsTable", permits)
+					permitsToTable(permits)
 				}
 			});
 		}
@@ -111,37 +120,88 @@
 			var queryParameter;
 			if (dropdownValue === "Name") {
 				const fullname = searchValue.split(" ");
-				queryParameter = "fname=" + fullname[0] + "&lname="
-						+ fullname[1];
+				if (fullname)
+					queryParameter = "fname=" + fullname[0] + "&lname="
+							+ fullname[1];
 			} else if (dropdownValue === "StartDate") {
 				queryParameter = "start_date=" + searchValue;
 			} else if (dropdownValue === "EndDate") {
 				queryParameter = "end_date=" + searchValue;
 			}
-			const finalQueryParameters = string.concat(queryParameter,
-					"&depId=" + depId)
+			if (queryParameter == undefined) {
+				queryParameter = "depId=" + depId
+			} else {
+				queryParameter = queryParameter.concat(queryParameter,
+						"&depId=" + depId)
+			}
 			$.ajax({
-				url : "/permits=?" + finalQueryParameters,
+				url : "/permits=?" + queryParameter,
 				type : "GET",
 				cache : false,
 				success : function(response) {
 					const permits = JSON.parse(response)
-					permitsToTable("#permitsTablePending", permits)
+					permitsToTable(permits)
 				}
 			});
 		}
 
 		//remove all existing rows of the permit table, and populate it with the new permits
-		function permitsToTable(tablename, permits) {
-			$(tablename).remove();
+		function permitsToTable( permits) {
+			//remove previous entries
+			const tablePermits = document.getElementById("permitsTable");
+			const tablePending = document.getElementById("pendingTable");
+			while (tablePermits.rows.length > 1) {
+				table.deleteRow(1);
+			}
+			while (tablePending.rows.length > 1) {
+				table.deleteRow(1);
+			}
 			for (var i = 0; i < permits.length; i++) {
-				var name = "<td>" + permits[i].name + "<td>";
-				var status = "<td>" + permits[i].status + "<td>";
-				var from = "<td>" + permits[i].fromDate + "<td>";
-				var to = "<td>" + permits[i].toDate + "<td>";
-				var button = "<button th:onclick = viewPermit(permits[i].id)>"
-						+ View + "</button>";
-				$(tablename).append(tr + name + status + from + to);
+				const tr = document.createElement('tr');
+				
+				const fname_td = document.createElement("td");
+				const fname_text = document.createTextNode(permits[i].fname);
+				fname_td.appendChild(fname_text);
+
+				const lname_td = document.createElement("td");
+				const lname_text = document.createTextNode(permits[i].lname);
+				lname_td.appendChild(lname_text);
+				
+				const type_td = document.createElement("td");
+				const type_text = document.createTextNode(permits[i].type);
+				type_td.appendChild(type_text);
+
+				const from_td = document.createElement("td");
+				const from_text = document.createTextNode(permits[i].startDate);
+				from_td.appendChild(from_text);
+
+				const to_td = document.createElement("td");
+				const to_text = document.createTextNode(permits[i].endDate);
+				to_td.appendChild(to_text);
+
+				const status_td = document.createElement("td");
+				const status_text = document.createTextNode(permits[i].status);
+				status_td.appendChild(status_text);
+				
+				const button_td = document.createElement("td");
+				const button = document.createElement("BUTTON");
+				var permitID = permits[i].permitID
+				button.innerHTML = "View";
+				button.onclick = function() {
+					window.location.replace("supervisor/permits/" + permitID)
+				};
+				button_td.appendChild(button);
+				tr.appendChild(fname_td);
+				tr.appendChild(lname_td);
+				tr.appendChild(from_td);
+				tr.appendChild(to_td);
+				tr.appendChild(type_td);
+				tr.appendChild(status_td);
+				tr.appendChild(button_td);
+				if (permits[i].status === "PENDING") {
+					tablePermits.appendChild(tr);
+				} else
+					tablePending.appendChild(tr)
 			}
 		}
 		function changeTab(evt, cityName) {
@@ -164,10 +224,6 @@
 			// Show the current tab, and add an "active" class to the button that opened the tab
 			document.getElementById(cityName).style.display = "block";
 			evt.currentTarget.className += " active";
-		}
-
-		function viewPermit(id) {
-			window.location.replace("/permits/" + id)
 		}
 
 		function readCookie(name) {

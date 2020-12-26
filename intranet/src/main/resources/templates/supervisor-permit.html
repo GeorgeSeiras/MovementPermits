@@ -9,61 +9,106 @@
 </head>
 <body>
 	<div>
-		<table class="permit" id="permit">
+		<table id="permitTable" class="permit">
+			<tr>
+				<th>FirstName</th>
+				<th>LastName</th>
+				<th>From</th>
+				<th>To</th>
+				<th>Type</th>
+				<th>Status</th>
+				<th>Address</th>
+			</tr>
 		</table>
 	</div>
 	<form id="statusChange"></form>
 	<script type="text/javascript">
-		var permits;
-
-		const permitId = getPermitId();
-		permitToTable("permit", permit)
+		const url = window.location.href;
+		const permitId = url.substr(url.lastIndexOf('/') + 1);
 		$.ajax({
 			url : "/permits?id=" + permitId,
 			type : "GET",
 			cache : false,
 			success : function(response) {
-				const permits = JSON.parse(response);
-				permitToTable("#permit", permit)
+				const permit = response[0];
+				permitToTable(permit)
 			}
 		})
-		function permitToTable(table, permit) {
-			const id = "<td>" + permit.id + "<td>";
-			const userId = "<td>" + permit.user_id + "<td>";
-			const start_date = "<td>" + permit.start_date + "<td>";
-			const end_date = "<td>" + permit.end_date + "<td>";
-			const type = "<td>" + permit.type + "<td>";
-			const address = "<td>" + permit.address + "<td>";
-			const status = "<td>" + permit.status + "<td>";
-			if (permit.status === NULL) {
+		function permitToTable(permit) {
+			const tablePending = document.getElementById("permitTable");
+			while (tablePending.rows.length > 1) {
+				table.deleteRow(1);
+			}
+			const tr = document.createElement('tr');
+
+			const fname_td = document.createElement("td");
+			const fname_text = document.createTextNode(permit.fname);
+			fname_td.appendChild(fname_text);
+
+			const lname_td = document.createElement("td");
+			const lname_text = document.createTextNode(permit.lname);
+			lname_td.appendChild(lname_text);
+			
+			const from_td = document.createElement("td");
+			const from_text = document.createTextNode(permit.startDate);
+			from_td.appendChild(from_text);
+
+			const to_td = document.createElement("td");
+			const to_text = document.createTextNode(permit.endDate);
+			to_td.appendChild(to_text);
+
+			const type_td = document.createElement("td");
+			const type_text = document.createTextNode(permit.type);
+			type_td.appendChild(type_text);
+			
+			const status_td = document.createElement("td");
+			const status_text = document.createTextNode(permit.status);
+			status_td.appendChild(status_text);
+			
+			const address_td = document.createElement("td");
+			const address_text = document.createTextNode(permit.adress);
+			address_td.appendChild(address_text);
+			
+			tr.appendChild(fname_td);
+			tr.appendChild(lname_td);
+			tr.appendChild(from_td);
+			tr.appendChild(to_td);
+			tr.appendChild(type_td);
+			tr.appendChild(status_td);
+			tr.appendChild(address_td);
+			tablePending.appendChild(tr);
+
+			if (permit.status === "PENDING") {
 				const approveButton = makeRadioButton("newStatus", "Approve",
 						"Approve");
 				const denyButton = makeRadioButton("newStatus", "Deny", "Deny");
 				const statusChangeDiv = document.getElementById("statusChange");
 				statusChangeDiv.appendChild(approveButton);
 				statusChangeDiv.appendChild(denyButton);
-				const submitButton = document.createElement("input");
-				submitButton.innerHtml = "Update Status";
-				submitButton.onclick = changeStatus(permit)
+				const submitButton = document.createElement("BUTTON");
+				submitButton.innerHTML = "Update Status";
+				submitButton.onclick = function() {
+					const newStatus = $('input[name=newStatus]:checked',
+							'#statusChange').val();
+					$.ajax({
+						url : "/permits/" + permit.id + "/status",
+						type : "POST",
+						data : "status:" + newStatus,
+						cache : false,
+						success : function(response) {
+							const newPermit = response;
+							const tablePending = document
+									.getElementById("permitTable");
+							while (tablePending.rows.length > 1) {
+								table.deleteRow(1);
+							}
+							permitToTable(permit);
+						}
+					})
+				}
 				statusChangeDiv.appendChild(submitButton);
 
 			}
-		}
-
-		function changeStatus(permit) {
-			const newStatus = $('input[name=newStatus]:checked',
-					'#statusChange').val()
-			$.ajax({
-				url : "/permits/" + permit.id + "/status",
-				type : "POST",
-				data : "status:" + newStatus,
-				cache : false,
-				success : function(response) {
-					const newPermit = JSON.parse(response);
-					$("#permit tr").remove();
-					permitToTable("permit", permit);
-				}
-			})
 		}
 
 		function makeRadioButton(name, value, text) {
@@ -75,12 +120,6 @@
 			label.appendChild(radio);
 			label.appendChild(document.createTextNode(text));
 			return label;
-		}
-
-		function getPermitId() {
-			const queryString = window.location.search;
-			const urlParams = new URLSearchParams(queryString);
-			return urlParams.get('permitId');
 		}
 	</script>
 </body>
