@@ -14,4 +14,6 @@ public interface PermitRepository extends JpaRepository<Permit, Integer>, JpaSpe
 	Permit findById(int permit_id);
 
 	List<Permit> findAll(Specification<Permit> spec);
+	
+	
 }
