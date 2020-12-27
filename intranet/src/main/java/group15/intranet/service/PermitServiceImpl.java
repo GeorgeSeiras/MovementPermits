@@ -78,7 +78,7 @@ public class PermitServiceImpl implements PermitService {
 	}
 
 	@Override
-	public void updatePermit(int id, String status) {
+	public void updatePermitStatus(int id, String status) {
 		Permit permit = permitRepository.findById(id);
 	    permit.setStatus(status);
 	    permitRepository.save(permit);

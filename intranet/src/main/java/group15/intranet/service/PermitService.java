@@ -15,6 +15,6 @@ public interface PermitService {
 	
 	void addPermit(Permit p);
 
-	void updatePermit(int id, String status);
+	void updatePermitStatus(int id, String status);
 
 }
