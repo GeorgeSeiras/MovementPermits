@@ -83,7 +83,5 @@ public class PermitServiceImpl implements PermitService {
 	    permit.setStatus(status);
 	    permitRepository.save(permit);
 	}
-	
-	
 
 }

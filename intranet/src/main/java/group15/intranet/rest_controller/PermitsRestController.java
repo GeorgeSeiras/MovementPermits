@@ -2,17 +2,17 @@ package group15.intranet.rest_controller;
 
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import group15.intranet.entity.Permit;
+import group15.intranet.entity.Role;
 import group15.intranet.repository.PermitRepository;
 import group15.intranet.service.PermitServiceImpl;
+import group15.intranet.service.RoleServiceImpl;
 
 @RestController
 public class PermitsRestController {
@@ -22,6 +22,9 @@ public class PermitsRestController {
 
 	@Autowired
 	PermitServiceImpl permitService;
+	
+	@Autowired
+	RoleServiceImpl roleService;
 
 	@GetMapping("/permits/{id}")
 	public Permit getPermitById(@PathVariable int id) {
@@ -33,5 +36,5 @@ public class PermitsRestController {
 	public List<Permit> getPermits(@RequestParam(required = false) Map<String, String> searchParams) {
 		return this.permitService.getPermits(searchParams);
 	}
-
+	
 }

@@ -9,4 +9,5 @@ import group15.intranet.entity.User;
 public interface DepartmentService {
 	User getDeptsSupervisor(int dept_id);
 	Department getDepartmentById(int id);
+	Department getDepartmentBySuperId(int id);
 }
