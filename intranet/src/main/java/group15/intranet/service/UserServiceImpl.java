@@ -1,5 +1,8 @@
 package group15.intranet.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +25,7 @@ public class UserServiceImpl implements UserService{
 	public void deleteUser(User u) {
 		userRepository.delete(u);
 	}
-
+	
 	@Override
 	public User findUserById(int id) {
 		return userRepository.findById(id);
@@ -32,7 +35,10 @@ public class UserServiceImpl implements UserService{
 	public void assignRoleToUser(Role r, User u) {
 		User temp = new User();
 		temp = userRepository.findById(u.getUserID());
-		temp.addRole(r);
+		List<Role> roles = new ArrayList();
+		roles = userRepository.findById(u.getUserID()).getRoles();
+		roles.add(r);
+		temp.setRoles(roles);
 		userRepository.save(temp);
 	}
 
