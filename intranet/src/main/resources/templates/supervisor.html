@@ -202,12 +202,12 @@
 
 					const fname_td = document.createElement("td");
 					const fname_text = document
-							.createTextNode(permits[i].fname);
+							.createTextNode(permits[i].user.fname);
 					fname_td.appendChild(fname_text);
 
 					const lname_td = document.createElement("td");
 					const lname_text = document
-							.createTextNode(permits[i].lname);
+							.createTextNode(permits[i].user.lname);
 					lname_td.appendChild(lname_text);
 
 					const type_td = document.createElement("td");
@@ -264,11 +264,11 @@
 				const tr = document.createElement('tr');
 
 				const fname_td = document.createElement("td");
-				const fname_text = document.createTextNode(permits[i].fname);
+				const fname_text = document.createTextNode(permits[i].user.fname);
 				fname_td.appendChild(fname_text);
 
 				const lname_td = document.createElement("td");
-				const lname_text = document.createTextNode(permits[i].lname);
+				const lname_text = document.createTextNode(permits[i].user.lname);
 				lname_td.appendChild(lname_text);
 
 				const type_td = document.createElement("td");
