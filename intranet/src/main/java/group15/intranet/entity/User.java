@@ -47,9 +47,8 @@ public class User {
 	@JoinColumn(name = "dep_id")
 	private Department dept;
 	
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id")
+	@JsonManagedReference
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "user")
 	private List<Permit> permits;
 
 	@JsonBackReference
