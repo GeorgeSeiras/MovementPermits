@@ -49,7 +49,7 @@ public class User {
 	private Department dept;
 	
 
-	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Permit> permits;
 
@@ -108,7 +108,7 @@ public class User {
 	}
 
 	public List<Permit> getPermits() {
-		return null;
+		return permits;
 	}
 
 	public void setPermits(List<Permit> permits) {
