@@ -9,7 +9,7 @@
 </head>
 <body>
 	<button type="button" onclick="userCreate()">Create User</button>
-	<table id="usersTable" class="permitsTable">
+	<table id="usersTable" class="usersTable">
 		<tr>
 			<th>FirstName</th>
 			<th>LastName</th>
@@ -86,6 +86,7 @@
 						url : "/users/"+userId,
 						type : "PUT",
 						data:{
+							"user_id":userId,
 							"fname":document.getElementById("fname"+userId).value,
 							"lname":document.getElementById("lname"+userId).value,
 							"address":document.getElementById("address"+userId).value,
