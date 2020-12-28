@@ -12,11 +12,11 @@ public interface PermitService {
 	
 	List<Permit> getPermits(Map<String, String> searchParams);
 	
-	Permit getPermitById(int id);
+	ResponseEntity<Permit> getPermitById(int id);
 
 	void deleteById(int id);
 	
-	void addPermit(Permit p);
+	ResponseEntity<Permit> addPermit(Permit p);
 
 	ResponseEntity<Permit> updatePermit(int id, UpdatePermitDetailsRequestModel permitDetails);
 

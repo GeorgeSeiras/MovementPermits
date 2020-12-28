@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,8 +26,12 @@ public class PermitServiceImpl implements PermitService {
 	PermitRepository permitRepository;
 
 	@Override
-	public Permit getPermitById(int id) {
-		return permitRepository.findById(id);
+	public ResponseEntity<Permit> getPermitById(int id) {
+		Permit checkedPermit = permitRepository.findById(id);
+		if(checkedPermit == null) {
+			return new ResponseEntity<Permit>(checkedPermit,HttpStatus.NOT_FOUND); 
+		}
+		return new ResponseEntity<Permit>(checkedPermit,HttpStatus.OK); 
 	}
 
 	@Override
@@ -83,18 +88,26 @@ public class PermitServiceImpl implements PermitService {
 	}
 
 	@Override
-	public void addPermit(Permit p) {
-		
-		permitRepository.save(p);
+	public ResponseEntity<Permit> addPermit(Permit permit) {
+		Permit checkedPermit = permitRepository.findById(permit.getPermitID());
+		if(checkedPermit != null) {
+			return new ResponseEntity<Permit>(permit,HttpStatus.ALREADY_REPORTED);
+		}
+		permitRepository.save(permit);
+		return new ResponseEntity<Permit>(permit,HttpStatus.OK);
 		
 	}
 
 	@Override
 	public ResponseEntity<Permit> updatePermit(int id, UpdatePermitDetailsRequestModel permitDetails) {
-		Permit permit = permitRepository.findById(id);
-	    permit.setStatus(permitDetails.getStatus());
-	    permitRepository.save(permit);
-	    return new ResponseEntity<Permit>(permit,HttpStatus.OK);
+		Permit checkedPermit = permitRepository.findById(id);
+		if(checkedPermit==null) {
+			return new ResponseEntity<Permit>(checkedPermit,HttpStatus.NOT_FOUND);
+		}else {
+			checkedPermit.setStatus(permitDetails.getStatus());
+			permitRepository.save(checkedPermit);
+			return new ResponseEntity<Permit>(checkedPermit, HttpStatus.OK);
+		}
 	}
 	
 	

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,7 @@ import group15.intranet.repository.PermitRepository;
 import group15.intranet.service.PermitServiceImpl;
 
 @RestController
+@RequestMapping("/permits")
 public class PermitsRestController {
 
 	@Autowired
@@ -32,22 +34,27 @@ public class PermitsRestController {
 	@Autowired
 	PermitServiceImpl permitService;
 
-	@GetMapping("/permits/{id}")
-	public Permit getPermitById(@PathVariable int id) {
+	@GetMapping("/{id}")
+	public ResponseEntity<Permit> getPermitById(@PathVariable int id) {
 		return this.permitService.getPermitById(id);
 	}
 
-	@GetMapping("/permits")
+	@GetMapping
 	@ResponseBody
 	public List<Permit> getPermits(@RequestParam(required = false) Map<String, String> searchParams) {
 		return this.permitService.getPermits(searchParams);
 	}
 	
-	@PutMapping(path="/permits/{id}",consumes = {MediaType.APPLICATION_JSON_VALUE},
-			produces = {MediaType.APPLICATION_JSON_VALUE})
+	@PostMapping
+	@ResponseBody
+	public ResponseEntity<Permit> addPermit(@Valid @RequestBody Permit permit){
+		System.out.println(permit.getPermitID());
+		return permitService.addPermit(permit);
+	}
+	
+	@PutMapping("/{id}")
 	@ResponseBody
 	public ResponseEntity<Permit> updatePermits(@PathVariable int id, @Valid @RequestBody UpdatePermitDetailsRequestModel permitDetails) {
-		System.out.println(permitDetails.getStatus());
 		return permitService.updatePermit(id, permitDetails);
 	}
 
