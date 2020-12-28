@@ -3,12 +3,18 @@ package group15.intranet.entity;
 
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,9 +29,6 @@ public class Permit {
 	@Column(name = "permit_id")
 	private int permitID;
 	
-	@Column(name = "user_id")
-	private int userId;
-
 	@Column(name = "status")
 	private String status;
 
@@ -41,6 +44,11 @@ public class Permit {
 	@Column(name = "address")
 	private String address;
 
+	@JsonBackReference
+	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id")
+	private User user;
+	
 	public int getPermitID() {
 		return permitID;
 	}
@@ -88,24 +96,26 @@ public class Permit {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	
+	public User getUser() {
+		return user;
+	}
 
-	@Override
-	public String toString() {
-		return "Permits [permitID=" + permitID + ", status=" + status + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", type=" + type + ", address=" + address + "]";
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Permit() {
 
 	}
 
-	
-	public int getUserId() {
-		return userId;
+	@Override
+	public String toString() {
+		return "Permit [permitID=" + permitID + ", status=" + status + ", startDate=" + startDate + ", endDate="
+				+ endDate + ", type=" + type + ", address=" + address + ", user=" + user + "]";
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+	
+	
 
 }

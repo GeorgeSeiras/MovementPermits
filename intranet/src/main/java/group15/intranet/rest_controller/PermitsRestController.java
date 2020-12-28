@@ -22,6 +22,10 @@ public class PermitsRestController {
 
 	@Autowired
 	PermitServiceImpl permitService;
+	
+
+	@Autowired
+	PermitRepository repo;
 
 	@Autowired
 	RoleServiceImpl roleService;
@@ -43,13 +47,5 @@ public class PermitsRestController {
 		return this.permitService.getPermits(searchParams);
 	}
 
-	@GetMapping("/example")
-	public void modifyUser() {
-		User u = new User();
-		u.setUserID(1);
-		Role r = new Role();
-		r.setRoleName("new role");
-		userService.assignRoleToUser(r, u);
-	}
 
 }
