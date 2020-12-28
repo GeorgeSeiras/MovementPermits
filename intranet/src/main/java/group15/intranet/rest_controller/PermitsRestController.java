@@ -5,9 +5,8 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,18 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import group15.intranet.entity.Permit;
 import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
-import group15.intranet.repository.PermitRepository;
 import group15.intranet.service.PermitServiceImpl;
 
 @RestController
 @RequestMapping("/permits")
 public class PermitsRestController {
-
-	@Autowired
-	PermitRepository permitRepository;
 
 	@Autowired
 	PermitServiceImpl permitService;
@@ -42,6 +36,7 @@ public class PermitsRestController {
 	@GetMapping
 	@ResponseBody
 	public List<Permit> getPermits(@RequestParam(required = false) Map<String, String> searchParams) {
+		System.out.println(searchParams);
 		return this.permitService.getPermits(searchParams);
 	}
 	
@@ -57,5 +52,6 @@ public class PermitsRestController {
 	public ResponseEntity<Permit> updatePermits(@PathVariable int id, @Valid @RequestBody UpdatePermitDetailsRequestModel permitDetails) {
 		return permitService.updatePermit(id, permitDetails);
 	}
+
 
 }

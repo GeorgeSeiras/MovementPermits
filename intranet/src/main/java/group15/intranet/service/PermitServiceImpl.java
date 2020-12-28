@@ -109,7 +109,5 @@ public class PermitServiceImpl implements PermitService {
 			return new ResponseEntity<Permit>(checkedPermit, HttpStatus.OK);
 		}
 	}
-	
-	
 
 }

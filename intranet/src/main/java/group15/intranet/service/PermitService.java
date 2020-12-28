@@ -18,6 +18,6 @@ public interface PermitService {
 	
 	ResponseEntity<Permit> addPermit(Permit p);
 
-	ResponseEntity<Permit> updatePermit(int id, UpdatePermitDetailsRequestModel permitDetails);
 
+	ResponseEntity<Permit> updatePermit(int id, UpdatePermitDetailsRequestModel permitDetails);
 }
