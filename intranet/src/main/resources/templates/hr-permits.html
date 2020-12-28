@@ -7,10 +7,21 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-		
+
 
 	<div id="Permits" class="tabcontent">
-		<table class="permitsTable"></table>
+		<p id="formValidationErrorPermit" class="formValidationError"></p>
+		<table class="permitsTable" id="permitsTable">
+			<tr>
+				<th>FirstName</th>
+				<th>LastName</th>
+				<th>From</th>
+				<th>To</th>
+				<th>Type</th>
+				<th>Status</th>
+				<th>View</th>
+			</tr>
+		</table>
 		<form>
 			<p>
 				<select id="searchBy" name="dropdown">
@@ -27,12 +38,14 @@
 	<script type="text/javascript">
 		//get and show approved permits
 		$.ajax({
-			url :  "/permits?status=approved",
+			url : "/permits?status=APPROVED",
 			type : "GET",
 			cache : false,
 			success : function(response) {
-				const permits = JSON.parse(response);
-				permitsToTable("#pendingTable", permits)
+				const permits = response;
+				console.log(permits)
+				const table = document.getElementById("permitsTable");
+				permitsToTable(table, permits)
 			}
 		})
 
@@ -56,23 +69,55 @@
 				type : "GET",
 				cache : false,
 				success : function(response) {
-					const permits = JSON.parse(response)
-					permitsToTable("#permitsTable", permits)
+					const permits = response
+					const table = document.getElementById("permitsTable")
+					permitsToTable(table, permits)
 				}
 			});
 		}
 
 		//remove all existing rows of the permit table, and populate it with the new permits
-		function permitsToTable(tablename, permits) {
-			$(tablename).remove();
+		function permitsToTable(table, permits) {
+			while (table.rows.length > 1) {
+				table.deleteRow(1);
+			}
 			for (var i = 0; i < permits.length; i++) {
-				var name = "<td>" + permits[i].name + "<td>";
-				var status = "<td>" + permits[i].status + "<td>";
-				var from = "<td>" + permits[i].fromDate + "<td>";
-				var to = "<td>" + permits[i].toDate + "<td>";
-				var button = "<button th:onclick = viewPermit(permits[i].id)>"
-						+ View + "</button>";
-				$(tablename).append(tr + name + status + from + to);
+				const tr = document.createElement('tr');
+
+				const fname_td = document.createElement("td");
+				const fname_text = document
+						.createTextNode(permits[i].user.fname);
+				fname_td.appendChild(fname_text);
+
+				const lname_td = document.createElement("td");
+				const lname_text = document
+						.createTextNode(permits[i].user.lname);
+				lname_td.appendChild(lname_text);
+
+				const type_td = document.createElement("td");
+				const type_text = document.createTextNode(permits[i].type);
+				type_td.appendChild(type_text);
+
+				const from_td = document.createElement("td");
+				const from_text = document.createTextNode(permits[i].startDate);
+				from_td.appendChild(from_text);
+
+				const to_td = document.createElement("td");
+				const to_text = document.createTextNode(permits[i].endDate);
+				to_td.appendChild(to_text);
+
+				const status_td = document.createElement("td");
+				const status_text = document.createTextNode(permits[i].status);
+				status_td.appendChild(status_text);
+
+				tr.appendChild(fname_td);
+				tr.appendChild(lname_td);
+				tr.appendChild(from_td);
+				tr.appendChild(to_td);
+				tr.appendChild(type_td);
+				tr.appendChild(status_td);
+
+				table.appendChild(tr);
 			}
 		}
 	</script>
