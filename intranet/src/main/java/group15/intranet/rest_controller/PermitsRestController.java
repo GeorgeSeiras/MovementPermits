@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import group15.intranet.entity.Permit;
 import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
+import group15.intranet.repository.PermitRepository;
 import group15.intranet.service.PermitServiceImpl;
 
 @RestController
@@ -27,6 +28,9 @@ public class PermitsRestController {
 
 	@Autowired
 	PermitServiceImpl permitService;
+	
+	@Autowired
+	PermitRepository repo;
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Permit> getPermitById(@PathVariable int id) {

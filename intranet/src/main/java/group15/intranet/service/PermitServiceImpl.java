@@ -89,10 +89,6 @@ public class PermitServiceImpl implements PermitService {
 
 	@Override
 	public ResponseEntity<Permit> addPermit(Permit permit) {
-		Permit checkedPermit = permitRepository.findById(permit.getPermitID());
-		if(checkedPermit != null) {
-			return new ResponseEntity<Permit>(permit,HttpStatus.ALREADY_REPORTED);
-		}
 		permitRepository.save(permit);
 		return new ResponseEntity<Permit>(permit,HttpStatus.OK);
 		

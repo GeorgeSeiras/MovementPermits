@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,8 +45,8 @@ public class Permit {
 	@Column(name = "address")
 	private String address;
 
-	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+
+	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private User user;
 	
@@ -98,7 +99,7 @@ public class Permit {
 	}
 	
 	public User getUser() {
-		return user;
+		return this.user;
 	}
 
 	public void setUser(User user) {
