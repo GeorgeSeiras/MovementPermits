@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
@@ -47,8 +48,9 @@ public class User {
 	@JoinColumn(name = "dep_id")
 	private Department dept;
 	
-	@JsonManagedReference
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "user")
+
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Permit> permits;
 
 	@JsonBackReference
@@ -106,7 +108,7 @@ public class User {
 	}
 
 	public List<Permit> getPermits() {
-		return permits;
+		return null;
 	}
 
 	public void setPermits(List<Permit> permits) {

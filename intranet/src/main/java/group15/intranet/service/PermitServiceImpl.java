@@ -5,13 +5,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import group15.intranet.criteria.SearchCriteria;
 import group15.intranet.criteria.SearchOperation;
 import group15.intranet.entity.Permit;
+import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
 import group15.intranet.repository.PermitRepository;
 import group15.intranet.specification.PermitSpecification;
 
@@ -21,11 +25,13 @@ public class PermitServiceImpl implements PermitService {
 	@Autowired
 	PermitRepository permitRepository;
 
-
-
 	@Override
-	public Permit getPermitById(int id) {
-		return permitRepository.findById(id);
+	public ResponseEntity<Permit> getPermitById(int id) {
+		Permit checkedPermit = permitRepository.findById(id);
+		if(checkedPermit == null) {
+			return new ResponseEntity<Permit>(checkedPermit,HttpStatus.NOT_FOUND); 
+		}
+		return new ResponseEntity<Permit>(checkedPermit,HttpStatus.OK); 
 	}
 
 	@Override
@@ -43,19 +49,30 @@ public class PermitServiceImpl implements PermitService {
 			list.add(new SearchCriteria("lname", searchParams.get("lname"), SearchOperation.EQUAL));
 		}
 		if (searchParams.containsKey("start_date")) {
-			java.util.Date utilDate;
+			java.util.Date utilDate = null;
+			java.sql.Date sqlDate = null;
+
 			try {
+
 				utilDate = new SimpleDateFormat("yyy-MM-dd").parse(searchParams.get("start_date"));
-				java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-				list.add(new SearchCriteria("startDate", sqlDate, SearchOperation.EQUAL));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+				sqlDate = new java.sql.Date(utilDate.getTime());
+
+			} catch (ParseException e) {}
+
+			list.add(new SearchCriteria("startDate", sqlDate, SearchOperation.EQUAL));
 		}
 		if (searchParams.containsKey("end_date")) {
-			list.add(new SearchCriteria("endDate", searchParams.get("end_date"), SearchOperation.EQUAL));
+			java.util.Date utilDate = null;
+			java.sql.Date sqlDate = null;
+
+			try {
+
+				utilDate = new SimpleDateFormat("yyy-MM-dd").parse(searchParams.get("end_date"));
+				sqlDate = new java.sql.Date(utilDate.getTime());
+
+			} catch (ParseException e) {}
+			
+			list.add(new SearchCriteria("endDate", sqlDate, SearchOperation.EQUAL));
 		}
 		if (searchParams.containsKey("status")) {
 			list.add(new SearchCriteria("status", searchParams.get("status"), SearchOperation.EQUAL));
@@ -71,17 +88,22 @@ public class PermitServiceImpl implements PermitService {
 	}
 
 	@Override
-	public void addPermit(Permit p) {
-		
-		permitRepository.save(p);
+	public ResponseEntity<Permit> addPermit(Permit permit) {
+		permitRepository.save(permit);
+		return new ResponseEntity<Permit>(permit,HttpStatus.OK);
 		
 	}
 
 	@Override
-	public void updatePermitStatus(int id, String status) {
-		Permit permit = permitRepository.findById(id);
-	    permit.setStatus(status);
-	    permitRepository.save(permit);
+	public ResponseEntity<Permit> updatePermit(int id, UpdatePermitDetailsRequestModel permitDetails) {
+		Permit checkedPermit = permitRepository.findById(id);
+		if(checkedPermit==null) {
+			return new ResponseEntity<Permit>(checkedPermit,HttpStatus.NOT_FOUND);
+		}else {
+			checkedPermit.setStatus(permitDetails.getStatus());
+			permitRepository.save(checkedPermit);
+			return new ResponseEntity<Permit>(checkedPermit, HttpStatus.OK);
+		}
 	}
 
 }
