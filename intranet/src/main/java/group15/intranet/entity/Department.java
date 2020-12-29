@@ -27,7 +27,7 @@ public class Department {
 	@Column(name = "dept_id")
 	private int deptID;
 	
-	@JsonManagedReference
+	
 	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "dept")
 	private List<User> users;
 

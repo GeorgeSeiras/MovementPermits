@@ -1,5 +1,6 @@
 package group15.intranet.rest_controller;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import group15.intranet.entity.Permit;
+import group15.intranet.model_request.PermitStatistics;
 import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
 import group15.intranet.repository.PermitRepository;
 import group15.intranet.service.PermitServiceImpl;
@@ -42,6 +44,11 @@ public class PermitsRestController {
 	public List<Permit> getPermits(@RequestParam(required = false) Map<String, String> searchParams) {
 		System.out.println(searchParams);
 		return this.permitService.getPermits(searchParams);
+	}
+	
+	@GetMapping("/statistics")
+	public PermitStatistics getStatistcs(){
+		return permitService.getStatistics();
 	}
 	
 	@PostMapping

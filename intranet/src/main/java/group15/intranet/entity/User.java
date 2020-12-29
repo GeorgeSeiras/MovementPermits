@@ -43,7 +43,7 @@ public class User {
 	@Column(name = "phone_num")
 	private String phoneNum;
 	
-	@JsonBackReference
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "dep_id")
 	private Department dept;

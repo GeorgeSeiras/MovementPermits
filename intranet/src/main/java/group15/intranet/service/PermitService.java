@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 
 import group15.intranet.entity.Permit;
+import group15.intranet.model_request.PermitStatistics;
 import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
 
 public interface PermitService {
@@ -20,4 +21,6 @@ public interface PermitService {
 
 
 	ResponseEntity<Permit> updatePermit(int id, UpdatePermitDetailsRequestModel permitDetails);
+	
+	PermitStatistics getStatistics();
 }

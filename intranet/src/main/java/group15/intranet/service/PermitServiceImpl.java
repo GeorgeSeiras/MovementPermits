@@ -1,5 +1,6 @@
 package group15.intranet.service;
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import group15.intranet.criteria.SearchCriteria;
 import group15.intranet.criteria.SearchOperation;
 import group15.intranet.entity.Permit;
+import group15.intranet.model_request.PermitStatistics;
 import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
 import group15.intranet.repository.PermitRepository;
 import group15.intranet.specification.PermitSpecification;
@@ -104,6 +106,19 @@ public class PermitServiceImpl implements PermitService {
 			permitRepository.save(checkedPermit);
 			return new ResponseEntity<Permit>(checkedPermit, HttpStatus.OK);
 		}
+	}
+
+	@Override
+	public PermitStatistics getStatistics() {
+		int totalPermits = permitRepository.findAll().size();
+		int validPermits = permitRepository.findByStatus("valid").size();
+		int invalidPermits = permitRepository.findByStatus("invalid").size();
+		int activePermits = permitRepository.findActive(new Date(System.currentTimeMillis())).size();
+		int inactivePermits = permitRepository.findInactive(new Date(System.currentTimeMillis())).size();
+		int dailyPermits = permitRepository.findByType("daily").size();
+		int weeklyPermits = permitRepository.findByType("weekly").size();
+		int monthlyPermits = permitRepository.findByType("monthly").size();
+		return new PermitStatistics(totalPermits,validPermits,invalidPermits,activePermits,inactivePermits,dailyPermits,weeklyPermits,monthlyPermits);
 	}
 
 }
