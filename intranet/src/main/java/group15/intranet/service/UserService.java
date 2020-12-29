@@ -1,13 +1,16 @@
 package group15.intranet.service;
 
+import org.springframework.http.ResponseEntity;
+
 import group15.intranet.entity.Role;
 import group15.intranet.entity.User;
 
 public interface UserService {
 
-	User findUserById(int id);
-	void addUser(User u);
-	void deleteUser(User u);
-	void assignRoleToUser(Role r, User u);
+	ResponseEntity<User> findUserById(int id);
+	ResponseEntity<User> addUser(User u);
+	ResponseEntity<User> deleteUser(User u);
+	ResponseEntity<User> updateUser(User u, int dep_id);
+	ResponseEntity<User> assignRoleToUser(Role r, User u);
 	
 }
