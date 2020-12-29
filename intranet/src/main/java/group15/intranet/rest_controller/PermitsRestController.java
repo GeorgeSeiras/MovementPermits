@@ -30,9 +30,6 @@ public class PermitsRestController {
 
 	@Autowired
 	PermitServiceImpl permitService;
-	
-	@Autowired
-	PermitRepository repo;
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Permit> getPermitById(@PathVariable int id) {

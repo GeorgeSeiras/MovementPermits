@@ -10,7 +10,7 @@ public interface UserService {
 	ResponseEntity<User> findUserById(int id);
 	ResponseEntity<User> addUser(User u);
 	ResponseEntity<User> deleteUser(User u);
-	ResponseEntity<User> updateUser(User u, int dep_id);
+	ResponseEntity<User> updateUser(User u);
 	ResponseEntity<User> assignRoleToUser(Role r, User u);
 	
 }
