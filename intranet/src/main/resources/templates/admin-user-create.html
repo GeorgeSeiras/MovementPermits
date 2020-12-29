@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+	src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script>
+<meta charset="ISO-8859-1">
+<title>Create User</title>
+</head>
+<body>
+	<p>
+		Department Name: <input type="text" id="name">
+	</p>
+	<p>
+		Supervisor: <select name="super" id="super">
+		</select>
+	</p>
+
+	<button type="button" onclick="createDepartment()">Create
+		Department</button>
+
+	<p id="message" class="message"></p>
+
+
+	<script type="text/javascript">
+		$.ajax({
+			url : "/users",
+			type : "GET",
+			cache : false,
+			success : function(response) {
+				const superSelect = document.getElementById("super");
+				for(var i=0; response.length;i++){
+					var opt = document.createElement("option");
+					opt.setAttribute("id",response.user_id);
+					opt.createTextNode(response.user_id +", "+response.fname+", "+response.lname);
+					superSelect.appendChild(opt);
+				}
+			}
+		});
+		
+		
+		function createDepartment(){
+			const message = document.getElementById("message");
+			const supervisor = doucment.getElementById("super").value;
+			const superParts = supervisor.split(" ");
+			if(validateInput){
+				$.ajax({
+					url : "/departments",
+					type : "GET",
+					data:{
+						"name":document.getElementById("fname").value,
+						"superId":superParts[0],
+					}
+					cache : false,
+					success : function(response) {
+						if(response.status === 200){
+							message.innerHTML = "Succesfully created department"
+	
+						}
+						message.innerHTML = "There was an error while creating the department"
+	
+					}
+				});
+			}
+		}
+		
+		function validateInput(){
+			const message = ""
+			if(document.getElementById("name").value === ""){
+				document.getElementById("message").innerHTML = message;
+				return false;				
+			}
+			return true;
+		}
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+
+<title>Admin</title>
+</head>
+<h1>Users</h1>
+<button type="button" onclick="usersPage()">View users</button>
+<h2>Departments</h2>
+<button type="button" onclick="departmentsPage()">View
+	Departments</button>
+<h3>Roles</h3>
+<button type="button" onclick="rolesPage()">View Roles</button>
+<body>
+	<script type="text/javascript">
+		function usersPage() {
+			window.location.replace("admin/users")
+		}
+
+		function departmentsPage() {
+			window.location.replace("admin/departments")
+		}
+
+		function rolesPage() {
+			window.location.replace("admin/roles")
+		}
+	</script>
+</body>
+</html>

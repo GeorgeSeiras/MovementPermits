@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+	src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" >
+</script>
+<meta charset="ISO-8859-1">
+<title>Users</title>
+</head>
+<body>
+	<button type="button" onclick="userCreate()">Create User</button>
+	<table id="usersTable" class="usersTable">
+		<tr>
+			<th>FirstName</th>
+			<th>LastName</th>
+			<th>Address</th>
+			<th>Phone Number</th>
+			<th>Department</th>
+		</tr>
+	</table>
+
+
+	<script type="text/javascript">
+		$.ajax({
+			url : "/users",
+			type : "GET",
+			cache : false,
+			success : function(response) {
+				usersToTable(response, document.getElementById("usersTable"));
+			}
+		});
+
+		var departments;
+		$.ajax({
+			url : "/departments",
+			type : "GET",
+			cache : false,
+			success : function(response) {
+				departments=response;
+			}
+		});
+		
+		function usersToTable(users, table) {
+			while (table.rows.length > 1) {
+				table.deleteRow(1);
+			}
+			for (var i = 0; i < users.length; i++) {
+				const tr = document.createElement('tr');
+
+				const fname_td = document.createElement("td");
+				const fname_text = document.createElement("input");
+				fname_text.setAttribute("id","fname"+users[i].user_id);
+				fname_text.innerHTML=users[i].fname;
+				fname_td.appendChild(fname_text);
+
+				const lname_td = document.createElement("td");
+				const lname_text = document.createElement("input");
+				lname_text.setAttribute("id","lname"+users[i].user_id);
+				lname_text.innerHTML=users[i].lname;
+				lname_td.appendChild(lname_text);
+
+				const adrress_td = document.createElement("td");
+				const address_text = document.createElement("input")
+				address_text.setAttribute("id","address"+users[i].user_id);
+				address.innerHTML = users[i].address;
+				address_td.appendChild(address_text);
+
+				const phone_td = document.createElement("td");
+				const phone_text = document.createElement("input")
+				phone_text.setAttribute("id","phone"+users[i].user_id);
+				phone_text.innerHTML = users[i].phone;
+				phone_td.appendChild(phone_text);
+
+				const dep_td = document.createElement("td");
+				const dep_text = document.createElement("input")
+				dep_text.setAttribute("id","department"+users[i].user_id);
+				dep_text.innerHTML = users[i].department.dep_name;
+				dep.appendChild(dep_text);
+
+				const buttonUpdate_td = document.createElement("td");
+				const buttonUpdate = document.createElement("BUTTON");
+				var userId = users[i].user_id;
+				buttonUpdate.innerHTML = "Update";
+				buttonUpdate.onclick = function() {
+					$.ajax({
+						url : "/users/"+userId,
+						type : "PUT",
+						data:{
+							"user_id":userId,
+							"fname":document.getElementById("fname"+userId).value,
+							"lname":document.getElementById("lname"+userId).value,
+							"address":document.getElementById("address"+userId).value,
+							"phone":document.getElementById("phone"+userId).value,
+							"department":document.getElementById("department"+userId).value
+						}
+						cache : false,
+						success : function(response) {
+						}
+					});
+				};
+				
+				const buttonDelete_td = document.createElement("td");
+				const buttonDelete = document.createElement("BUTTON");
+				var userId = users[i].user_id;
+				buttonDelete.innerHTML = "Delete";
+				buttonDelete.onclick = function(this) {
+					$.ajax({
+						url : "/users/"+userId,
+						type : "DELETE",
+						cache : false,
+						success : function(response) {
+							var row = this.parentNode.parentNode;
+							row.parentNode.removeChild(row)
+						};
+					});
+				};
+				
+				button_td.appendChild(button);
+				tr.appendChild(fname_td);
+				tr.appendChild(lname_td);
+				tr.appendChild(address_td);
+				tr.appendChild(phone_td);
+				tr.appendChild(dep_td);
+				tr.appendChild(buttonUpdate_td);
+				tr.appendChild(buttonDelete_td);
+				table.appendChild(tr);
+			}
+		}};
+		
+		function userCreate() {
+			window.location.replace("admin/users/create");
+		}
+	</script>
+</body>
+</html>

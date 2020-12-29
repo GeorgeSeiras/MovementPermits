@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+	src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" >
+</script>
+<meta charset="ISO-8859-1">
+<title>Departments</title>
+</head>
+<body>
+	<button type="button" onclick="depCreate()">Create User</button>
+	<table id="depTable" class="depTable"></table>
+
+
+	<script type="text/javascript">
+	$.ajax({
+		url : "/departments",
+		type : "GET",
+		cache : false,
+		success : function(response) {
+			depToTable(response, document.getElementById("depTable"));
+		}
+	});
+	
+	function depToTable(dep,table){
+		while (table.rows.length > 1) {
+			table.deleteRow(1);
+		}
+		var users;
+		$.ajax({
+			url : "/users",
+			type : "GET",
+			cache : false,
+			success : function(response) {
+				users=response;
+			}
+		});
+		for (var i = 0; i < dep.length; i++) {
+			const tr = document.createElement('tr');
+
+			const name_td = document.createElement("td");
+			const name_text = document.createElement("input");
+			name_text.setAttribute("id","name"+dep[i].dept_id);
+			name_text.innerHTML=dep[i].dept_name;
+			name_td.appendChild(name_text);
+
+			const super_td = document.createElement("td");
+			const superSelect = document.createElement("select");
+			superSelect.setAttribute("id","select"+dep[i].dept_id)
+			var opt = document.create("option");
+			opt.setAttribute("id",null);
+			opt.createTextNode("None");
+			superSelect.appendChild(opt);
+			for(var i=0; users.length;i++){
+				var option = document.createElement("option");
+				opt.setAttribute("id",user[i].user_id);
+				opt.createTextNode(user[i].user_id +", "+ user[i].fname+", " + user[i].lname);
+				superSelect.appendChild(opt);
+			}
+			
+			const buttonUpdate_td = document.createElement("td");
+			const buttonUpdate = document.createElement("BUTTON");
+			var depId = dep[i].dept_id;
+			buttonUpdate.innerHTML = "Update";
+			buttonUpdate.onclick = function() {
+				const selectValue = document.getElementById("select"+depId).value;	
+				const selectValueParts = selectValue.split(" ");
+				$.ajax({
+					url : "/departments/"+depId,
+					type : "PUT",
+					data:{
+						"dept_Id":selectValueParts[0],
+						"name":document.getElementById("name"+depId).value,
+						"superId":document.getElementById("superId"+depId).value,
+					}
+					cache : false,
+					success : function(response) {
+					}
+				});
+			};
+			
+			const buttonDelete_td = document.createElement("td");
+			const buttonDelete = document.createElement("BUTTON");
+			var depId = dep[i].dept_id;
+			buttonDelete.innerHTML = "Delete";
+			buttonDelete.onclick = function(this) {
+				$.ajax({
+					url : "/departments/"+depId,
+					type : "DELETE",
+					cache : false,
+					success : function(response) {
+						var row = this.parentNode.parentNode;
+						row.parentNode.removeChild(row)
+					};
+				});
+			};
+			
+			button_td.appendChild(button);
+			tr.appendChild(name_td);
+			tr.appendChild(super_td);
+			tr.appendChild(buttonUpdate_td);
+			tr.appendChild(buttonDelete_td);
+			table.appendChild(tr);
+	}
+	</script>
+</body>
+</html>
