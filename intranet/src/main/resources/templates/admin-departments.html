@@ -47,6 +47,10 @@
 			const super_td = document.createElement("td");
 			const superSelect = document.createElement("select");
 			superSelect.setAttribute("id","select"+dep[i].dept_id)
+			var opt = document.create("option");
+			opt.setAttribute("id",null);
+			opt.createTextNode("None");
+			superSelect.appendChild(opt);
 			for(var i=0; users.length;i++){
 				var option = document.createElement("option");
 				opt.setAttribute("id",user[i].user_id);
