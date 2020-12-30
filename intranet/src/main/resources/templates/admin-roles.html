@@ -1,10 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script>
+	src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Roles</title>
 </head>
 <body>
+	<button type="button" onclick="roleCreate()">Create User</button>
+	<table id="rolesTable" class="rolesTable"></table>
 
+
+
+	<script type="text/javascript">
+		$.ajax({
+			url : "/roles",
+			type : "GET",
+			cache : false,
+			success : function(response) {
+				rolesToTable(response, document.getElementById("rolesTable"));
+			}
+		});
+
+		function rolesToTable(roles, table) {
+			while (table.rows.length > 1) {
+				table.deleteRow(1);
+			}
+			for (var i = 0; i < roles.length; i++) {
+				const tr = document.createElement('tr');
+				const name_td = document.createElement("td");
+				const name_text = document.createTextNode(roles[i].name);
+				name_td.appendChild(name_text);
+				'
+				const buttonDelete_td = document.createElement("td");
+				const buttonDelete = document.createElement("BUTTON");
+				var roleId = roles[i].role_id;
+				buttonDelete.innerHTML = "Delete";
+				buttonDelete.onclick = function(this) {
+					$.ajax({
+						url : "/roles/"+roleId,
+						type : "DELETE",
+						cache : false,
+						success : function(response) {
+							var row = this.parentNode.parentNode;
+							row.parentNode.removeChild(row)
+						};
+					});
+				};
+				buttonDelete_td.appendChild(buttonDelete);
+				
+				tr.appendChild(name_td);
+				tr.appendChild(buttonDelete_td);
+				table.appendChild(tr);
+			}
+			
+		}
+
+		function userCreate() {
+			window.location.replace("admin/roles/create");
+		}
+	</script>
 </body>
 </html>

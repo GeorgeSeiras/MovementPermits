@@ -5,67 +5,59 @@
 	src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
 </script>
 <meta charset="ISO-8859-1">
-<title>Create Department</title>
+<title>Create User</title>
 </head>
 <body>
-<p>
-		First Name: <input type="text" id="fname">
+	<p>
+		Department Name: <input type="text" id="name">
 	</p>
 	<p>
-		Last Name: <input type="text" id="lname">
-	</p>
-	<p>
-		Address: <input type="text" id="address">
-	</p>
-	<p>
-		Phone Number: <input type="text" id="phone">
-	</p>
-	<p>
-		Department: <select id="department">
+		Supervisor: <select name="super" id="super">
 		</select>
 	</p>
-	<button type="button" onclick="createUser()">Create User</button>
+
+	<button type="button" onclick="createDepartment()">Create
+		Department</button>
 
 	<p id="message" class="message"></p>
 
 
 	<script type="text/javascript">
 		$.ajax({
-			url : "/departments",
+			url : "/users",
 			type : "GET",
 			cache : false,
 			success : function(response) {
-				const depSelect = document.getElementById("department");
+				const superSelect = document.getElementById("super");
 				for(var i=0; response.length;i++){
-					var option = document.createElement("option");
-					opt.setAttribute("id",response.dep_id);
-					opt.createTextNode(response.dep_name);
-					depSelect.appendChild(opt);
+					var opt = document.createElement("option");
+					opt.setAttribute("id",response.user_id);
+					opt.createTextNode(response.user_id +", "+response.fname+", "+response.lname);
+					superSelect.appendChild(opt);
 				}
 			}
 		});
 		
 		
-		function createUser(){
+		function createDepartment(){
 			const message = document.getElementById("message");
+			const supervisor = doucment.getElementById("super").value;
+			const superParts = supervisor.split(" ");
 			if(validateInput){
 				$.ajax({
 					url : "/departments",
 					type : "GET",
 					data:{
-						"fname":document.getElementById("fname").value,
-						"lname":document.getElementById("lname").value,
-						"address":document.getElementById("address").value,
-						"phone":document.getElementById("phone").value,
-						"department":document.getElementById("department").value
+						"name":document.getElementById("fname").value,
+						"superId":superParts[0],
 					}
 					cache : false,
 					success : function(response) {
 						if(response.status === 200){
-							message.innerHTML = "Succesfully created user"
+							message.innerHTML = "Succesfully created department"
 	
 						}
-						message.innerHTML = "There was an error while creating the user"
+						message.innerHTML = "There was an error while creating the department"
 	
 					}
 				});
@@ -73,38 +65,9 @@
 		}
 		
 		function validateInput(){
-			const message = ""
-			if(document.getElementById("fname").value === ""){
-				message+="fname";
-			}
-			if( document.getElementById("lname").value === ""){
-				if(message!==""){
-					message+=", "
-				}
-				message+="lname";
-			}
-			 if(document.getElementById("address").value === ""){
-				 if(message!==""){
-						message+=", "
-					}
-					message+="address";
-			 }
-			if(document.getElementById("phone").value === ""){
-				if(message!==""){
-					message+=", "
-				}
-				message+="phone";
-			}
-			if( document.getElementById("department").value === ""){
-				if(message!==""){
-					message+=", "
-				}
-				message+="department";
-			}
-			if(message!==""){
-				message+= " is/are required";
-				document.getElementById("message").innerHTML = message;
-				return false;
+			if(document.getElementById("name").value === ""){
+				document.getElementById("message").innerHTML = "Department name cannot be empty";
+				return false;				
 			}
 			return true;
 		}
