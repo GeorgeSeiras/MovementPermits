@@ -1,0 +1,41 @@
+@charset "ISO-8859-1";
+
+.page {
+	/*width: 100px; 
+	height: 100px;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;*/
+	text-align:center;
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.container {
+	display: flex;
+	text-align: center;
+}
+
+.container>div {
+	padding: 1em;
+	flex: 1;
+	border: 3px solid blue;
+	background-color: yellow;
+}
+
+div.fourth {
+	display: inline-block;
+	margin: 0 auto;
+	padding: 3px;
+	background-color: #8ebf42;
+	padding: 1em;
+	border: 3px solid blue;
+	padding: 1em;
+}
