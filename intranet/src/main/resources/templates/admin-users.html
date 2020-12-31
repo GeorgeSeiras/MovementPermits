@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script>
-	src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" >
-</script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <meta charset="ISO-8859-1">
 <title>Users</title>
 </head>
@@ -92,7 +91,7 @@
 							"address":document.getElementById("address"+userId).value,
 							"phone":document.getElementById("phone"+userId).value,
 							"department":document.getElementById("department"+userId).value
-						}
+						},
 						cache : false,
 						success : function(response) {
 						}
@@ -103,15 +102,15 @@
 				const buttonDelete = document.createElement("BUTTON");
 				var userId = users[i].user_id;
 				buttonDelete.innerHTML = "Delete";
-				buttonDelete.onclick = function(this) {
+				buttonDelete.onclick = function() {
 					$.ajax({
 						url : "/users/"+userId,
 						type : "DELETE",
 						cache : false,
 						success : function(response) {
-							var row = this.parentNode.parentNode;
+							var row = buttonDelete.parentNode.parentNode;
 							row.parentNode.removeChild(row)
-						};
+						}
 					});
 				};
 				
@@ -125,10 +124,10 @@
 				tr.appendChild(buttonDelete_td);
 				table.appendChild(tr);
 			}
-		}};
+		};
 		
 		function userCreate() {
-			window.location.replace("admin/users/create");
+			window.location.replace("user/create");
 		}
 	</script>
 </body>

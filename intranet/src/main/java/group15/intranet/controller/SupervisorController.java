@@ -14,7 +14,7 @@ public class SupervisorController {
 	}
 
 	
-	@GetMapping("permits/{id}")
+	@GetMapping("permits/view/{id}")
 	public String supervisorPermits() {
 		return "supervisor-permit";
 	}
