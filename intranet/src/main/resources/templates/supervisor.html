@@ -12,8 +12,7 @@
 	moment().format();
 </script>
 
-<link href="../static/css/supervisor.css"
-	href="@{/css/supervisor.css}" rel="stylesheet">
+<link href="/css/supervisor.css" rel="stylesheet">
 </head>
 <body>
 	<div class="tab">
@@ -87,10 +86,11 @@
 		$.ajax({
 			url : "/permits",//"/permits?dep=" + user.depID,
 			type : "GET",
+			dataType : 'json',
 			cache : false,
 			success : function(response) {
-				console.log("hello")
-				const permits = response
+				console.log(response)
+				const permits = JSON.parse(response)
 				permitsToTable(permits)
 			}
 		})
