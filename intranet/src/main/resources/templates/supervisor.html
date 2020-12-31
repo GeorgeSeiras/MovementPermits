@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
 <title>Supervisor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -13,7 +13,7 @@
 </script>
 
 <link href="../static/css/supervisor.css"
-	th:href="@{/css/supervisor.css}" rel="stylesheet">
+	href="@{/css/supervisor.css}" rel="stylesheet">
 </head>
 <body>
 	<div class="tab">
@@ -90,15 +90,15 @@
 			cache : false,
 			success : function(response) {
 				console.log("hello")
-				const permits =response
+				const permits = response
 				permitsToTable(permits)
 			}
 		})
 
 		//validate input for the permit search
 		function formValidation(dropdownValue, searchValue) {
-			 document.getElementById("formValidationErrorPending").innerHTML="";
-			 document.getElementById("formValidationErrorPermit").innerHTML="";
+			document.getElementById("formValidationErrorPending").innerHTML = "";
+			document.getElementById("formValidationErrorPermit").innerHTML = "";
 			if (dropdownValue === "Name") {
 				const fullname = searchValue.split(" ");
 				if (fullname[0] == undefined || fullname[1] == undefined) {
@@ -266,11 +266,13 @@
 				const tr = document.createElement('tr');
 
 				const fname_td = document.createElement("td");
-				const fname_text = document.createTextNode(permits[i].user.fname);
+				const fname_text = document
+						.createTextNode(permits[i].user.fname);
 				fname_td.appendChild(fname_text);
 
 				const lname_td = document.createElement("td");
-				const lname_text = document.createTextNode(permits[i].user.lname);
+				const lname_text = document
+						.createTextNode(permits[i].user.lname);
 				lname_td.appendChild(lname_text);
 
 				const type_td = document.createElement("td");
@@ -294,7 +296,8 @@
 				var permitID = permits[i].permitID
 				button.innerHTML = "View";
 				button.onclick = function() {
-					window.location.replace("supervisor/permits/view/" + permitID)
+					window.location.replace("supervisor/permits/view/"
+							+ permitID)
 				};
 				button_td.appendChild(button);
 				tr.appendChild(fname_td);
