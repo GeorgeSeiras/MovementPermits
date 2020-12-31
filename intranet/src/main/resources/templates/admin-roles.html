@@ -17,6 +17,7 @@
 		$.ajax({
 			url : "/roles",
 			type : "GET",
+			dataType : 'json',
 			cache : false,
 			success : function(response) {
 				rolesToTable(response, document.getElementById("rolesTable"));
@@ -41,6 +42,7 @@
 					$.ajax({
 						url : "/roles/"+roleId,
 						type : "DELETE",
+						dataType : 'json',
 						cache : false,
 						success : function(response) {
 							var row = buttonDelete.parentNode.parentNode;

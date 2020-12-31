@@ -28,6 +28,7 @@
 		$.ajax({
 			url : "/permits?id=" + permitId,
 			type : "GET",
+			dataType : 'json',
 			cache : false,
 			success : function(response) {
 				const permit = response[0];
@@ -92,6 +93,7 @@
 							'#statusChange').val();
 					$.ajax({
 						url : "/permits/" + permit.id + "/status",
+						dataType : 'json',
 						type : "POST",
 						data : "status:" + newStatus,
 						cache : false,

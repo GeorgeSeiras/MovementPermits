@@ -32,6 +32,7 @@
 		$.ajax({
 			url : "/departments",
 			type : "GET",
+			dataType : 'json',
 			cache : false,
 			success : function(response) {
 				const depSelect = document.getElementById("department");
@@ -51,6 +52,7 @@
 				$.ajax({
 					url : "/departments",
 					type : "GET",
+					dataType : 'json',
 					data:{
 						"fname":document.getElementById("fname").value,
 						"lname":document.getElementById("lname").value,

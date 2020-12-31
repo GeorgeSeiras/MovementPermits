@@ -24,6 +24,7 @@
 				$.ajax({
 					url : "/roles",
 					type : "POST",
+					dataType : 'json',
 					data:{
 						"name":document.getElementById("name").value
 					},

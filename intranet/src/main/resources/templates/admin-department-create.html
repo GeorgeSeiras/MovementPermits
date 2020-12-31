@@ -26,6 +26,7 @@
 		$.ajax({
 			url : "/users",
 			type : "GET",
+			dataType : 'json',
 			cache : false,
 			success : function(response) {
 				const superSelect = document.getElementById("super");
@@ -47,6 +48,7 @@
 				$.ajax({
 					url : "/departments",
 					type : "GET",
+					dataType : 'json',
 					data:{
 						"name":document.getElementById("fname").value,
 						"superId":superParts[0],

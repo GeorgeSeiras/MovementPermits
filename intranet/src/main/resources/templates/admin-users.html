@@ -22,6 +22,7 @@
 	<script type="text/javascript">
 		$.ajax({
 			url : "/users",
+			dataType : 'json',
 			type : "GET",
 			cache : false,
 			success : function(response) {
@@ -33,6 +34,7 @@
 		$.ajax({
 			url : "/departments",
 			type : "GET",
+			dataType : 'json',
 			cache : false,
 			success : function(response) {
 				departments = response;
@@ -113,6 +115,7 @@
 					$.ajax({
 						url : "/users/" + userId,
 						type : "DELETE",
+						dataType : 'json',
 						cache : false,
 						success : function(response) {
 							var row = buttonDelete.parentNode.parentNode;
