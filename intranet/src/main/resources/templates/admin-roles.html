@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script>
-	src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
 </script>
 <meta charset="ISO-8859-1">
 <title>Roles</title>
@@ -32,20 +32,20 @@
 				const name_td = document.createElement("td");
 				const name_text = document.createTextNode(roles[i].name);
 				name_td.appendChild(name_text);
-				'
+				
 				const buttonDelete_td = document.createElement("td");
 				const buttonDelete = document.createElement("BUTTON");
 				var roleId = roles[i].role_id;
 				buttonDelete.innerHTML = "Delete";
-				buttonDelete.onclick = function(this) {
+				buttonDelete.onclick = function() {
 					$.ajax({
 						url : "/roles/"+roleId,
 						type : "DELETE",
 						cache : false,
 						success : function(response) {
-							var row = this.parentNode.parentNode;
+							var row = buttonDelete.parentNode.parentNode;
 							row.parentNode.removeChild(row)
-						};
+						}
 					});
 				};
 				buttonDelete_td.appendChild(buttonDelete);
@@ -57,8 +57,8 @@
 			
 		}
 
-		function userCreate() {
-			window.location.replace("admin/roles/create");
+		function roleCreate() {
+			window.location.replace("role/create");
 		}
 	</script>
 </body>

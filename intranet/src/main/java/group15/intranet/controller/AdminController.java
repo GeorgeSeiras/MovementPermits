@@ -13,55 +13,34 @@ public class AdminController {
 		return "admin";
 	}
 	
-	@GetMapping("addUser")
+	@GetMapping("user")
 	public String adminAddUser() {
-		return "add-user";
+		return "admin-users";
 	}
 
-	@GetMapping("deleteUser")
+	@GetMapping("user/create")
 	public String adminDeleteUser() {
-		return "update-user";
+		return "admin-user-create";
 	}
 
-	@GetMapping("updateUser")
-	public String adminUpdateUser() {
-		return "add-user";
-	}
-	
-	@GetMapping("createDepartment")
+	@GetMapping("department")
 	public String adminCreateDepartment() {
-		return "create-department";
+		return "admin-departments";
 	}
 	
-	@GetMapping("deleteDepartment")
+	@GetMapping("department/create")
 	public String adminDeleteDepartment() {
-		return "delete-department";
+		return "admin-department-create";
 	}
 	
-	@GetMapping("createRole")
+	@GetMapping("role")
 	public String adminCreateRole() {
-		return "create-role";
+		return "admin-roles";
 	}
 	
-	@GetMapping("deleteRole")
+	@GetMapping("role/create")
 	public String adminDeleteRole() {
-		return "delete-role";
+		return "admin-roles-create";
 	}
-	
-	@GetMapping("assignRole")
-	public String assignRole() {
-		return "assign-role";
-	}
-	
-	@GetMapping("changeSupervisor")
-	public String adminChangeSupervisor() {
-		return "create-role";
-	}
-	
-	
-	
-	
-	
-	
 	
 }

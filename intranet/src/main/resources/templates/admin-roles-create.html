@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script>
-	src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" >
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
 </script>
 <meta charset="ISO-8859-1">
 <title>Create Role</title>
@@ -26,7 +26,7 @@
 					type : "POST",
 					data:{
 						"name":document.getElementById("name").value
-					}
+					},
 					cache : false,
 					success : function(response) {
 						if(response.status === 200){

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script>
-	src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
 </script>
 <meta charset="ISO-8859-1">
 <title>Create User</title>
@@ -41,7 +41,7 @@
 		
 		function createDepartment(){
 			const message = document.getElementById("message");
-			const supervisor = doucment.getElementById("super").value;
+			const supervisor = document.getElementById("super").value;
 			const superParts = supervisor.split(" ");
 			if(validateInput){
 				$.ajax({
@@ -50,7 +50,7 @@
 					data:{
 						"name":document.getElementById("fname").value,
 						"superId":superParts[0],
-					}
+					},
 					cache : false,
 					success : function(response) {
 						if(response.status === 200){
