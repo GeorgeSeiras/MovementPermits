@@ -9,9 +9,15 @@
 <title>Departments</title>
 </head>
 <body>
-	<button type="button" onclick="depCreate()">Create User</button>
-	<table id="depTable" class="depTable"></table>
+	<button type="button" onclick="depCreate()">Create Department</button>
+	<table id="depTable" class="depTable">
+		<tr>
+			<th>Name</th>
+			<th>Supervisor</th>
+		</tr>
+	</table>
 
+	<button onclick="goBack()">Back</button>
 
 	<script type="text/javascript">
 		$.ajax({
@@ -24,8 +30,8 @@
 			}
 		});
 
-		function depCreate(){
-			window.location.replace("department/create")
+		function depCreate() {
+			window.location.replace("/admin/department/create")
 		}
 		function depToTable(dep, table) {
 			while (table.rows.length > 1) {
@@ -115,6 +121,10 @@
 				tr.appendChild(buttonDelete_td);
 				table.appendChild(tr);
 			}
+		}
+
+		function goBack() {
+			window.location.replace("../admin")
 		}
 	</script>
 </body>

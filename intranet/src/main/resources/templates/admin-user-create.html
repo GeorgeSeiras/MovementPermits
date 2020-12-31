@@ -26,7 +26,8 @@
 	<button type="button" onclick="createUser()">Create User</button>
 
 	<p id="message" class="message"></p>
-
+	
+	<button onclick="goBack()">Back</button>
 
 	<script type="text/javascript">
 		$.ajax({
@@ -110,6 +111,9 @@
 			return true;
 		}
 		
+		function goBack(){
+			window.location.replace("../user")
+		}
 	</script>
 </body>
 </html>

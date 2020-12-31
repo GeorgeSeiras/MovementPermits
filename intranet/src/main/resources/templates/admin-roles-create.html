@@ -3,6 +3,7 @@
 <head>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+	
 </script>
 <meta charset="ISO-8859-1">
 <title>Create Role</title>
@@ -16,38 +17,44 @@
 
 	<p id="message" class="message"></p>
 
+	<button onclick="goBack()">Back</button>
+
 	<script type="text/javascript">
-	
-	function createDepartment(){
+		function createDepartment() {
 			const message = document.getElementById("message");
-			if(validateInput){
-				$.ajax({
-					url : "/roles",
-					type : "POST",
-					dataType : 'json',
-					data:{
-						"name":document.getElementById("name").value
-					},
-					cache : false,
-					success : function(response) {
-						if(response.status === 200){
-							message.innerHTML = "Succesfully created role"
-	
-						}
-						message.innerHTML = "There was an error while creating the role"
-	
-					}
-				});
+			if (validateInput) {
+				$
+						.ajax({
+							url : "/roles",
+							type : "POST",
+							dataType : 'json',
+							data : {
+								"name" : document.getElementById("name").value
+							},
+							cache : false,
+							success : function(response) {
+								if (response.status === 200) {
+									message.innerHTML = "Succesfully created role"
+
+								}
+								message.innerHTML = "There was an error while creating the role"
+
+							}
+						});
 			}
 		}
-		
-		function validateInput(){
-			if(document.getElementById("name").value === ""){
+
+		function validateInput() {
+			if (document.getElementById("name").value === "") {
 				document.getElementById("message").innerHTML = "Role name cannot be empty";
-				return false;				
+				return false;
 			}
 			return true;
 		}
-		</script>
+		
+		function goBack() {
+			window.location.replace("../role")
+		}
+	</script>
 </body>
 </html>
