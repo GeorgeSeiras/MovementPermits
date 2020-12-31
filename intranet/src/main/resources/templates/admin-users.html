@@ -17,7 +17,8 @@
 			<th>Department</th>
 		</tr>
 	</table>
-
+	
+	<button onclick="goBack()">Back</button>
 
 	<script type="text/javascript">
 		$.ajax({
@@ -137,7 +138,11 @@
 		};
 
 		function userCreate() {
-			window.location.replace("user/create");
+			window.location.replace("/admin/user/create");
+		}
+		
+		function goBack(){
+			window.location.replace("../admin")
 		}
 	</script>
 </body>

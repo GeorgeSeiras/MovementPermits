@@ -3,6 +3,7 @@
 <head>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+	
 </script>
 <meta charset="ISO-8859-1">
 <title>Create User</title>
@@ -21,6 +22,7 @@
 
 	<p id="message" class="message"></p>
 
+	<button onclick="goBack()">Back</button>
 
 	<script type="text/javascript">
 		$.ajax({
@@ -30,50 +32,53 @@
 			cache : false,
 			success : function(response) {
 				const superSelect = document.getElementById("super");
-				for(var i=0; response.length;i++){
+				for (var i = 0; response.length; i++) {
 					var opt = document.createElement("option");
-					opt.setAttribute("id",response.user_id);
-					opt.createTextNode(response.user_id +", "+response.fname+", "+response.lname);
+					opt.setAttribute("id", response.user_id);
+					opt.createTextNode(response.user_id + ", " + response.fname
+							+ ", " + response.lname);
 					superSelect.appendChild(opt);
 				}
 			}
 		});
-		
-		
-		function createDepartment(){
+
+		function createDepartment() {
 			const message = document.getElementById("message");
 			const supervisor = document.getElementById("super").value;
 			const superParts = supervisor.split(" ");
-			if(validateInput){
-				$.ajax({
-					url : "/departments",
-					type : "GET",
-					dataType : 'json',
-					data:{
-						"name":document.getElementById("fname").value,
-						"superId":superParts[0],
-					},
-					cache : false,
-					success : function(response) {
-						if(response.status === 200){
-							message.innerHTML = "Succesfully created department"
-	
-						}
-						message.innerHTML = "There was an error while creating the department"
-	
-					}
-				});
+			if (validateInput) {
+				$
+						.ajax({
+							url : "/departments",
+							type : "GET",
+							dataType : 'json',
+							data : {
+								"name" : document.getElementById("fname").value,
+								"superId" : superParts[0],
+							},
+							cache : false,
+							success : function(response) {
+								if (response.status === 200) {
+									message.innerHTML = "Succesfully created department"
+
+								}
+								message.innerHTML = "There was an error while creating the department"
+
+							}
+						});
 			}
 		}
-		
-		function validateInput(){
-			if(document.getElementById("name").value === ""){
+
+		function validateInput() {
+			if (document.getElementById("name").value === "") {
 				document.getElementById("message").innerHTML = "Department name cannot be empty";
-				return false;				
+				return false;
 			}
 			return true;
 		}
-		
+		function goBack() {
+			window.location.replace("../department")
+		}
 	</script>
 </body>
 </html>
