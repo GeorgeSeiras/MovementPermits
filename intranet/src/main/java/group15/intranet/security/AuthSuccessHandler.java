@@ -1,4 +1,4 @@
-package security;
+package group15.intranet.security;
 
 import java.io.IOException;
 import java.util.Set;

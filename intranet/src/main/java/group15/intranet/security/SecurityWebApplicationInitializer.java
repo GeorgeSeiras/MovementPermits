@@ -1,4 +1,4 @@
-package security;
+package group15.intranet.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

@@ -1,4 +1,4 @@
-package security;
+package group15.intranet.security;
 
 import javax.sql.DataSource;
 
@@ -28,10 +28,12 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder())
-				.usersByUsernameQuery("select username,password,enabled " + "from users " + "where username = ?")
-				.authoritiesByUsernameQuery("select username,authority " + "from authorities " + "where username = ?");
-		;
+		auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("password")).roles("ADMIN");
+		auth.inMemoryAuthentication().withUser("super").password(passwordEncoder().encode("password1")).roles("SUPERVISOR");
+
+//		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder())
+//				.usersByUsernameQuery("select username,password,enabled " + "from users " + "where username = ?")
+//				.authoritiesByUsernameQuery("select username,authority " + "from authorities " + "where username = ?");
 	}
 
 	@Autowired
@@ -42,18 +44,13 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/admin", "/admin/**").hasRole("ADMIN")
-				.antMatchers("/supervisor", "/supervisor/**", "supervisor/*/*/*").hasRole("SUPERVISOR").and()
-				.formLogin().loginPage("/login").permitAll()
-				// .successHandler(authenticationSuccessHandler)
-				.and().logout().permitAll().and().authorizeRequests().antMatchers("/api/**").permitAll().and().csrf()
-				.disable().headers().frameOptions().disable();
+				.antMatchers("/supervisor", "/supervisor/**").hasRole("SUPERVISOR")
+				.antMatchers("/hr","/hr/**").hasRole("HR")
+				.antMatchers("/director").hasRole("DIRECTOR")
+				.and().formLogin().permitAll().successHandler(authenticationSuccessHandler).and().logout()
+				.permitAll().and().authorizeRequests().antMatchers("/api/**").permitAll().and().csrf().disable()
+				.headers().frameOptions().disable();
 	}
-
-//	@Override
-//	public void configure(WebSecurity web) throws Exception {
-//		web.ignoring().antMatchers("/resources/**");
-//
-//	}
 
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
