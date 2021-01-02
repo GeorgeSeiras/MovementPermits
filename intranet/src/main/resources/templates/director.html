@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<meta charset="ISO-8859-1">
+<link href="../static/css/director.css" rel="stylesheet">
+<title>Director</title>
+</head>
+<body>
+	<div class="page">
+		<div class="container">
+			<div id="first" class="first">FIRST</div>
+			<div id="second" class="second">SECOND</div>
+			<div id="third" class="third">THIRD</div>
+		</div>
+		<div id="fourth" class="fourth">FOURTH</div>
+	</div>
+	<script type="text/javascript">
+		//get and show approved permits
+		$.ajax({
+			url : "/permits/statistics",
+			type : "GET",
+			dataType : 'json',
+			cache : false,
+			success : function(response) {
+				display(reponse)
+			}
+		})
+
+		function display(stats) {
+			const first = document.getElementById("first");
+			const second = document.getElementById("second");
+			const third = document.getElementById("third");
+			const fourth = document.getElementById("fourth");
+		}
+	</script>
+</body>
+</html>

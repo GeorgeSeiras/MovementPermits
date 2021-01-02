@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html >
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <head>
@@ -22,12 +22,15 @@
 		</table>
 	</div>
 	<form id="statusChange"></form>
+	<button onclick="goBack()">Back</button>
+
 	<script type="text/javascript">
 		const url = window.location.href;
 		const permitId = url.substr(url.lastIndexOf('/') + 1);
 		$.ajax({
 			url : "/permits?id=" + permitId,
 			type : "GET",
+			dataType : 'json',
 			cache : false,
 			success : function(response) {
 				const permit = response[0];
@@ -66,7 +69,7 @@
 			status_td.appendChild(status_text);
 			
 			const address_td = document.createElement("td");
-			const address_text = document.createTextNode(permit.adress);
+			const address_text = document.createTextNode(permit.address);
 			address_td.appendChild(address_text);
 			
 			tr.appendChild(fname_td);
@@ -92,6 +95,7 @@
 							'#statusChange').val();
 					$.ajax({
 						url : "/permits/" + permit.id + "/status",
+						dataType : 'json',
 						type : "POST",
 						data : "status:" + newStatus,
 						cache : false,
@@ -120,6 +124,10 @@
 			label.appendChild(radio);
 			label.appendChild(document.createTextNode(text));
 			return label;
+		}
+		
+		function goBack(){
+			window.location.replace("../../")
 		}
 	</script>
 </body>

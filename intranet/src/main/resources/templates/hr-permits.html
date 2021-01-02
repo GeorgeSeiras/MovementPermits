@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html >
 <head>
 <meta charset="ISO-8859-1">
 <title>Human Resources</title>
@@ -40,6 +40,7 @@
 		$.ajax({
 			url : "/permits?status=APPROVED",
 			type : "GET",
+			dataType : 'json',
 			cache : false,
 			success : function(response) {
 				const permits = response;
@@ -67,6 +68,7 @@
 			$.ajax({
 				url : BASE_URL + "/permits=?" + finalQueryParameters,
 				type : "GET",
+				dataType : 'json',
 				cache : false,
 				success : function(response) {
 					const permits = response
