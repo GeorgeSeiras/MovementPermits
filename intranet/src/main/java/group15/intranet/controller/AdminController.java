@@ -30,12 +30,12 @@ public class AdminController {
 	
 	@GetMapping("createDepartment")
 	public String adminCreateDepartment() {
-		return "create-department";
+		return "admin-department-create";
 	}
 	
 	@GetMapping("deleteDepartment")
 	public String adminDeleteDepartment() {
-		return "delete-department";
+		return "admin-department-delete";
 	}
 	
 	@GetMapping("createRole")

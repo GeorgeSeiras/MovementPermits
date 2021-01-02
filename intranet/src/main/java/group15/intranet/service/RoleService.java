@@ -1,8 +1,11 @@
 package group15.intranet.service;
 
+import org.springframework.http.ResponseEntity;
+
 import group15.intranet.entity.Role;
 
 public interface RoleService {
-	void addRole(Role r);
-	void deleteRole(Role r);
+	
+	ResponseEntity<Role> addRole(Role role);
+	ResponseEntity<Role> deleteRole(String roleName);
 }

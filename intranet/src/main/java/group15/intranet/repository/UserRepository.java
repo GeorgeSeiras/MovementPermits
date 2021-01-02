@@ -13,6 +13,6 @@ import group15.intranet.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
 
-	User findByUserId(int user_id);
+	User findByUserID(int user_id);
 	
 }
