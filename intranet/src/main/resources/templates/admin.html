@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
 
 <title>Admin</title>
 </head>
-<h1>Users</h1>
-<button type="button" onclick="usersPage()">View users</button>
-<h2>Departments</h2>
-<button type="button" onclick="departmentsPage()">View
-	Departments</button>
-<h3>Roles</h3>
-<button type="button" onclick="rolesPage()">View Roles</button>
+Logged user: <span sec:authentication="name">Bob</span>
+Roles: <span sec:authentication="principal.authorities">[ROLE_SUPERVISOR, ROLE_ADMIN]</span>
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+	<h1>Users</h1>
+	<button type="button" onclick="usersPage()">View users</button>
+	<h2>Departments</h2>
+	<button type="button" onclick="departmentsPage()">View
+		Departments</button>
+	<h3>Roles</h3>
+	<button type="button" onclick="rolesPage()">View Roles</button>
+</div>
 <body>
 	<script type="text/javascript">
 		function usersPage() {

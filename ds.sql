@@ -7,6 +7,9 @@ CREATE TABLE `ds`.`users` (
   `address` VARCHAR(45) NULL,
   `phone_num` VARCHAR(45) NULL,
   `dep_id` INT NULL,
+  `username` VARCHAR(50) UNIQUE NOT NULL ,
+  `password` VARCHAR(100) NOT NULL,
+  `enabled` TINYINT NOT NULL DEFAULT 1,
   PRIMARY KEY (`user_id`));
 
 CREATE TABLE `ds`.`departments` (
@@ -30,10 +33,13 @@ CONSTRAINT check_status CHECK (status IN ('PENDING', 'APPROVED', 'DENIED')),
   `address` VARCHAR(45) NULL,
   PRIMARY KEY (`permit_id`));
 
-CREATE TABLE `ds`.`rolesbyuser` (
-  `role_name` VARCHAR(45) NOT NULL,
-  `user_id` INT NOT NULL,
-  PRIMARY KEY (`role_name`, `user_id`));
+CREATE TABLE `ds`.`authorities` (
+  `authority` VARCHAR(50) NOT NULL,
+  `username` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`username`, `authority`),
+  CONSTRAINT FK_AuthoritiesUsername FOREIGN KEY (username)
+  REFERENCES users(username)
+  );
   
 ALTER TABLE `ds`.`users` 
 ADD CONSTRAINT `user_fk_dept`
@@ -56,14 +62,14 @@ ADD CONSTRAINT `permit_fk_user`
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
-ALTER TABLE `ds`.`rolesbyuser` 
+ALTER TABLE `ds`.`authorities` 
 ADD CONSTRAINT `rbu_fk_users`
-  FOREIGN KEY (`user_id`)
-  REFERENCES `ds`.`users` (`user_id`)
+  FOREIGN KEY (`username`)
+  REFERENCES `ds`.`users` (`username`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION,
 ADD CONSTRAINT `rbu_fk_roles`
-  FOREIGN KEY (`role_name`)
+  FOREIGN KEY (`authority`)
   REFERENCES `ds`.`roles` (`role_name`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
