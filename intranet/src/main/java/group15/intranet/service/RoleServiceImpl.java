@@ -1,6 +1,8 @@
 package group15.intranet.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import group15.intranet.entity.Role;
@@ -13,12 +15,22 @@ public class RoleServiceImpl implements RoleService{
 
 
 	@Override
-	public void addRole(Role r) {
-		roleRepository.save(r);
+	public ResponseEntity<Role> addRole(Role role) {
+		Role checkedRole = roleRepository.findByRoleName(role.getRoleName());
+		if(checkedRole != null) {
+			return new ResponseEntity<Role>(checkedRole,HttpStatus.ALREADY_REPORTED);
+		}
+		roleRepository.save(role);
+		return new ResponseEntity<Role>(role, HttpStatus.OK);
 	}
 
 	@Override
-	public void deleteRole(Role r) {
-		roleRepository.delete(r);
+	public ResponseEntity<Role> deleteRole(String roleName) {
+		Role checkedRole = roleRepository.findByRoleName(roleName);
+		if(checkedRole==null) {
+			return new ResponseEntity<Role>(checkedRole,HttpStatus.NOT_FOUND);
+		}
+		roleRepository.delete(checkedRole);
+		return new ResponseEntity<Role>(checkedRole,HttpStatus.OK);
 	}
 }

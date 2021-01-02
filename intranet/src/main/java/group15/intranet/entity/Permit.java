@@ -45,7 +45,7 @@ public class Permit {
 	@Column(name = "address")
 	private String address;
 
-
+	@JsonManagedReference
 	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private User user;
