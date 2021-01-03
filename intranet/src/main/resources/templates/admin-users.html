@@ -85,10 +85,10 @@
 				dep_td.appendChild(dep_text);
 
 				const auth_td = document.createElement("td");
-				var authText;
-				for(auth in users[i].authorities){
-					authText+=auth+" "
-				}
+				var authText="";
+				users[i].authorities.forEach(function(auth){
+					authText+=auth.authority+" "
+				})
 				if(authText=== undefined){
 					authText = "None";
 				}
@@ -119,10 +119,9 @@
 										"phoneNum" : document
 												.getElementById("phone"
 														+ userID).value,
-										//"department" : document
-										//		.getElementById("department"
-										//				+ userID).value,
-										"authorities":[]
+										"department" : document
+												.getElementById("department"
+														+ userID).value
 									}),
 							contentType : "application/json",
 							cache : false,
