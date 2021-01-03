@@ -41,7 +41,6 @@ public class User implements Serializable{
 	@Column(name = "phone_num")
 	private String phoneNum;
 	
-	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "dep_id")
 	private Department dept;
