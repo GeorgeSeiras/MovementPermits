@@ -52,6 +52,12 @@ public class User {
 	@JsonBackReference
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Permit> permits;
+	
+	@Column(name="username")
+	private String username;
+	
+	@Column(name="password")
+	private String password;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
 			CascadeType.REFRESH })
@@ -123,10 +129,27 @@ public class User {
 		this.authorities = authorities;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 	@Override
 	public String toString() {
-		return "Users [userID=" + userID + ", fname=" + fname + ", lname=" + lname + ", address=" + address
-				+ ", phoneNum=" + phoneNum + ", dept=" + dept + ", permits=" + permits + ", authorities=" + authorities + "]";
+		return "User [userID=" + userID + ", fname=" + fname + ", lname=" + lname + ", address=" + address
+				+ ", phoneNum=" + phoneNum + ", dept=" + dept + ", permits=" + permits + ", username=" + username
+				+ ", passwd=" + password + ", authorities=" + authorities + "]";
 	}
 
 	public User() {
