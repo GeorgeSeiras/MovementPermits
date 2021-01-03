@@ -1,32 +1,27 @@
 package group15.intranet.entity;
 
 import java.util.List;
-import javax.persistence.JoinColumn;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Role   {
 	@Id
 	@Column(name = "authority")
 	private String authority;
 	
-	@JsonManagedReference
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
-			CascadeType.REFRESH })
-	@JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "authority"), inverseJoinColumns = @JoinColumn(name = "username"))
+			CascadeType.REFRESH },mappedBy="authorities")
 	private List<User> users;
 
 	public String getAuthority() {

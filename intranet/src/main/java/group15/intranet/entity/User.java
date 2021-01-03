@@ -1,5 +1,6 @@
 package group15.intranet.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -17,16 +18,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
@@ -61,7 +58,7 @@ public class User {
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
 			CascadeType.REFRESH })
-	@JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "authority"))
+	@JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "username",referencedColumnName="username"), inverseJoinColumns = @JoinColumn(name = "authority",referencedColumnName="authority"))
 	private List<Role> authorities;
 
 	public int getUserID() {

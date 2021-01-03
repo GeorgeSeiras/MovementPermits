@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import group15.intranet.entity.Permit;
 import group15.intranet.entity.Role;
 import group15.intranet.entity.User;
 import group15.intranet.repository.DepartmentRepository;
