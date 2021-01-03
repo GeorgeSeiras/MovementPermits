@@ -39,14 +39,27 @@ public class UserServiceImpl implements UserService{
 		userRepository.save(user);
 		return new ResponseEntity<User>(user,HttpStatus.OK); 
 	}
-
+	
 	@Override
 	public ResponseEntity<User> updateUser(User user) {
 		User checkedUser = userRepository.findByUserID(user.getUserID());
+		System.out.println(checkedUser);
+
 		if(checkedUser==null) {
 			return new ResponseEntity<User>(user,HttpStatus.NOT_FOUND);
 		}
-		checkedUser=user;
+		if(user.getFname()!=null) {
+			checkedUser.setFname(user.getFname());
+		}
+		if(user.getLname()!=null) {
+			checkedUser.setLname(user.getLname());
+		}
+		if(user.getPhoneNum()!=null) {
+			checkedUser.setPhoneNum(user.getPhoneNum());
+		}
+		if(user.getAddress()!=null) {
+			checkedUser.setAddress(user.getAddress());
+		}
 		//checkedUser.setDept(depRepository.findById(user.getDept().getDeptID()));
 		userRepository.save(checkedUser);
 		return new ResponseEntity<User>(checkedUser,HttpStatus.OK);
