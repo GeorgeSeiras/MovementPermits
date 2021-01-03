@@ -56,8 +56,8 @@ public class User {
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
 			CascadeType.REFRESH })
-	@JoinTable(name = "usersbyrole", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_name"))
-	private List<Role> roles;
+	@JoinTable(name = "usersbyrole", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "authority"))
+	private List<Role> authorities;
 
 	public int getUserID() {
 		return userID;
@@ -115,18 +115,19 @@ public class User {
 		this.permits = permits;
 	}
 
-	public List<Role> getRoles() {
-		return roles;
-	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
+	public List<Role> getAuthorities() {
+		return authorities;
+	}
+	
+	public void setAuthorities(List<Role> authorities) {
+		this.authorities = authorities;
 	}
 
 	@Override
 	public String toString() {
 		return "Users [userID=" + userID + ", fname=" + fname + ", lname=" + lname + ", address=" + address
-				+ ", phoneNum=" + phoneNum + ", dept=" + dept + ", permits=" + permits + ", roles=" + roles + "]";
+				+ ", phoneNum=" + phoneNum + ", dept=" + dept + ", permits=" + permits + ", authorities=" + authorities + "]";
 	}
 
 	public User() {
@@ -141,10 +142,12 @@ public class User {
 	}
 
 	public void addRole(Role role) {
-		if (roles == null) {
-			roles = new ArrayList<Role>();
+		if (authorities == null) {
+			authorities = new ArrayList<Role>();
 		}
-		roles.add(role);
+		authorities.add(role);
 	}
+
+
 
 }

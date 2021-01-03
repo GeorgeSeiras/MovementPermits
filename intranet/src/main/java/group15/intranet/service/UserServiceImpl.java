@@ -81,9 +81,9 @@ public class UserServiceImpl implements UserService{
 			return new ResponseEntity<User>(user,HttpStatus.NOT_FOUND);
 		}
 		List<Role> roles = new ArrayList();
-		roles = userRepository.findByUserID(user.getUserID()).getRoles();
+		roles = userRepository.findByUserID(user.getUserID()).getAuthorities();
 		roles.add(role);
-		temp.setRoles(roles);
+		temp.setAuthorities(roles);
 		userRepository.save(temp);
 		return null;
 	}

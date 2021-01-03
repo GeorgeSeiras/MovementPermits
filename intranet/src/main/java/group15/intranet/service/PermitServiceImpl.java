@@ -38,7 +38,6 @@ public class PermitServiceImpl implements PermitService {
 
 	@Override
 	public List<Permit> getPermits(Map<String, String> searchParams) {
-		// GenericSpecification<Permit> spec = new GenericSpecification<Permit>();
 		List<SearchCriteria> list = new ArrayList<>();
 		;
 		if (searchParams.containsKey("id")) {
@@ -79,6 +78,7 @@ public class PermitServiceImpl implements PermitService {
 		if (searchParams.containsKey("status")) {
 			list.add(new SearchCriteria("status", searchParams.get("status"), SearchOperation.EQUAL));
 		}
+		System.out.println(list);
 		return permitRepository.findAll(PermitSpecification.buildQuery(list));
 	}
 	

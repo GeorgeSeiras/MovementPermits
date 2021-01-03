@@ -39,7 +39,6 @@ public class PermitsRestController {
 	@GetMapping
 	@ResponseBody
 	public List<Permit> getPermits(@RequestParam(required = false) Map<String, String> searchParams) {
-		System.out.println(searchParams);
 		return this.permitService.getPermits(searchParams);
 	}
 	
