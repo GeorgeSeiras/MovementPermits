@@ -78,7 +78,6 @@ public class PermitServiceImpl implements PermitService {
 		if (searchParams.containsKey("status")) {
 			list.add(new SearchCriteria("status", searchParams.get("status"), SearchOperation.EQUAL));
 		}
-		System.out.println(list);
 		return permitRepository.findAll(PermitSpecification.buildQuery(list));
 	}
 	
@@ -104,6 +103,7 @@ public class PermitServiceImpl implements PermitService {
 		}else {
 			checkedPermit.setStatus(permitDetails.getStatus());
 			permitRepository.save(checkedPermit);
+			System.out.println(checkedPermit.getStatus());
 			return new ResponseEntity<Permit>(checkedPermit, HttpStatus.OK);
 		}
 	}
