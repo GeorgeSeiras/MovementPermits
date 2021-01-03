@@ -7,6 +7,8 @@ CREATE TABLE `ds`.`users` (
   `address` VARCHAR(45) NULL,
   `phone_num` VARCHAR(45) NULL,
   `dep_id` INT NULL,
+  `username` VARCHAR(45) NULL UNIQUE,
+  `password` VARCHAR(45) NULL,
   PRIMARY KEY (`user_id`));
 
 CREATE TABLE `ds`.`departments` (
@@ -16,8 +18,8 @@ CREATE TABLE `ds`.`departments` (
   PRIMARY KEY (`dept_id`));
 
 CREATE TABLE `ds`.`roles` (
-  `role_name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`role_name`));
+  `authority` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`authority`));
 
 CREATE TABLE `ds`.`permits` (
   `permit_id` INT NOT NULL AUTO_INCREMENT,
@@ -30,10 +32,10 @@ CONSTRAINT check_status CHECK (status IN ('PENDING', 'APPROVED', 'DENIED')),
   `address` VARCHAR(45) NULL,
   PRIMARY KEY (`permit_id`));
 
-CREATE TABLE `ds`.`rolesbyuser` (
-  `role_name` VARCHAR(45) NOT NULL,
-  `user_id` INT NOT NULL,
-  PRIMARY KEY (`role_name`, `user_id`));
+CREATE TABLE `ds`.`authorities` (
+  `authority` VARCHAR(45) NOT NULL,
+  `username` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`authority`, `username`));
   
 ALTER TABLE `ds`.`users` 
 ADD CONSTRAINT `user_fk_dept`
@@ -56,14 +58,14 @@ ADD CONSTRAINT `permit_fk_user`
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
-ALTER TABLE `ds`.`rolesbyuser` 
-ADD CONSTRAINT `rbu_fk_users`
-  FOREIGN KEY (`user_id`)
-  REFERENCES `ds`.`users` (`user_id`)
+ALTER TABLE `ds`.`authorities` 
+ADD CONSTRAINT `auth_fk_users`
+  FOREIGN KEY (`username`)
+  REFERENCES `ds`.`users` (`username`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION,
-ADD CONSTRAINT `rbu_fk_roles`
-  FOREIGN KEY (`role_name`)
-  REFERENCES `ds`.`roles` (`role_name`)
+ADD CONSTRAINT `auth_fk_roles`
+  FOREIGN KEY (`authority`)
+  REFERENCES `ds`.`roles` (`authority`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;

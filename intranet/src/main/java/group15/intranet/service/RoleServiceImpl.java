@@ -16,7 +16,7 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	public ResponseEntity<Role> addRole(Role role) {
-		Role checkedRole = roleRepository.findByRoleName(role.getRoleName());
+		Role checkedRole = roleRepository.findByAuthority(role.getAuthority());
 		if(checkedRole != null) {
 			return new ResponseEntity<Role>(checkedRole,HttpStatus.ALREADY_REPORTED);
 		}
@@ -26,7 +26,7 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	public ResponseEntity<Role> deleteRole(String roleName) {
-		Role checkedRole = roleRepository.findByRoleName(roleName);
+		Role checkedRole = roleRepository.findByAuthority(roleName);
 		if(checkedRole==null) {
 			return new ResponseEntity<Role>(checkedRole,HttpStatus.NOT_FOUND);
 		}

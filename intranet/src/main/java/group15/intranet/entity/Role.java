@@ -20,21 +20,21 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name = "roles")
 public class Role {
 	@Id
-	@Column(name = "role_name")
-	private String roleName;
+	@Column(name = "authority")
+	private String authority;
 	
 	@JsonManagedReference
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
 			CascadeType.REFRESH })
-	@JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "role_name"), inverseJoinColumns = @JoinColumn(name = "user_name"))
+	@JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "authority"), inverseJoinColumns = @JoinColumn(name = "username"))
 	private List<User> users;
 
-	public String getRoleName() {
-		return roleName;
+	public String getAuthority() {
+		return authority;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setauthority(String authority) {
+		this.authority = authority;
 	}
 
 	public List<User> getUsers() {
@@ -47,7 +47,7 @@ public class Role {
 
 	@Override
 	public String toString() {
-		return "Role [roleName=" + roleName + ", users=" + users + "]";
+		return "Role [authority=" + authority + ", users=" + users + "]";
 	}
 
 	public Role() {

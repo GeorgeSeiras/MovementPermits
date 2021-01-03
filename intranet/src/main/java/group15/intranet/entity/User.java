@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -48,21 +49,20 @@ public class User {
 	@JoinColumn(name = "dep_id")
 	private Department dept;
 	
-
 	@JsonBackReference
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Permit> permits;
 	
-	@Column(name="user_name")
-	private String userName;
+	@Column(name="username")
+	private String username;
 	
-	@Column(name="passwd")
-	private String passwd;
+	@Column(name="password")
+	private String password;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
 			CascadeType.REFRESH })
-	@JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "user_name"), inverseJoinColumns = @JoinColumn(name = "role_name"))
-	private List<Role> roles;
+	@JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "authority"))
+	private List<Role> authorities;
 
 	public int getUserID() {
 		return userID;
@@ -120,35 +120,36 @@ public class User {
 		this.permits = permits;
 	}
 
-	public List<Role> getRoles() {
-		return roles;
+
+	public List<Role> getAuthorities() {
+		return authorities;
+	}
+	
+	public void setAuthorities(List<Role> authorities) {
+		this.authorities = authorities;
 	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
+	public String getUsername() {
+		return username;
 	}
 
-	public String getUserName() {
-		return userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public String getPassword() {
+		return password;
 	}
 
-	public String getPasswd() {
-		return passwd;
-	}
-
-	public void setPasswd(String passwd) {
-		this.passwd = passwd;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	@Override
 	public String toString() {
 		return "User [userID=" + userID + ", fname=" + fname + ", lname=" + lname + ", address=" + address
-				+ ", phoneNum=" + phoneNum + ", dept=" + dept + ", permits=" + permits + ", userName=" + userName
-				+ ", passwd=" + passwd + ", roles=" + roles + "]";
+				+ ", phoneNum=" + phoneNum + ", dept=" + dept + ", permits=" + permits + ", username=" + username
+				+ ", passwd=" + password + ", authorities=" + authorities + "]";
 	}
 
 	public User() {
@@ -163,10 +164,12 @@ public class User {
 	}
 
 	public void addRole(Role role) {
-		if (roles == null) {
-			roles = new ArrayList<Role>();
+		if (authorities == null) {
+			authorities = new ArrayList<Role>();
 		}
-		roles.add(role);
+		authorities.add(role);
 	}
+
+
 
 }

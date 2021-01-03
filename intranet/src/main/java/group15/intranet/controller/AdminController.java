@@ -13,12 +13,12 @@ public class AdminController {
 		return "admin";
 	}
 	
-	@GetMapping("user")
+	@GetMapping("users")
 	public String adminAddUser() {
 		return "admin-users";
 	}
 
-	@GetMapping("user/create")
+	@GetMapping("users/create")
 	public String adminDeleteUser() {
 		return "admin-user-create";
 	}

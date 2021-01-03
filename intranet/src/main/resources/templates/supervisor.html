@@ -111,8 +111,8 @@
 				if (!isValid) {
 					changeMessage("Date must be in yyyy-mm-dd format");
 				}
-				return isValid;
 			}
+			return true;
 		}
 
 		function changeMessage(message) {
@@ -179,7 +179,6 @@
 				if (queryParameter !== "") {
 					url += queryParameter
 				}
-				console.log(url)
 				$.ajax({
 					url : url,
 					dataType : 'json',
@@ -235,10 +234,13 @@
 					const button = document.createElement("BUTTON");
 					var permitID = permits[i].permitID
 					button.innerHTML = "View";
-					button.onclick = function() {
-						window.location.replace("/supervisor/permits/"
-								+ permitID)
-					};
+					var addOnClick = function(id) {
+						button.onclick = function() {
+							window.location.replace("/supervisor/permits/view/"
+									+ id)
+						};
+					}
+					addOnClick(permitID);
 					button_td.appendChild(button);
 					tr.appendChild(fname_td);
 					tr.appendChild(lname_td);
@@ -295,11 +297,16 @@
 				const button_td = document.createElement("td");
 				const button = document.createElement("BUTTON");
 				var permitID = permits[i].permitID
+
 				button.innerHTML = "View";
-				button.onclick = function() {
-					window.location.replace("/supervisor/permits/view/"
-							+ permitID)
-				};
+				var addOnClick = function(id) {
+					button.onclick = function() {
+						window.location.replace("/supervisor/permits/view/"
+								+ id)
+					};
+				}
+				addOnClick(permitID);
+
 				button_td.appendChild(button);
 				tr.appendChild(fname_td);
 				tr.appendChild(lname_td);

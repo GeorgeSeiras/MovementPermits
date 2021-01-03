@@ -31,15 +31,9 @@ public class PermitsRestController {
 	@Autowired
 	PermitServiceImpl permitService;
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Permit> getPermitById(@PathVariable int id) {
-		return this.permitService.getPermitById(id);
-	}
-
 	@GetMapping
 	@ResponseBody
 	public List<Permit> getPermits(@RequestParam(required = false) Map<String, String> searchParams) {
-		System.out.println(searchParams);
 		return this.permitService.getPermits(searchParams);
 	}
 	
@@ -48,16 +42,21 @@ public class PermitsRestController {
 		return permitService.getStatistics();
 	}
 	
-	@PostMapping
+	@GetMapping("/{id}")
+	public ResponseEntity<Permit> getPermitById(@PathVariable int id) {
+		return this.permitService.getPermitById(id);
+	}
+	
+	@PostMapping()
 	@ResponseBody
 	public ResponseEntity<Permit> addPermit(@Valid @RequestBody Permit permit){
-		System.out.println(permit.getPermitID());
 		return permitService.addPermit(permit);
 	}
 	
-	@PutMapping("/{id}")
+	@PutMapping("/{id}/status")
 	@ResponseBody
 	public ResponseEntity<Permit> updatePermits(@PathVariable int id, @Valid @RequestBody UpdatePermitDetailsRequestModel permitDetails) {
+		System.out.println("ALLO "+permitDetails);
 		return permitService.updatePermit(id, permitDetails);
 	}
 

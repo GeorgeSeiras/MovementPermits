@@ -20,6 +20,7 @@ import group15.intranet.model_request.PermitStatistics;
 import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
 import group15.intranet.repository.PermitRepository;
 import group15.intranet.specification.PermitSpecification;
+import group15.intranet.specification.JoinPermitUserSpecification;
 
 @Service
 public class PermitServiceImpl implements PermitService {
@@ -38,18 +39,15 @@ public class PermitServiceImpl implements PermitService {
 
 	@Override
 	public List<Permit> getPermits(Map<String, String> searchParams) {
-		// GenericSpecification<Permit> spec = new GenericSpecification<Permit>();
 		List<SearchCriteria> list = new ArrayList<>();
 		;
 		if (searchParams.containsKey("id")) {
 			list.add(new SearchCriteria("permitID", searchParams.get("id"), SearchOperation.EQUAL));
 		}
-		if (searchParams.containsKey("fname")) {
-			list.add(new SearchCriteria("fname", searchParams.get("fname"), SearchOperation.EQUAL));
+		if (searchParams.containsKey("fname") && searchParams.containsKey("lname")) {
+			return permitRepository.findAll(JoinPermitUserSpecification.buildQuery(searchParams.get("fname"), searchParams.get("lname")));
 		}
-		if (searchParams.containsKey("lname")) {
-			list.add(new SearchCriteria("lname", searchParams.get("lname"), SearchOperation.EQUAL));
-		}
+		
 		if (searchParams.containsKey("start_date")) {
 			java.util.Date utilDate = null;
 			java.sql.Date sqlDate = null;
@@ -104,6 +102,7 @@ public class PermitServiceImpl implements PermitService {
 		}else {
 			checkedPermit.setStatus(permitDetails.getStatus());
 			permitRepository.save(checkedPermit);
+			System.out.println(checkedPermit.getStatus());
 			return new ResponseEntity<Permit>(checkedPermit, HttpStatus.OK);
 		}
 	}
