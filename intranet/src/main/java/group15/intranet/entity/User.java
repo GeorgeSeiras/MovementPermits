@@ -52,11 +52,16 @@ public class User {
 	@JsonBackReference
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Permit> permits;
-
+	
+	@Column(name="user_name")
+	private String userName;
+	
+	@Column(name="passwd")
+	private String passwd;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
 			CascadeType.REFRESH })
-	@JoinTable(name = "usersbyrole", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_name"))
+	@JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "user_name"), inverseJoinColumns = @JoinColumn(name = "role_name"))
 	private List<Role> roles;
 
 	public int getUserID() {
@@ -123,10 +128,27 @@ public class User {
 		this.roles = roles;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPasswd() {
+		return passwd;
+	}
+
+	public void setPasswd(String passwd) {
+		this.passwd = passwd;
+	}
+	
 	@Override
 	public String toString() {
-		return "Users [userID=" + userID + ", fname=" + fname + ", lname=" + lname + ", address=" + address
-				+ ", phoneNum=" + phoneNum + ", dept=" + dept + ", permits=" + permits + ", roles=" + roles + "]";
+		return "User [userID=" + userID + ", fname=" + fname + ", lname=" + lname + ", address=" + address
+				+ ", phoneNum=" + phoneNum + ", dept=" + dept + ", permits=" + permits + ", userName=" + userName
+				+ ", passwd=" + passwd + ", roles=" + roles + "]";
 	}
 
 	public User() {
