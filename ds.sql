@@ -8,7 +8,7 @@ CREATE TABLE `ds`.`users` (
   `phone_num` VARCHAR(45) NULL,
   `dep_id` INT NULL,
   `username` VARCHAR(45) NULL UNIQUE,
-  `password` VARCHAR(45) NULL UNIQUE,
+  `password` VARCHAR(45) NULL,
   PRIMARY KEY (`user_id`));
 
 CREATE TABLE `ds`.`departments` (
