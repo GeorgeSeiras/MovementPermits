@@ -43,7 +43,7 @@ public class UsersRestController {
 		return userService.addUser(user);
 	}
 	
-	@PutMapping("/update")
+	@PutMapping()
 	@ResponseBody
 	public ResponseEntity<User> updateUser(@Valid @RequestBody User user){
 		return userService.updateUser(user);
