@@ -26,7 +26,7 @@ public class Role {
 	@JsonManagedReference
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
 			CascadeType.REFRESH })
-	@JoinTable(name = "rolesbyuser", joinColumns = @JoinColumn(name = "authority"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+	@JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "authority"), inverseJoinColumns = @JoinColumn(name = "username"))
 	private List<User> users;
 
 	public String getAuthority() {
