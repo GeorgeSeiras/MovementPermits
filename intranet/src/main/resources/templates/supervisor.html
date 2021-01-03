@@ -295,11 +295,17 @@
 				const button_td = document.createElement("td");
 				const button = document.createElement("BUTTON");
 				var permitID = permits[i].permitID
+
 				button.innerHTML = "View";
-				button.onclick = function() {
-					window.location.replace("/supervisor/permits/view/"
-							+ permitID)
-				};
+				var addOnClick = function(id) {
+					button.onclick = function() {
+						console.log(id)
+						window.location.replace("/supervisor/permits/view/"
+								+ id)
+					};
+				}
+				addOnClick(permitID);
+
 				button_td.appendChild(button);
 				tr.appendChild(fname_td);
 				tr.appendChild(lname_td);
