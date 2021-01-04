@@ -43,11 +43,12 @@
 			cache : false,
 			success : function(response) {
 				const depSelect = document.getElementById("department");
-				for (var i = 0; response.length; i++) {
+				for (var i = 0;i< response.length; i++) {
 					var option = document.createElement("option");
-					opt.setAttribute("id", response.dep_id);
-					opt.createTextNode(response.dep_name);
-					depSelect.appendChild(opt);
+					option.setAttribute("id", response[i].deptName);
+					option.value = response[i].deptName;
+					option.text = response[i].deptName;
+					depSelect.appendChild(option);
 				}
 			}
 		});
