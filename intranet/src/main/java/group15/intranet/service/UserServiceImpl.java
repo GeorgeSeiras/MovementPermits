@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
 		checkedUser.setAddress(user.getAddress());
 		// checkedUser.setDept(depRepository.findById(user.getDept().getDeptID()));
 		System.out.println(checkedUser);
+
 		userRepository.save(checkedUser);
 		return new ResponseEntity<User>(checkedUser, HttpStatus.OK);
 	}
@@ -60,6 +61,9 @@ public class UserServiceImpl implements UserService {
 		User checkedUser = userRepository.findByUserID(id);
 		if (checkedUser == null) {
 			return new ResponseEntity<User>(checkedUser, HttpStatus.NOT_FOUND);
+		}
+		if(checkedUser.getUserID()==checkedUser.getDept().getSupervisor().getUserID()) {
+			return new ResponseEntity<User>(checkedUser,HttpStatus.NOT_MODIFIED);
 		}
 		userRepository.delete(checkedUser);
 		return new ResponseEntity<User>(checkedUser, HttpStatus.OK);
