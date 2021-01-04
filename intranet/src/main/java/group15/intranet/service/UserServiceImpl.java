@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService{
 		if(checkedUser==null) {
 			return new ResponseEntity<User>(checkedUser,HttpStatus.NOT_FOUND);
 		}
-		if(checkedUser.getUserID()==checkedUser.getDept().getDeptID()) {
+		if(checkedUser.getUserID()==checkedUser.getDept().getSupervisor().getUserID()) {
 			return new ResponseEntity<User>(checkedUser,HttpStatus.NOT_MODIFIED);
 		}
 		userRepository.delete(checkedUser);
