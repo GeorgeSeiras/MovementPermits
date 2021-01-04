@@ -20,7 +20,7 @@
 	<button onclick="goBack()">Back</button>
 
 	<script type="text/javascript">
-		function createDepartment() {
+		function createRole() {
 			const message = document.getElementById("message");
 			if (validateInput) {
 				$
@@ -28,9 +28,10 @@
 							url : "/roles",
 							type : "POST",
 							dataType : 'json',
-							data : {
-								"name" : document.getElementById("name").value
-							},
+							contentType : "application/json",
+							data : JSON.stringify({
+								"authority" : document.getElementById("name").value
+							}),
 							cache : false,
 							success : function(response) {
 								if (response.status === 200) {

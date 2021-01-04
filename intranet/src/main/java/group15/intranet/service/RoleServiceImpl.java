@@ -1,5 +1,7 @@
 package group15.intranet.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +19,8 @@ public class RoleServiceImpl implements RoleService{
 	@Override
 	public ResponseEntity<Role> addRole(Role role) {
 		Role checkedRole = roleRepository.findByAuthority(role.getAuthority());
-		if(checkedRole != null) {
-			return new ResponseEntity<Role>(checkedRole,HttpStatus.ALREADY_REPORTED);
+		if(checkedRole == null) {
+			return new ResponseEntity<Role>(checkedRole,HttpStatus.BAD_REQUEST);
 		}
 		roleRepository.save(role);
 		return new ResponseEntity<Role>(role, HttpStatus.OK);
@@ -32,5 +34,10 @@ public class RoleServiceImpl implements RoleService{
 		}
 		roleRepository.delete(checkedRole);
 		return new ResponseEntity<Role>(checkedRole,HttpStatus.OK);
+	}
+
+	@Override
+	public List<Role> getRoles() {
+		return roleRepository.findAll();
 	}
 }

@@ -17,17 +17,17 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Autowired
 	DepartmentRepository departmentRepository;
-	
+
 	@Autowired
 	UserRepository userRepository;
 
 	@Override
 	public ResponseEntity<Department> getDepartmentById(int id) {
 		Department dep = departmentRepository.findById(id);
-		if(dep==null) {
-			return new ResponseEntity<Department>(dep,HttpStatus.NOT_FOUND);
+		if (dep == null) {
+			return new ResponseEntity<Department>(dep, HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Department>(dep,HttpStatus.OK);
+		return new ResponseEntity<Department>(dep, HttpStatus.OK);
 	}
 
 	@Override
@@ -50,50 +50,56 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	public ResponseEntity<Department> addDepartment(Department dep) {
-		Department checkedDep=departmentRepository.findById(dep.getDeptID());
-		if(checkedDep!=null) {
-			return new ResponseEntity<Department>(dep,HttpStatus.ALREADY_REPORTED);
+		Department checkedDep = departmentRepository.findById(dep.getDeptID());
+		if (checkedDep != null) {
+			return new ResponseEntity<Department>(dep, HttpStatus.ALREADY_REPORTED);
 		}
+		System.out.println(dep);
 		departmentRepository.save(dep);
-		return new ResponseEntity<Department>(dep,HttpStatus.OK);
+		return new ResponseEntity<Department>(dep, HttpStatus.OK);
 	}
 
 	@Override
-	public ResponseEntity<Department> deleteDepartment(int id) {
+	public ResponseEntity<Integer> deleteDepartment(int id) {
 		Department checkedDep = departmentRepository.findById(id);
-		if(checkedDep==null) {
-			return new ResponseEntity<Department>(checkedDep,HttpStatus.NOT_FOUND);
+		if (checkedDep == null) {
+			return new ResponseEntity<Integer>(id, HttpStatus.NOT_FOUND);
 		}
-		
+
 		List<User> users = userRepository.findAll();
-		for(int i=0;i<users.size();i++) {
-			if(users.get(i).getDept().getDeptID()==checkedDep.getDeptID()) {
-				return new ResponseEntity<Department>(checkedDep,HttpStatus.NOT_MODIFIED);
+		for (int i = 0; i < users.size(); i++) {
+			if (users.get(i).getDept().getDeptID() == checkedDep.getDeptID()) {
+				return new ResponseEntity<Integer>(id, HttpStatus.BAD_REQUEST);
 			}
 		}
-		
+
 		departmentRepository.delete(checkedDep);
-		return null;
+		return new ResponseEntity<Integer>(id, HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<Department> updateDepartment(Department dep) {
 		Department checkedDep = departmentRepository.findById(dep.getDeptID());
-		if(checkedDep == null) {
-			return new ResponseEntity<Department>(dep,HttpStatus.NOT_FOUND);
+		if (checkedDep == null) {
+			return new ResponseEntity<Department>(dep, HttpStatus.NOT_FOUND);
 		}
-		
+
 		User checkedUser = userRepository.findByUserID(dep.getSupervisor().getUserID());
-		if(checkedUser == null) {
-			return new ResponseEntity<Department>(dep,HttpStatus.NOT_FOUND);
+		if (checkedUser == null) {
+			return new ResponseEntity<Department>(dep, HttpStatus.NOT_FOUND);
 		}
-		
-		if(checkedDep.getSupervisor().getUserID()!=checkedUser.getUserID()) {
+
+		if (checkedDep.getSupervisor().getUserID() != checkedUser.getUserID()) {
 			checkedUser.setDept(dep);
 			userRepository.save(checkedUser);
 		}
-		
+
 		departmentRepository.save(dep);
-		return new ResponseEntity<Department>(dep,HttpStatus.OK);
+		return new ResponseEntity<Department>(dep, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<List<Department>> getDepartments() {
+		return new ResponseEntity<List<Department>>(departmentRepository.findAll(), HttpStatus.OK);
 	}
 }
