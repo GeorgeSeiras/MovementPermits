@@ -37,7 +37,7 @@ public class UsersRestController {
 		return userService.findUserById(id);
 	}
 	
-	@PostMapping("/add")
+	@PostMapping()
 	@ResponseBody
 	public ResponseEntity<User> addUser(@Valid @RequestBody User user){
 		return userService.addUser(user);

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,19 +39,19 @@ public class DepartmentsRestController {
 	
 	@PostMapping()
 	@ResponseBody
-	public ResponseEntity<Department> addDep(@RequestParam Department dep){
+	public ResponseEntity<Department> addDep(@RequestBody Department dep){
 		return departmentService.addDepartment(dep);
 	}
 	
 	@PutMapping()
 	@ResponseBody
-	public ResponseEntity<Department> updateDep(@RequestParam Department dep){
+	public ResponseEntity<Department> updateDep(@RequestBody Department dep){
 		return departmentService.updateDepartment(dep);
 	}
 	
 	@DeleteMapping("/{id}")
 	@ResponseBody
-	public ResponseEntity<Department> deleteDep(@PathVariable int id){
+	public ResponseEntity<Integer> deleteDep(@PathVariable int id){
 		return departmentService.deleteDepartment(id);
 	}
 	
