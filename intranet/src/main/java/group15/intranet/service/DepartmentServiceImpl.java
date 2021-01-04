@@ -96,4 +96,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 		departmentRepository.save(dep);
 		return new ResponseEntity<Department>(dep,HttpStatus.OK);
 	}
+
+	@Override
+	public ResponseEntity<List<Department>> getDepartments() {
+		return new ResponseEntity<List<Department>>(departmentRepository.findAll(),HttpStatus.OK);
+	}
 }

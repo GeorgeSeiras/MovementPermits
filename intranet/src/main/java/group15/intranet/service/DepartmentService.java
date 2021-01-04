@@ -1,6 +1,8 @@
 package group15.intranet.service;
 
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 
 import group15.intranet.entity.Department;
@@ -13,4 +15,5 @@ public interface DepartmentService {
 	ResponseEntity<Department> deleteDepartment(int id);
 	ResponseEntity<Department> updateDepartment(Department dep);
 	Department getDepartmentBySuperId(int id);
+	ResponseEntity<List<Department>> getDepartments();
 }

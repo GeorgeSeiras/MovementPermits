@@ -49,7 +49,7 @@
 			}
 			for (var i = 0; i < users.length; i++) {
 				const tr = document.createElement('tr');
-				
+
 				const fname_td = document.createElement("td");
 				const fname_text = document.createElement("input");
 				fname_text.setAttribute("id", "fname" + users[i].userID);
@@ -74,27 +74,38 @@
 				phone_text.value = users[i].phoneNum;
 				phone_td.appendChild(phone_text);
 
-				const dep_td = document.createElement("td");
-				const dep_text = document.createElement("input")
-				dep_text.setAttribute("id", "department" + users[i].userID);
-				if(users[i].department!==undefined){
-					dep_text.value = users[i].department.dept_name;
-				}else{
-					dep_text.value = null;
+				var select_dep = document.createElement("select");
+				select_dep.name="departments";
+				select_dep.id="department"+users[i].userID;
+				const emptyOption = document.createElement("option");
+				emptyOption.value = null;
+				emptyOption.text = "None";
+				select_dep.appendChild(emptyOption);
+				for(const dep of departments){
+					const option = document.createElement("option");
+					option.value = dep.deptName;
+					option.text = dep.deptName;
+					select_dep.appendChild(option)
 				}
-				dep_td.appendChild(dep_text);
+				console.log(users[i])
+
+				if (users[i].dept !== undefined) {
+					select_dep.value = users[i].dept.deptName;
+				} else {
+					select_dep.value = null;
+				}
 
 				const auth_td = document.createElement("td");
-				var authText="";
-				users[i].authorities.forEach(function(auth){
-					authText+=auth.authority+" "
+				var authText = "";
+				users[i].authorities.forEach(function(auth) {
+					authText += auth.authority + " "
 				})
-				if(authText=== undefined){
+				if (authText === undefined) {
 					authText = "None";
 				}
 				const auth_text = document.createTextNode(authText);
 				auth_td.appendChild(auth_text);
-				
+
 				const buttonUpdate_td = document.createElement("td");
 				const buttonUpdate = document.createElement("BUTTON");
 				var userID = users[i].userID;
@@ -157,7 +168,7 @@
 				tr.appendChild(lname_td);
 				tr.appendChild(address_td);
 				tr.appendChild(phone_td);
-				tr.appendChild(dep_td);
+				tr.appendChild(select_dep);
 				tr.appendChild(auth_td);
 				tr.appendChild(buttonUpdate_td);
 				tr.appendChild(buttonDelete_td);
