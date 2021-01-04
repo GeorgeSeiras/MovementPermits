@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import group15.intranet.entity.User;
+import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
+import group15.intranet.model_request.UpdateUserDetailsRequestModel;
+import group15.intranet.model_request.UserDetailsRequestModel;
 import group15.intranet.service.UserService;
 
 @RestController
@@ -37,16 +40,16 @@ public class UsersRestController {
 		return userService.findUserById(id);
 	}
 	
-	@PostMapping("/add")
+	@PostMapping
 	@ResponseBody
-	public ResponseEntity<User> addUser(@Valid @RequestBody User user){
+	public ResponseEntity<User> addUser(@Valid @RequestBody UserDetailsRequestModel user){
 		return userService.addUser(user);
 	}
 	
-	@PutMapping()
+	@PutMapping("/{id}")
 	@ResponseBody
-	public ResponseEntity<User> updateUser(@Valid @RequestBody User user){
-		return userService.updateUser(user);
+	public ResponseEntity<User> updateUser(@PathVariable int id, @Valid @RequestBody UpdateUserDetailsRequestModel user){
+		return userService.updateUser(id,user);
 	}
 	
 	@DeleteMapping("/{id}")

@@ -33,7 +33,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	public User getDeptsSupervisor(int dept_id) {
 		Department d = departmentRepository.findById(dept_id);
-		return d.getSupervisor();
+		return null;
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 		List<Department> d = departmentRepository.findAll();
 		Department dept = new Department();
 		for (int i = 0; i < d.size(); i++) {
-			if (d.get(i).getSupervisor().getUserID() == id) {
+			if (d.get(i).getSupervisor() == id) {
 				dept = d.get(i);
 			}
 		}
@@ -54,26 +54,34 @@ public class DepartmentServiceImpl implements DepartmentService {
 		if(checkedDep!=null) {
 			return new ResponseEntity<Department>(dep,HttpStatus.ALREADY_REPORTED);
 		}
+		
+		User checkedSupervisor = userRepository.findByUserID(dep.getSupervisor());
+		if(checkedSupervisor.getDept().getSupervisor()== checkedSupervisor.getUserID()) {
+			return new ResponseEntity<Department>(dep,HttpStatus.NOT_ACCEPTABLE);
+		}
+		checkedSupervisor.setDept(dep);
+		userRepository.save(checkedSupervisor);
 		departmentRepository.save(dep);
 		return new ResponseEntity<Department>(dep,HttpStatus.OK);
 	}
 
 	@Override
-	public ResponseEntity<Department> deleteDepartment(int id) {
+	public ResponseEntity<Integer> deleteDepartment(int id) {
 		Department checkedDep = departmentRepository.findById(id);
 		if(checkedDep==null) {
-			return new ResponseEntity<Department>(checkedDep,HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Integer>(id,HttpStatus.NOT_FOUND);
 		}
+		System.out.println(checkedDep);
 		
 		List<User> users = userRepository.findAll();
 		for(int i=0;i<users.size();i++) {
 			if(users.get(i).getDept().getDeptID()==checkedDep.getDeptID()) {
-				return new ResponseEntity<Department>(checkedDep,HttpStatus.NOT_MODIFIED);
+				return new ResponseEntity<Integer>(id,HttpStatus.BAD_REQUEST);
 			}
 		}
 		
 		departmentRepository.delete(checkedDep);
-		return null;
+		return new ResponseEntity<Integer>(id,HttpStatus.OK);
 	}
 
 	@Override
@@ -83,12 +91,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 			return new ResponseEntity<Department>(dep,HttpStatus.NOT_FOUND);
 		}
 		
-		User checkedUser = userRepository.findByUserID(dep.getSupervisor().getUserID());
+		User checkedUser = userRepository.findByUserID(dep.getSupervisor());
 		if(checkedUser == null) {
 			return new ResponseEntity<Department>(dep,HttpStatus.NOT_FOUND);
 		}
 		
-		if(checkedDep.getSupervisor().getUserID()!=checkedUser.getUserID()) {
+		if(checkedDep.getSupervisor()!=checkedUser.getUserID()) {
 			checkedUser.setDept(dep);
 			userRepository.save(checkedUser);
 		}

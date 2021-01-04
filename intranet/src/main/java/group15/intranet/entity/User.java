@@ -16,9 +16,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -29,28 +31,36 @@ public class User implements Serializable{
 	@Column(name = "user_id")
 	private int userID;
 
+	
 	@Column(name = "fname")
 	private String fname;
 
+	
 	@Column(name = "lname")
 	private String lname;
 
+	
 	@Column(name = "address")
 	private String address;
 
+	
 	@Column(name = "phone_num")
 	private String phoneNum;
+	
+
 	
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "dep_id")
 	private Department dept;
 	
-	@JsonBackReference
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Permit> permits;
 	
+	
 	@Column(name="username")
 	private String username;
+	
 	
 	@Column(name="password")
 	private String password;

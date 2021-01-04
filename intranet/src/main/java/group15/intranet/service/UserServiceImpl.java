@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import group15.intranet.entity.Role;
 import group15.intranet.entity.User;
+import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
+import group15.intranet.model_request.UpdateUserDetailsRequestModel;
+import group15.intranet.model_request.UserDetailsRequestModel;
 import group15.intranet.repository.DepartmentRepository;
 import group15.intranet.repository.UserRepository;
 
@@ -31,22 +34,35 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public ResponseEntity<User> addUser(User user) {
+	public ResponseEntity<User> addUser(UserDetailsRequestModel user) {
 		User checkedUser = userRepository.findByUserID(user.getUserID());
+		
 		if(checkedUser!=null) {
-			return new ResponseEntity<User>(user,HttpStatus.ALREADY_REPORTED);
+			return new ResponseEntity<User>(checkedUser,HttpStatus.ALREADY_REPORTED);
 		}
-		userRepository.save(user);
-		return new ResponseEntity<User>(user,HttpStatus.OK); 
+		checkedUser = new User();
+		checkedUser.setFname(user.getFname());
+		checkedUser.setLname(user.getLname());
+		checkedUser.setAddress(user.getAddress());
+		checkedUser.setPhoneNum(user.getPhoneNum());
+		checkedUser.setDept(user.getDept());
+		checkedUser.setUsername(user.getUsername());
+		checkedUser.setPassword(user.getPassword());
+		userRepository.save(checkedUser);
+		return new ResponseEntity<User>(checkedUser,HttpStatus.OK); 
 	}
 
 	@Override
-	public ResponseEntity<User> updateUser(User user) {
-		User checkedUser = userRepository.findByUserID(user.getUserID());
+	public ResponseEntity<User> updateUser(int id, UpdateUserDetailsRequestModel user) {
+		User checkedUser = userRepository.findByUserID(id);
 		if(checkedUser==null) {
-			return new ResponseEntity<User>(user,HttpStatus.NOT_FOUND);
+			return new ResponseEntity<User>(checkedUser,HttpStatus.NOT_FOUND);
 		}
-		checkedUser=user;
+		checkedUser.setFname(user.getFname());
+		checkedUser.setLname(user.getLname());
+		checkedUser.setAddress(user.getAddress());;
+		checkedUser.setPhoneNum(user.getPhoneNum());
+		checkedUser.setDept(user.getDep());
 		userRepository.save(checkedUser);
 		return new ResponseEntity<User>(checkedUser,HttpStatus.OK);
 	}
@@ -59,7 +75,7 @@ public class UserServiceImpl implements UserService{
 		if(checkedUser==null) {
 			return new ResponseEntity<User>(checkedUser,HttpStatus.NOT_FOUND);
 		}
-		if(checkedUser.getUserID()==checkedUser.getDept().getSupervisor().getUserID()) {
+		if(checkedUser.getUserID()==checkedUser.getDept().getSupervisor()) {
 			return new ResponseEntity<User>(checkedUser,HttpStatus.NOT_MODIFIED);
 		}
 		userRepository.delete(checkedUser);

@@ -1,5 +1,6 @@
 package group15.intranet.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -25,22 +27,19 @@ import lombok.Builder;
 @Entity
 @Table(name = "departments")
 @JsonIgnoreProperties({"hibernateLazyInitializer","users"})
-public class Department {
+public class Department  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "dept_id")
 	private int deptID;
 	
-	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "dept")
-	private List<User> users;
 
 	@Column(name = "dept_name")
 	private String deptName;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "super_id")
-	private User supervisor;
+	
+	@Column(name = "super_id")
+	private int supervisor;
 
 	public int getDeptID() {
 		return deptID;
@@ -50,13 +49,6 @@ public class Department {
 		this.deptID = deptID;
 	}
 
-	public List<User> getUsers() {
-		return users;
-	}
-	
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
 
 	public String getDeptName() {
 		return deptName;
@@ -66,17 +58,17 @@ public class Department {
 		this.deptName = deptName;
 	}
 
-	public User getSupervisor() {
+	public int getSupervisor() {
 		return supervisor;
 	}
 
-	public void setSupervisor(User supervisor) {
+	public void setSupervisor(int supervisor) {
 		this.supervisor = supervisor;
 	}
 
 	@Override
 	public String toString() {
-		return "Department [deptID=" + deptID + ", users=" + users + ", deptName=" + deptName + ", supervisor="
+		return "Department [deptID=" + deptID + ", users=" + ", deptName=" + deptName + ", supervisor="
 				+ supervisor + "]";
 	}
 

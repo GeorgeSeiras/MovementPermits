@@ -10,7 +10,7 @@ public interface DepartmentService {
 	User getDeptsSupervisor(int dept_id);
 	ResponseEntity<Department> getDepartmentById(int id);
 	ResponseEntity<Department> addDepartment(Department dep);
-	ResponseEntity<Department> deleteDepartment(int id);
+	ResponseEntity<Integer> deleteDepartment(int id);
 	ResponseEntity<Department> updateDepartment(Department dep);
 	Department getDepartmentBySuperId(int id);
 }
