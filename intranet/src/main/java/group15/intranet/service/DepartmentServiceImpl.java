@@ -50,10 +50,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	public ResponseEntity<Department> addDepartment(Department dep) {
-		Department checkedDep = departmentRepository.findById(dep.getDeptID());
-		if (checkedDep != null) {
-			return new ResponseEntity<Department>(dep, HttpStatus.ALREADY_REPORTED);
-		}
+//		Department checkedDep = departmentRepository.findById(dep.getDeptID());
+//		if (checkedDep != null) {
+//			return new ResponseEntity<Department>(dep, HttpStatus.ALREADY_REPORTED);
+//		}
+		System.out.println(dep);
 		departmentRepository.save(dep);
 		return new ResponseEntity<Department>(dep, HttpStatus.OK);
 	}
