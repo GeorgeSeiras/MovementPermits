@@ -50,10 +50,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	public ResponseEntity<Department> addDepartment(Department dep) {
-//		Department checkedDep = departmentRepository.findById(dep.getDeptID());
-//		if (checkedDep != null) {
-//			return new ResponseEntity<Department>(dep, HttpStatus.ALREADY_REPORTED);
-//		}
+		Department checkedDep = departmentRepository.findById(dep.getDeptID());
+		if (checkedDep != null) {
+			return new ResponseEntity<Department>(dep, HttpStatus.ALREADY_REPORTED);
+		}
 		System.out.println(dep);
 		departmentRepository.save(dep);
 		return new ResponseEntity<Department>(dep, HttpStatus.OK);
@@ -69,7 +69,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 		List<User> users = userRepository.findAll();
 		for (int i = 0; i < users.size(); i++) {
 			if (users.get(i).getDept().getDeptID() == checkedDep.getDeptID()) {
-				return new ResponseEntity<Integer>(id, HttpStatus.NOT_MODIFIED);
+				return new ResponseEntity<Integer>(id, HttpStatus.BAD_REQUEST);
 			}
 		}
 
