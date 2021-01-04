@@ -47,7 +47,6 @@ public class UserServiceImpl implements UserService{
 			return new ResponseEntity<User>(user,HttpStatus.NOT_FOUND);
 		}
 		checkedUser=user;
-		//checkedUser.setDept(depRepository.findById(user.getDept().getDeptID()));
 		userRepository.save(checkedUser);
 		return new ResponseEntity<User>(checkedUser,HttpStatus.OK);
 	}
@@ -59,6 +58,9 @@ public class UserServiceImpl implements UserService{
 		User checkedUser = userRepository.findByUserID(id);
 		if(checkedUser==null) {
 			return new ResponseEntity<User>(checkedUser,HttpStatus.NOT_FOUND);
+		}
+		if(checkedUser.getUserID()==checkedUser.getDept().getDeptID()) {
+			return new ResponseEntity<User>(checkedUser,HttpStatus.NOT_MODIFIED);
 		}
 		userRepository.delete(checkedUser);
 		return new ResponseEntity<User>(checkedUser,HttpStatus.OK);
