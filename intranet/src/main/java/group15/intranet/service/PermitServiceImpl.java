@@ -40,7 +40,6 @@ public class PermitServiceImpl implements PermitService {
 	@Override
 	public List<Permit> getPermits(Map<String, String> searchParams) {
 		List<SearchCriteria> list = new ArrayList<>();
-		;
 		if (searchParams.containsKey("id")) {
 			list.add(new SearchCriteria("permitID", searchParams.get("id"), SearchOperation.EQUAL));
 		}
@@ -102,7 +101,6 @@ public class PermitServiceImpl implements PermitService {
 		}else {
 			checkedPermit.setStatus(permitDetails.getStatus());
 			permitRepository.save(checkedPermit);
-			System.out.println(checkedPermit.getStatus());
 			return new ResponseEntity<Permit>(checkedPermit, HttpStatus.OK);
 		}
 	}
@@ -110,13 +108,13 @@ public class PermitServiceImpl implements PermitService {
 	@Override
 	public PermitStatistics getStatistics() {
 		int totalPermits = permitRepository.findAll().size();
-		int validPermits = permitRepository.findByStatus("valid").size();
-		int invalidPermits = permitRepository.findByStatus("invalid").size();
+		int validPermits = permitRepository.findByStatus("APPROVED").size();
+		int invalidPermits = permitRepository.findByStatus("DENIED").size();
 		int activePermits = permitRepository.findActive(new Date(System.currentTimeMillis())).size();
 		int inactivePermits = permitRepository.findInactive(new Date(System.currentTimeMillis())).size();
-		int dailyPermits = permitRepository.findByType("daily").size();
-		int weeklyPermits = permitRepository.findByType("weekly").size();
-		int monthlyPermits = permitRepository.findByType("monthly").size();
+		int dailyPermits = permitRepository.findByTypeAndStatus("daily","APPROVED").size();
+		int weeklyPermits = permitRepository.findByTypeAndStatus("weekly","APPROVED").size();
+		int monthlyPermits = permitRepository.findByTypeAndStatus("monthly","APPROVED").size();
 		return new PermitStatistics(totalPermits,validPermits,invalidPermits,activePermits,inactivePermits,dailyPermits,weeklyPermits,monthlyPermits);
 	}
 

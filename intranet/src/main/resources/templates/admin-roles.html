@@ -15,7 +15,7 @@
 			<th>Name</th>
 		</tr>
 	</table>
-
+	<p id="message" class="message"></p>
 	<button onclick="goBack()">Back</button>
 
 
@@ -31,6 +31,7 @@
 		});
 
 		function rolesToTable(roles, table) {
+			const message = document.getElementById("message");
 			while (table.rows.length > 1) {
 				table.deleteRow(1);
 			}
@@ -52,6 +53,14 @@
 							type : "DELETE",
 							dataType : 'json',
 							cache : false,
+							statusCode : {
+								200 : function() {
+									message.innerHTML = "Succesfully deleted the role"
+								},
+								400 : function() {
+									message.innerHTML = "There was an error while deleting the role"
+								}
+							},
 							success : function(response) {
 								var row = buttonDelete.parentNode.parentNode;
 								row.parentNode.removeChild(row)

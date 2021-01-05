@@ -56,7 +56,6 @@ public class PermitsRestController {
 	@PutMapping("/{id}/status")
 	@ResponseBody
 	public ResponseEntity<Permit> updatePermits(@PathVariable int id, @Valid @RequestBody UpdatePermitDetailsRequestModel permitDetails) {
-		System.out.println("ALLO "+permitDetails);
 		return permitService.updatePermit(id, permitDetails);
 	}
 

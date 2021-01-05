@@ -21,6 +21,9 @@ public interface PermitRepository extends JpaRepository<Permit, Integer>, JpaSpe
 	
 	List<Permit> findByType(String type);
 	
+	List<Permit> findByTypeAndStatus(String type,String status);
+
+	
 	@Query("select p from Permit p where p.startDate< ?1 and p.endDate> ?1")
 	List<Permit> findActive(Date curDate);
 	
