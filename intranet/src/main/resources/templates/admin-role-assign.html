@@ -13,10 +13,10 @@
 		</tr>
 	</table>
 	
-	<p>Assign new role</p>
+	<p>Assign new role
 	<select id="authorities"></select>
-	<button onclick="assign()">Back</button>
-
+	<button onclick="assign()">Assign</button>
+</p>
 
 	<button onclick="goBack()">Back</button>
 
@@ -29,7 +29,6 @@
 			type : "GET",
 			cache : false,
 			success : function(response) {
-				console.log(response)
 				authToTable(response, document.getElementById("authTable"));
 			}
 		});
@@ -40,13 +39,17 @@
 			type : "GET",
 			cache : false,
 			success : function(response) {
-				console.log(response)
 				authToSelect(response, document.getElementById("authorities"));
 			}
 		});
 		
 		function authToSelect(authorities,select){
-			
+			for(const auth of authorities){
+				const option = document.createElement("option");
+				option.value = auth.authority;
+				option.text = auth.authority;
+				select.appendChild(option)
+			} 
 		}
 		
 		function authToTable(user, table) {
@@ -67,18 +70,58 @@
 				const buttonRemove_td = document.createElement("td");
 				const buttonRemove = document.createElement("BUTTON");
 				buttonRemove.innerHTML = "Remove";
-				var addOnClickDelete = function(authority) {
-					buttonRole.onclick = function() {
-
+				var addOnClickDelete = function(auth) {
+					buttonRemove.onclick = function() {
+						$.ajax({
+							url : "/users/"+ userID+"/"+auth,
+							type : "DELETE",
+							cache : false,
+							success : function(response) {
+								var row = buttonRemove.parentNode.parentNode;
+								row.parentNode.removeChild(row)
+							},
+							statusCode:{
+								200: function(){
+									message.innerHTML = "Succesfully assigned role"
+								},
+								400:function(){
+									message.innerHTML = "There was an error while assigning the role"
+								}
+							}
+						});
 					}
 				}
-				addOnClickDelete(authority);
-				buttonRemove_td.appendChild(buttonRole);
+				addOnClickDelete(auth);
+				buttonRemove_td.appendChild(buttonRemove);
+				
+				table.appendChild(auth_td);
+				table.appendChild(buttonRemove_td);
 			}
 		}
 		
 		function assign(){
 			
+			$.ajax({
+				url : "/users/",
+				type : "PUT",
+				data : JSON
+						.stringify({
+							authority:document.getElementById("authorities").values
+						}),
+				contentType : "application/json",
+				cache : false,
+				success : function(response) {
+					authToTable(response,document.getElementById("authTable"))
+				},
+				statusCode:{
+					200: function(){
+						message.innerHTML = "Succesfully assigned role"
+					},
+					400:function(){
+						message.innerHTML = "There was an error while assigning the role"
+					}
+				}
+			});
 		}
 		
 		function goBack() {
