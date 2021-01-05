@@ -43,6 +43,17 @@
 			}
 		});
 
+		var roles;
+		$.ajax({
+			url : "/roles",
+			type : "GET",
+			dataType : 'json',
+			cache : false,
+			success : function(response) {
+				roles = response;
+			}
+		});
+		
 		function usersToTable(users, table) {
 			while (table.rows.length > 1) {
 				table.deleteRow(1);
@@ -96,7 +107,7 @@
 				const auth_td = document.createElement("td");
 				var authText = "";
 				users[i].authorities.forEach(function(auth) {
-					authText += auth.authority + " "
+					authText += auth.authority + ", "
 				})
 				if (authText === undefined) {
 					authText = "None";
@@ -104,9 +115,21 @@
 				const auth_text = document.createTextNode(authText);
 				auth_td.appendChild(auth_text);
 
+				var userID = users[i].userID;
+
+				const buttonRole_td = document.createElement("td");
+				const buttonRole = document.createElement("BUTTON");
+				buttonRole.innerHTML = "Roles";
+				var addOnClickRole = function(userID){
+					buttonRole.onclick = function(){
+							window.location.replace("/admin/roles/"+userID);
+						}
+				}
+				addOnClickRole(userID);
+				buttonRole_td.appendChild(buttonRole);
+				
 				const buttonUpdate_td = document.createElement("td");
 				const buttonUpdate = document.createElement("BUTTON");
-				var userID = users[i].userID;
 				buttonUpdate.innerHTML = "Update";
 				var addOnClickUpdate = function(userID) {
 					buttonUpdate.onclick = function() {
@@ -168,6 +191,7 @@
 				tr.appendChild(phone_td);
 				tr.appendChild(select_dep);
 				tr.appendChild(auth_td);
+				tr.appendChild(buttonRole_td);
 				tr.appendChild(buttonUpdate_td);
 				tr.appendChild(buttonDelete_td);
 				table.appendChild(tr);

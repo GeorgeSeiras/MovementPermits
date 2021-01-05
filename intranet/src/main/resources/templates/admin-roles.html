@@ -45,28 +45,29 @@
 				const buttonDelete = document.createElement("BUTTON");
 				buttonDelete.innerHTML = "Delete";
 				var auth = roles[i].authority;
-				
+
 				var addOnClickDelete = function(auth) {
 					buttonDelete.onclick = function() {
-						$.ajax({
-							url : "/roles/" + auth,
-							type : "DELETE",
-							dataType : 'json',
-							cache : false,
-							statusCode : {
-								200 : function() {
-									message.innerHTML = "Succesfully deleted the role"
-								},
-								400 : function() {
-									message.innerHTML = "There was an error while deleting the role"
-								}
-							},
-							success : function(response) {
-								var row = buttonDelete.parentNode.parentNode;
-								row.parentNode.removeChild(row)
-							}
-						});
-						
+						$
+								.ajax({
+									url : "/roles/" + auth,
+									type : "DELETE",
+									dataType : 'json',
+									cache : false,
+									statusCode : {
+										200 : function() {
+											message.innerHTML = "Succesfully deleted the role"
+										},
+										400 : function() {
+											message.innerHTML = "There was an error while deleting the role"
+										}
+									},
+									success : function(response) {
+										var row = buttonDelete.parentNode.parentNode;
+										row.parentNode.removeChild(row)
+									}
+								});
+
 					}
 				}
 				addOnClickDelete(auth);
@@ -82,7 +83,7 @@
 		function roleCreate() {
 			window.location.replace("/admin/role/create");
 		}
-		
+
 		function goBack() {
 			window.location.replace("../admin")
 		}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<title>User Roles</title>
+</head>
+<body>
+	<table id="authTable" class="usersTable">
+		<tr>
+			<th>Authorities</th>
+		</tr>
+	</table>
+	
+	<p>Assign new role</p>
+	<select id="authorities"></select>
+	<button onclick="assign()">Back</button>
+
+
+	<button onclick="goBack()">Back</button>
+
+	<script type="text/javascript">
+		const userID = window.location.pathname.split("/").pop();
+		//get user
+		$.ajax({
+			url : "/users/" + userID,
+			dataType : 'json',
+			type : "GET",
+			cache : false,
+			success : function(response) {
+				console.log(response)
+				authToTable(response, document.getElementById("authTable"));
+			}
+		});
+
+		$.ajax({
+			url : "/roles",
+			dataType : 'json',
+			type : "GET",
+			cache : false,
+			success : function(response) {
+				console.log(response)
+				authToSelect(response, document.getElementById("authorities"));
+			}
+		});
+		
+		function authToSelect(authorities,select){
+			
+		}
+		
+		function authToTable(user, table) {
+			while (table.rows.length > 1) {
+				table.deleteRow(1);
+			}
+
+			for (var i = 0; i < user.authorities.length; i++) {
+				const tr = document.createElement('tr');
+
+				const auth_td = document.createElement("td");
+				const auth_text = document
+						.createTextNode(user.authorities[i].authority);
+				auth_td.appendChild(auth_text);
+
+				var auth = user.authorities[i].authority;
+
+				const buttonRemove_td = document.createElement("td");
+				const buttonRemove = document.createElement("BUTTON");
+				buttonRemove.innerHTML = "Remove";
+				var addOnClickDelete = function(authority) {
+					buttonRole.onclick = function() {
+
+					}
+				}
+				addOnClickDelete(authority);
+				buttonRemove_td.appendChild(buttonRole);
+			}
+		}
+		
+		function assign(){
+			
+		}
+		
+		function goBack() {
+			window.location.replace("../users")
+		}
+	</script>
+</body>
+</html>
