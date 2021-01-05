@@ -82,8 +82,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 		Department checkedDep = departmentRepository.findById(dep.getDeptID());
 		if (checkedDep == null) {
 			return new ResponseEntity<Department>(dep, HttpStatus.NOT_FOUND);
-		}
-
+		}		
 		User checkedUser = userRepository.findByUserID(dep.getSupervisor().getUserID());
 		if (checkedUser == null) {
 			return new ResponseEntity<Department>(dep, HttpStatus.NOT_FOUND);

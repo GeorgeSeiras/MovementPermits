@@ -19,7 +19,7 @@ public class RoleServiceImpl implements RoleService{
 	@Override
 	public ResponseEntity<Role> addRole(Role role) {
 		Role checkedRole = roleRepository.findByAuthority(role.getAuthority());
-		if(checkedRole == null) {
+		if(checkedRole != null) {
 			return new ResponseEntity<Role>(checkedRole,HttpStatus.BAD_REQUEST);
 		}
 		roleRepository.save(role);
