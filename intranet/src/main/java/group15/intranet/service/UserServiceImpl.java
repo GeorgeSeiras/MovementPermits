@@ -50,8 +50,9 @@ public class UserServiceImpl implements UserService {
 		checkedUser.setUsername(user.getUsername());
 		checkedUser.setPassword(user.getPassword());
 		for(int i=0;i<user.getAuthorities().size();i++) {
-			checkedUser.addAuthority(roleRepository.findByAuthority(user.getAuthorities().get(0)));
+			checkedUser.addAuthority(roleRepository.findByAuthority(user.getAuthorities().get(i)));
 		}
+		checkedUser.setEnabled(user.getEnabled());
 		userRepository.save(checkedUser);
 		return new ResponseEntity<User>(checkedUser,HttpStatus.OK); 
 	}
@@ -62,6 +63,7 @@ public class UserServiceImpl implements UserService {
 		if(checkedUser==null) {
 			return new ResponseEntity<User>(checkedUser,HttpStatus.NOT_FOUND);
 		}
+		System.out.println(depRepository.findById(user.getDeptId()));
 		checkedUser.setFname(user.getFname());
 		checkedUser.setLname(user.getLname());
 		checkedUser.setAddress(user.getAddress());;
@@ -69,9 +71,11 @@ public class UserServiceImpl implements UserService {
 		checkedUser.setDept(depRepository.findById(user.getDeptId()));
 		checkedUser.setUsername(user.getUsername());
 		checkedUser.setPassword(user.getPassword());
+		checkedUser.setAuthorities(new ArrayList<Role>());
 		for(int i=0;i<user.getAuthorities().size();i++) {
-			checkedUser.addAuthority(roleRepository.findByAuthority(user.getAuthorities().get(0)));
+			checkedUser.addAuthority(roleRepository.findByAuthority(user.getAuthorities().get(i)));
 		}
+		checkedUser.setEnabled(user.getEnabled());
 		userRepository.save(checkedUser);
 		return new ResponseEntity<User>(checkedUser, HttpStatus.OK);
 	}

@@ -63,7 +63,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 			return new ResponseEntity<Department>(dep,HttpStatus.NOT_ACCEPTABLE);
 		}
 		checkedSupervisor.setDept(dep);
-		userRepository.save(checkedSupervisor);
+		//userRepository.save(checkedSupervisor);
 		departmentRepository.save(dep);
 		return new ResponseEntity<Department>(dep, HttpStatus.OK);
 	}

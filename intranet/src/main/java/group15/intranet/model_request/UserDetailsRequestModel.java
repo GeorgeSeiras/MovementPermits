@@ -16,10 +16,17 @@ public class UserDetailsRequestModel {
 	private int deptId;
 	private String username;
 	private String password;
+	private String enabled;
 	private List<String> authorities;
 	
 	
 	
+	public String getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(String enabled) {
+		this.enabled = enabled;
+	}
 	public List<String> getAuthorities() {
 		return authorities;
 	}
