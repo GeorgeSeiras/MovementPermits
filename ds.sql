@@ -14,7 +14,7 @@ CREATE TABLE `ds`.`users` (
 
 CREATE TABLE `ds`.`departments` (
   `dept_id` INT NOT NULL AUTO_INCREMENT,
-  `dept_name` VARCHAR(45) NULL,
+  `dept_name` VARCHAR(45) UNIQUE NULL,
   `super_id` INT NULL,
   PRIMARY KEY (`dept_id`));
 
