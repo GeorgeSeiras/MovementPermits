@@ -75,7 +75,7 @@ public class UsersRestController {
 	
 	@DeleteMapping("/{id}/{auth}")
 	@ResponseBody
-	public ResponseEntity<User> deleteUser(@PathVariable int id,@PathVariable String auth) {
+	public ResponseEntity<User> removeRoleFromUser(@PathVariable int id,@PathVariable String auth) {
 		return userService.removeRoleFromUser(id,auth);
 	}
 }
