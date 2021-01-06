@@ -26,6 +26,7 @@ import group15.intranet.service.PermitServiceImpl;
 @RequestMapping("/permits")
 public class PermitsRestController {
 
+	
 	@Autowired
 	PermitServiceImpl permitService;
 	
