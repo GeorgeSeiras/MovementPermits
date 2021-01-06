@@ -7,8 +7,9 @@ CREATE TABLE `ds`.`users` (
   `address` VARCHAR(45) NULL,
   `phone_num` VARCHAR(45) NULL,
   `dep_id` INT NULL,
-  `username` VARCHAR(45) NULL UNIQUE,
-  `password` VARCHAR(45) NULL,
+  `username` VARCHAR(50) UNIQUE NOT NULL ,
+  `password` VARCHAR(150) NOT NULL,
+  `enabled` TINYINT NOT NULL DEFAULT 1,
   PRIMARY KEY (`user_id`));
 
 CREATE TABLE `ds`.`departments` (
@@ -33,9 +34,12 @@ CONSTRAINT check_status CHECK (status IN ('PENDING', 'APPROVED', 'DENIED')),
   PRIMARY KEY (`permit_id`));
 
 CREATE TABLE `ds`.`authorities` (
-  `authority` VARCHAR(45) NOT NULL,
-  `username` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`authority`, `username`));
+  `authority` VARCHAR(50) NOT NULL,
+  `username` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`username`, `authority`),
+  CONSTRAINT FK_AuthoritiesUsername FOREIGN KEY (username)
+  REFERENCES users(username)
+  );
   
 ALTER TABLE `ds`.`users` 
 ADD CONSTRAINT `user_fk_dept`
@@ -64,6 +68,7 @@ ADD CONSTRAINT `auth_fk_users`
   REFERENCES `ds`.`users` (`username`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION,
+
 ADD CONSTRAINT `auth_fk_roles`
   FOREIGN KEY (`authority`)
   REFERENCES `ds`.`roles` (`authority`)
