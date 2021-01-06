@@ -60,7 +60,7 @@ public class User implements Serializable{
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
 			CascadeType.REFRESH })
-	@JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "username",referencedColumnName="username"), inverseJoinColumns = @JoinColumn(name = "role",referencedColumnName="role"))
+	@JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "username",referencedColumnName="username"), inverseJoinColumns = @JoinColumn(name = "authority",referencedColumnName="authority"))
 	private List<Role> authorities;
 
 	public int getUserID() {
