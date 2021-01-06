@@ -37,10 +37,9 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 		//auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("password")).roles("ADMIN");
 		// auth.inMemoryAuthentication().withUser("super").password(passwordEncoder().encode("password1")).roles("SUPERVISOR");
 
-		auth.jdbcAuthentication().passwordEncoder(new BCryptPasswordEncoder()).dataSource(dataSource)
-				.passwordEncoder(passwordEncoder())
+		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder())
 				.usersByUsernameQuery("select username,password,enabled " + "from users " + "where username = ?")
-				.authoritiesByUsernameQuery("select username,role " + "from authorities " + "where username = ?");
+				.authoritiesByUsernameQuery("select username,authority " + "from authorities " + "where username = ?");
 	}
 
 	@Autowired
