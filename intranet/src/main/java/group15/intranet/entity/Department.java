@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,7 +28,7 @@ import lombok.Builder;
 
 @Entity
 @Table(name = "departments")
-@JsonIgnoreProperties({"hibernateLazyInitializer","users"})
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Department  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

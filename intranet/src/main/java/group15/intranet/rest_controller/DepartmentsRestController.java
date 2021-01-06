@@ -26,9 +26,9 @@ public class DepartmentsRestController {
 	@Autowired
 	DepartmentService departmentService;
 	
-	@GetMapping("")
+	@GetMapping
 	@ResponseBody
-	public ResponseEntity<List<Department>> getDepById(){
+	public ResponseEntity<List<Department>> getAllDeps(){
 		return departmentService.getDepartments();
 	}
 	

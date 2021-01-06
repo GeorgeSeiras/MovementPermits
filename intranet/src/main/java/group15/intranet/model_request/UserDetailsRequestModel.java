@@ -1,6 +1,9 @@
 package group15.intranet.model_request;
 
+import java.util.List;
+
 import group15.intranet.entity.Department;
+import group15.intranet.entity.Role;
 
 public class UserDetailsRequestModel {
 
@@ -10,10 +13,25 @@ public class UserDetailsRequestModel {
 	private String lname;
 	private String address;
 	private String phoneNum;
-	private Department dept;
+	private int deptId;
 	private String username;
 	private String password;
+	private List<String> authorities;
 	
+	
+	
+	public List<String> getAuthorities() {
+		return authorities;
+	}
+	public void setAuthorities(List<String> authorities) {
+		this.authorities = authorities;
+	}
+	public int getDeptId() {
+		return deptId;
+	}
+	public void setDeptId(int deptId) {
+		this.deptId = deptId;
+	}
 	public int getUserID() {
 		return userID;
 	}
@@ -43,12 +61,6 @@ public class UserDetailsRequestModel {
 	}
 	public void setPhoneNum(String phoneNum) {
 		this.phoneNum = phoneNum;
-	}
-	public Department getDept() {
-		return dept;
-	}
-	public void setDept(Department dept) {
-		this.dept = dept;
 	}
 	public String getUsername() {
 		return username;

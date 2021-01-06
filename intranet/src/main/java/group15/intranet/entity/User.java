@@ -68,7 +68,11 @@ public class User implements Serializable{
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
 			CascadeType.REFRESH })
 	@JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "username",referencedColumnName="username"), inverseJoinColumns = @JoinColumn(name = "authority",referencedColumnName="authority"))
-	private List<Role> authorities;
+	private List<Role> authorities= new ArrayList<Role>();
+	
+	public void addAuthority(Role role) {
+		this.authorities.add(role);
+	}
 
 	public int getUserID() {
 		return userID;
@@ -159,7 +163,6 @@ public class User implements Serializable{
 	}
 
 	public User() {
-
 	}
 
 	public void addPermit(Permit permit) {

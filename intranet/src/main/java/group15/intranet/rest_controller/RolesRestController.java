@@ -27,13 +27,13 @@ public class RolesRestController {
 	@Autowired
 	RoleService roleService;
 
-	@GetMapping("")
+	@GetMapping
 	@ResponseBody
 	public List<Role> getRoles(){
 		return roleService.getRoles();
 	}
 	
-	@PostMapping("")
+	@PostMapping
 	@ResponseBody
 	public ResponseEntity<Role> addRole(@Valid @RequestBody Role role){
 		return roleService.addRole(role);

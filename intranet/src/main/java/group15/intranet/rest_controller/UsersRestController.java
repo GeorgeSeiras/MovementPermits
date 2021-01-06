@@ -1,5 +1,6 @@
 package group15.intranet.rest_controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import group15.intranet.entity.User;
 import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
@@ -32,6 +35,18 @@ public class UsersRestController {
 	@GetMapping
 	public List<User> getAllUsers(){
 		return userService.getAllUsers();
+	}
+	
+	@GetMapping("/test")
+	public String getJson() {
+		String json = "";
+		List<String> list = new ArrayList<String>();
+		list.add("Kappa");
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(list);
+		}catch(Exception E) {}
+		return json;
 	}
 	
 	@GetMapping("/{id}")

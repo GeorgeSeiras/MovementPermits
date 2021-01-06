@@ -14,6 +14,7 @@ import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
 import group15.intranet.model_request.UpdateUserDetailsRequestModel;
 import group15.intranet.model_request.UserDetailsRequestModel;
 import group15.intranet.repository.DepartmentRepository;
+import group15.intranet.repository.RoleRepository;
 import group15.intranet.repository.UserRepository;
 
 @Service
@@ -24,6 +25,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	DepartmentRepository depRepository;
+	
+	@Autowired
+	RoleRepository roleRepository;
 
 	@Override
 	public List<User> getAllUsers() {
@@ -42,9 +46,12 @@ public class UserServiceImpl implements UserService {
 		checkedUser.setLname(user.getLname());
 		checkedUser.setAddress(user.getAddress());
 		checkedUser.setPhoneNum(user.getPhoneNum());
-		checkedUser.setDept(user.getDept());
+		checkedUser.setDept(depRepository.findById(user.getDeptId()));
 		checkedUser.setUsername(user.getUsername());
 		checkedUser.setPassword(user.getPassword());
+		for(int i=0;i<user.getAuthorities().size();i++) {
+			checkedUser.addAuthority(roleRepository.findByAuthority(user.getAuthorities().get(0)));
+		}
 		userRepository.save(checkedUser);
 		return new ResponseEntity<User>(checkedUser,HttpStatus.OK); 
 	}
@@ -73,6 +80,8 @@ public class UserServiceImpl implements UserService {
 		if(checkedUser.getUserID()==checkedUser.getDept().getSupervisor()) {
 			return new ResponseEntity<User>(checkedUser,HttpStatus.NOT_MODIFIED);
 		}
+		checkedUser.setDept(null);
+		checkedUser.setAuthorities(null);
 		userRepository.delete(checkedUser);
 		return new ResponseEntity<User>(checkedUser, HttpStatus.OK);
 	}
