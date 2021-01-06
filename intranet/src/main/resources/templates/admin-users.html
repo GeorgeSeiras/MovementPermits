@@ -136,39 +136,41 @@
 				buttonUpdate.innerHTML = "Update";
 				var addOnClickUpdate = function(userID) {
 					buttonUpdate.onclick = function() {
-						$.ajax({
-							url : "/users/"+userID,
-							type : "PUT",
-							data : JSON
-									.stringify({
-										"userID" : userID,
-										"fname" : document
-												.getElementById("fname"
-														+ userID).value,
-										"lname" : document
-												.getElementById("lname"
-														+ userID).value,
-										"address" : document
-												.getElementById("address"
-														+ userID).value,
-										"phoneNum" : document
-												.getElementById("phone"
-														+ userID).value,
-										"department" : document
-												.getElementById("department"
-														+ userID).value
-									}),
-							contentType : "application/json",
-							cache : false,
-							statusCode: {
-							    200: function() {
-									message.innerHTML = "Succesfully updated user"
-							    },
-							    400:function(){
-									message.innerHTML = "There was an error while updating the user"
-							    }
-							}
-						});
+						if(validateInput(userID)){
+							$.ajax({
+								url : "/users/"+userID,
+								type : "PUT",
+								data : JSON
+										.stringify({
+											"userID" : userID,
+											"fname" : document
+													.getElementById("fname"
+															+ userID).value,
+											"lname" : document
+													.getElementById("lname"
+															+ userID).value,
+											"address" : document
+													.getElementById("address"
+															+ userID).value,
+											"phoneNum" : document
+													.getElementById("phone"
+															+ userID).value,
+											"department" : document
+													.getElementById("department"
+															+ userID).value
+										}),
+								contentType : "application/json",
+								cache : false,
+								statusCode: {
+								    200: function() {
+										message.innerHTML = "Succesfully updated user"
+								    },
+								    400:function(){
+										message.innerHTML = "There was an error while updating the user"
+								    }
+								}
+							});
+						}
 					};
 				}
 				addOnClickUpdate(userID);
@@ -215,6 +217,34 @@
 			}
 		};
 
+		function validateInput(userID){
+			document.getElementById("message").innerHTML = "";
+			if(document.getElementById("fname"+userID).value === ""){
+				changeMessage("First name")
+			}
+			if(document.getElementById("lname"+userID).value === ""){
+				changeMessage("Last name")
+			}
+			if(document.getElementById("address"+userID).value === ""){
+				changeMessage("Address")
+			}
+			if(document.getElementById("phone"+userID).value === ""){
+				changeMessage("Phone number")
+			}
+			if(document.getElementById("message").innerHTML !== ""){
+				document.getElementById("message").innerHTML+=" is/are required";
+				return false;
+			}
+			return true;
+		}
+		
+		function changeMessage(newMessage){
+			var message = document.getElementById("message");
+			if(message.innerHTML !== ""){
+				message.innerHTML+=", "
+			}
+			message.innerHTML+=newMessage;
+		}
 		function userCreate() {
 			window.location.replace("/admin/users/create");
 		}
