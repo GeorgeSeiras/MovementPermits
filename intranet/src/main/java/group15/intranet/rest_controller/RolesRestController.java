@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import group15.intranet.entity.Department;
 import group15.intranet.entity.Role;
+import group15.intranet.model_request.RolesDetailsModelRequest;
 import group15.intranet.service.RoleService;
 
 @RestController
@@ -35,8 +36,8 @@ public class RolesRestController {
 	
 	@PostMapping
 	@ResponseBody
-	public ResponseEntity<Role> addRole(@Valid @RequestBody Role role){
-		return roleService.addRole(role);
+	public ResponseEntity<Role> addRole(@Valid @RequestBody RolesDetailsModelRequest roleName){
+		return roleService.addRole(roleName);
 	}
 	
 	@DeleteMapping("/{roleName}")

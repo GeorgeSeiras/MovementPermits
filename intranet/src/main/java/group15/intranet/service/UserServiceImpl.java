@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService {
 		;
 		checkedUser.setPhoneNum(user.getPhoneNum());
 		checkedUser.setDept(depRepository.findByDeptName(user.getDepartment()));
+
 		userRepository.save(checkedUser);
 		return new ResponseEntity<User>(checkedUser, HttpStatus.OK);
 	}

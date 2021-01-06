@@ -19,6 +19,7 @@ public class UserDetailsRequestModel {
 
 	public String getDepartment() {
 		return department;
+
 	}
 	public void setDepartment(String dep) {
 		this.department = dep;
