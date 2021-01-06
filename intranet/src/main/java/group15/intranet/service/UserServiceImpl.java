@@ -17,17 +17,14 @@ import group15.intranet.repository.DepartmentRepository;
 import group15.intranet.repository.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	DepartmentRepository depRepository;
-	
-	
-	
-	
+
 	@Override
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
@@ -64,38 +61,36 @@ public class UserServiceImpl implements UserService{
 		checkedUser.setPhoneNum(user.getPhoneNum());
 		checkedUser.setDept(user.getDep());
 		userRepository.save(checkedUser);
-		return new ResponseEntity<User>(checkedUser,HttpStatus.OK);
+		return new ResponseEntity<User>(checkedUser, HttpStatus.OK);
 	}
-
-
 
 	@Override
 	public ResponseEntity<User> deleteUser(int id) {
 		User checkedUser = userRepository.findByUserID(id);
-		if(checkedUser==null) {
-			return new ResponseEntity<User>(checkedUser,HttpStatus.NOT_FOUND);
+		if (checkedUser == null) {
+			return new ResponseEntity<User>(checkedUser, HttpStatus.NOT_FOUND);
 		}
 		if(checkedUser.getUserID()==checkedUser.getDept().getSupervisor()) {
 			return new ResponseEntity<User>(checkedUser,HttpStatus.NOT_MODIFIED);
 		}
 		userRepository.delete(checkedUser);
-		return new ResponseEntity<User>(checkedUser,HttpStatus.OK);
+		return new ResponseEntity<User>(checkedUser, HttpStatus.OK);
 	}
-	
+
 	@Override
 	public ResponseEntity<User> findUserById(int id) {
 		User checkedUser = userRepository.findByUserID(id);
-		if(checkedUser == null) {
-			return new ResponseEntity<User>(checkedUser,HttpStatus.NOT_FOUND);
+		if (checkedUser == null) {
+			return new ResponseEntity<User>(checkedUser, HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<User>(checkedUser,HttpStatus.OK);
+		return new ResponseEntity<User>(checkedUser, HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<User> assignRoleToUser(Role role, User user) {
 		User temp = userRepository.findByUserID(user.getUserID());
-		if(temp == null) {
-			return new ResponseEntity<User>(user,HttpStatus.NOT_FOUND);
+		if (temp == null) {
+			return new ResponseEntity<User>(user, HttpStatus.NOT_FOUND);
 		}
 		List<Role> roles = new ArrayList();
 		roles = userRepository.findByUserID(user.getUserID()).getAuthorities();

@@ -43,6 +43,17 @@
 			}
 		});
 
+		var roles;
+		$.ajax({
+			url : "/roles",
+			type : "GET",
+			dataType : 'json',
+			cache : false,
+			success : function(response) {
+				roles = response;
+			}
+		});
+		
 		function usersToTable(users, table) {
 			while (table.rows.length > 1) {
 				table.deleteRow(1);
@@ -74,30 +85,51 @@
 				phone_text.value = users[i].phoneNum;
 				phone_td.appendChild(phone_text);
 
-				const dep_td = document.createElement("td");
-				const dep_text = document.createElement("input")
-				dep_text.setAttribute("id", "department" + users[i].userID);
-				if(users[i].department!==undefined){
-					dep_text.value = users[i].department.dept_name;
-				}else{
-					dep_text.value = null;
+				var select_dep = document.createElement("select");
+				select_dep.name="departments";
+				select_dep.id="department"+users[i].userID;
+				const emptyOption = document.createElement("option");
+				emptyOption.value = null;
+				emptyOption.text = "None";
+				select_dep.appendChild(emptyOption);
+				for(const dep of departments){
+					const option = document.createElement("option");
+					option.value = dep.deptName;
+					option.text = dep.deptName;
+					select_dep.appendChild(option)
+				} 
+				if (users[i].dept !== undefined) {
+					select_dep.value = users[i].dept.deptName;
+				} else {
+					select_dep.value = null;
 				}
-				dep_td.appendChild(dep_text);
 
 				const auth_td = document.createElement("td");
-				var authText;
-				for(auth in users[i].authorities){
-					authText+=auth+" "
-				}
-				if(authText=== undefined){
+				var authText = "";
+				users[i].authorities.forEach(function(auth) {
+					authText += auth.authority + ", "
+				})
+				if (authText === undefined) {
 					authText = "None";
 				}
 				const auth_text = document.createTextNode(authText);
 				auth_td.appendChild(auth_text);
+
+				var userID = users[i].userID;
+
+				const buttonRole_td = document.createElement("td");
+				const buttonRole = document.createElement("BUTTON");
+				buttonRole.innerHTML = "Roles";
+				var addOnClickRole = function(userID){
+					buttonRole.onclick = function(){
+							window.location.replace("/admin/roles/"+userID);
+						}
+				}
+				addOnClickRole(userID);
+				buttonRole_td.appendChild(buttonRole);
 				
 				const buttonUpdate_td = document.createElement("td");
 				const buttonUpdate = document.createElement("BUTTON");
-				var userID = users[i].userID;
 				buttonUpdate.innerHTML = "Update";
 				var addOnClickUpdate = function(userID) {
 					buttonUpdate.onclick = function() {
@@ -119,10 +151,9 @@
 										"phoneNum" : document
 												.getElementById("phone"
 														+ userID).value,
-										//"department" : document
-										//		.getElementById("department"
-										//				+ userID).value,
-										"authorities":[]
+										"department" : document
+												.getElementById("department"
+														+ userID).value
 									}),
 							contentType : "application/json",
 							cache : false,
@@ -158,8 +189,9 @@
 				tr.appendChild(lname_td);
 				tr.appendChild(address_td);
 				tr.appendChild(phone_td);
-				tr.appendChild(dep_td);
+				tr.appendChild(select_dep);
 				tr.appendChild(auth_td);
+				tr.appendChild(buttonRole_td);
 				tr.appendChild(buttonUpdate_td);
 				tr.appendChild(buttonDelete_td);
 				table.appendChild(tr);
@@ -167,7 +199,7 @@
 		};
 
 		function userCreate() {
-			window.location.replace("/admin/user/create");
+			window.location.replace("/admin/users/create");
 		}
 
 		function goBack() {

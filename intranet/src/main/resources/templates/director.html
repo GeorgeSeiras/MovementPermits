@@ -4,17 +4,45 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <meta charset="ISO-8859-1">
-<link href="../static/css/director.css" rel="stylesheet">
+<link href="/css/director.css" rel="stylesheet">
 <title>Director</title>
 </head>
 <body>
 	<div class="page">
 		<div class="container">
-			<div id="first" class="first">FIRST</div>
-			<div id="second" class="second">SECOND</div>
-			<div id="third" class="third">THIRD</div>
+			<div id="first" class="first">
+				<p>Active Permits:</p>
+				<p id="activePermits"></p>
+			</div>
+			<div id="second" class="second">
+				<p>Permit Requests:</p>
+				<p id="requestsPermits"></p>
+			</div>
+			<div id="third" class="third">
+				<p>Requests Denied:</p>
+				<p id="deniedPermits"></p>
+			</div>
 		</div>
-		<div id="fourth" class="fourth">FOURTH</div>
+		<div id="fourth" class="fourth">
+			<p>Total Permits Issued:</p>
+			<p id="totalPermits"></p>
+		</div>
+		<div class="page2">
+			<div class="container">
+				<div id="fifth" class="first">
+					<p>Daily Permits:</p>
+					<p id="dailyPermits"></p>
+				</div>
+				<div id="sixth" class="second">
+					<p>Weekly Permits:</p>
+					<p id="weeklyPermits"></p>
+				</div>
+				<div id="seventh" class="third">
+					<p>Monthly Permits:</p>
+					<p id="montlyPermits"></p>
+				</div>
+			</div>
+		</div>
 	</div>
 	<script type="text/javascript">
 		//get and show approved permits
@@ -24,15 +52,25 @@
 			dataType : 'json',
 			cache : false,
 			success : function(response) {
-				display(reponse)
+				display(response)
 			}
 		})
 
 		function display(stats) {
-			const first = document.getElementById("first");
-			const second = document.getElementById("second");
-			const third = document.getElementById("third");
-			const fourth = document.getElementById("fourth");
+			const totalPermits = document.getElementById("totalPermits");
+			totalPermits.innerHTML = stats.totalPermits;
+			const activePermits = document.getElementById("activePermits");
+			activePermits.innerHTML = stats.activePermits;
+			const requestsPermits = document.getElementById("requestsPermits");
+			requestsPermits.innerHTML = stats.totalPermits;
+			const deniedPermits = document.getElementById("deniedPermits");
+			deniedPermits.innerHTML = stats.invalidPermits;
+			const dailyPermits = document.getElementById("dailyPermits");
+			dailyPermits.innerHTML = stats.dailyPermits;
+			const weeklyPermits = document.getElementById("weeklyPermits");
+			weeklyPermits.innerHTML = stats.weeklyPermits;
+			const monthlyPermits = document.getElementById("montlyPermits");
+			monthlyPermits.innerHTML = stats.monthlyPermits;
 		}
 	</script>
 </body>

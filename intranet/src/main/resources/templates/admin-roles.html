@@ -9,13 +9,13 @@
 <title>Roles</title>
 </head>
 <body>
-	<button type="button" onclick="roleCreate()">Create User</button>
+	<button type="button" onclick="roleCreate()">Create Role</button>
 	<table id="rolesTable" class="rolesTable">
 		<tr>
 			<th>Name</th>
 		</tr>
 	</table>
-
+	<p id="message" class="message"></p>
 	<button onclick="goBack()">Back</button>
 
 
@@ -31,31 +31,46 @@
 		});
 
 		function rolesToTable(roles, table) {
+			const message = document.getElementById("message");
 			while (table.rows.length > 1) {
 				table.deleteRow(1);
 			}
 			for (var i = 0; i < roles.length; i++) {
 				const tr = document.createElement('tr');
 				const name_td = document.createElement("td");
-				const name_text = document.createTextNode(roles[i].name);
+				const name_text = document.createTextNode(roles[i].authority);
 				name_td.appendChild(name_text);
 
 				const buttonDelete_td = document.createElement("td");
 				const buttonDelete = document.createElement("BUTTON");
-				var roleId = roles[i].role_id;
 				buttonDelete.innerHTML = "Delete";
-				buttonDelete.onclick = function() {
-					$.ajax({
-						url : "/roles/" + roleId,
-						type : "DELETE",
-						dataType : 'json',
-						cache : false,
-						success : function(response) {
-							var row = buttonDelete.parentNode.parentNode;
-							row.parentNode.removeChild(row)
-						}
-					});
-				};
+				var auth = roles[i].authority;
+
+				var addOnClickDelete = function(auth) {
+					buttonDelete.onclick = function() {
+						$
+								.ajax({
+									url : "/roles/" + auth,
+									type : "DELETE",
+									dataType : 'json',
+									cache : false,
+									statusCode : {
+										200 : function() {
+											message.innerHTML = "Succesfully deleted the role"
+										},
+										400 : function() {
+											message.innerHTML = "There was an error while deleting the role"
+										}
+									},
+									success : function(response) {
+										var row = buttonDelete.parentNode.parentNode;
+										row.parentNode.removeChild(row)
+									}
+								});
+
+					}
+				}
+				addOnClickDelete(auth);
 				buttonDelete_td.appendChild(buttonDelete);
 
 				tr.appendChild(name_td);
@@ -68,7 +83,7 @@
 		function roleCreate() {
 			window.location.replace("/admin/role/create");
 		}
-		
+
 		function goBack() {
 			window.location.replace("../admin")
 		}

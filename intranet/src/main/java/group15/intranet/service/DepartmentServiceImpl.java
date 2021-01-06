@@ -17,17 +17,17 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Autowired
 	DepartmentRepository departmentRepository;
-	
+
 	@Autowired
 	UserRepository userRepository;
 
 	@Override
 	public ResponseEntity<Department> getDepartmentById(int id) {
 		Department dep = departmentRepository.findById(id);
-		if(dep==null) {
-			return new ResponseEntity<Department>(dep,HttpStatus.NOT_FOUND);
+		if (dep == null) {
+			return new ResponseEntity<Department>(dep, HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Department>(dep,HttpStatus.OK);
+		return new ResponseEntity<Department>(dep, HttpStatus.OK);
 	}
 
 	@Override
@@ -50,9 +50,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	public ResponseEntity<Department> addDepartment(Department dep) {
-		Department checkedDep=departmentRepository.findById(dep.getDeptID());
-		if(checkedDep!=null) {
-			return new ResponseEntity<Department>(dep,HttpStatus.ALREADY_REPORTED);
+		Department checkedDep = departmentRepository.findById(dep.getDeptID());
+		if (checkedDep != null) {
+			return new ResponseEntity<Department>(dep, HttpStatus.ALREADY_REPORTED);
 		}
 		
 		User checkedSupervisor = userRepository.findByUserID(dep.getSupervisor());
@@ -62,7 +62,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 		checkedSupervisor.setDept(dep);
 		userRepository.save(checkedSupervisor);
 		departmentRepository.save(dep);
-		return new ResponseEntity<Department>(dep,HttpStatus.OK);
+		return new ResponseEntity<Department>(dep, HttpStatus.OK);
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 				return new ResponseEntity<Integer>(id,HttpStatus.BAD_REQUEST);
 			}
 		}
-		
+
 		departmentRepository.delete(checkedDep);
 		return new ResponseEntity<Integer>(id,HttpStatus.OK);
 	}
@@ -100,8 +100,13 @@ public class DepartmentServiceImpl implements DepartmentService {
 			checkedUser.setDept(dep);
 			userRepository.save(checkedUser);
 		}
-		
+
 		departmentRepository.save(dep);
-		return new ResponseEntity<Department>(dep,HttpStatus.OK);
+		return new ResponseEntity<Department>(dep, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<List<Department>> getDepartments() {
+		return new ResponseEntity<List<Department>>(departmentRepository.findAll(), HttpStatus.OK);
 	}
 }

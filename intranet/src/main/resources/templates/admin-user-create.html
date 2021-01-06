@@ -7,7 +7,13 @@
 <title>Create Department</title>
 </head>
 <body>
-<p>
+	<p>
+		Username: <input type="text" id="username">
+	</p>
+	<p>
+		Password: <input type="text" id="password">
+	</p>
+	<p>
 		First Name: <input type="text" id="fname">
 	</p>
 	<p>
@@ -26,7 +32,7 @@
 	<button type="button" onclick="createUser()">Create User</button>
 
 	<p id="message" class="message"></p>
-	
+
 	<button onclick="goBack()">Back</button>
 
 	<script type="text/javascript">
@@ -37,82 +43,94 @@
 			cache : false,
 			success : function(response) {
 				const depSelect = document.getElementById("department");
-				for(var i=0; response.length;i++){
+				for (var i = 0;i< response.length; i++) {
 					var option = document.createElement("option");
-					opt.setAttribute("id",response.dep_id);
-					opt.createTextNode(response.dep_name);
-					depSelect.appendChild(opt);
+					option.setAttribute("id", response[i].deptName);
+					option.value = response[i].deptName;
+					option.text = response[i].deptName;
+					depSelect.appendChild(option);
 				}
 			}
 		});
-		
-		
-		function createUser(){
+
+		function createUser() {
 			const message = document.getElementById("message");
-			if(validateInput){
-				$.ajax({
-					url : "/departments",
-					type : "GET",
-					dataType : 'json',
-					data:{
-						"fname":document.getElementById("fname").value,
-						"lname":document.getElementById("lname").value,
-						"address":document.getElementById("address").value,
-						"phone":document.getElementById("phone").value,
-						"department":document.getElementById("department").value
-					},
-					cache : false,
-					success : function(response) {
-						if(response.status === 200){
-							message.innerHTML = "Succesfully created user"
-	
-						}
-						message.innerHTML = "There was an error while creating the user"
-	
-					}
-				});
+			if (validateInput) {
+				$
+						.ajax({
+							url : "/users",
+							type : "POST",
+							dataType : 'json',
+							contentType : "application/json",
+							data : JSON
+									.stringify({
+										"username" : document
+												.getElementById("username").value,
+										"password" : document
+												.getElementById("password").value,
+										"fname" : document
+												.getElementById("fname").value,
+										"lname" : document
+												.getElementById("lname").value,
+										"address" : document
+												.getElementById("address").value,
+										"phone" : document
+												.getElementById("phone").value,
+										"department" : document
+												.getElementById("department").value
+									}),
+							cache : false,
+							statusCode : {
+								200 : function() {
+									message.innerHTML = "Succesfully created user"
+								},
+								400 : function() {
+									message.innerHTML = "There was an error while creating the user"
+								}
+							}
+						});
 			}
 		}
-		
-		function validateInput(){
+
+		function validateInput() {
 			const message = ""
-			if(document.getElementById("fname").value === ""){
-				message+="fname";
+			if (document.getElementById("fname").value === "") {
+				message += "fname";
 			}
-			if( document.getElementById("lname").value === ""){
-				if(message!==""){
-					message+=", "
+			if (document.getElementById("lname").value === "") {
+				if (message !== "") {
+					message += ", "
 				}
-				message+="lname";
+				message += "lname";
 			}
-			 if(document.getElementById("address").value === ""){
-				 if(message!==""){
-						message+=", "
-					}
-					message+="address";
-			 }
-			if(document.getElementById("phone").value === ""){
-				if(message!==""){
-					message+=", "
+			if (document.getElementById("address").value === "") {
+				if (message !== "") {
+					message += ", "
 				}
-				message+="phone";
+				message += "address";
 			}
-			if( document.getElementById("department").value === ""){
-				if(message!==""){
-					message+=", "
+			if (document.getElementById("phone").value === "") {
+				if (message !== "") {
+					message += ", "
 				}
-				message+="department";
+				message += "phone";
 			}
-			if(message!==""){
-				message+= " is/are required";
+			if (document.getElementById("department").value === "") {
+				if (message !== "") {
+					message += ", "
+				}
+				message += "department";
+			}
+			if (message !== "") {
+				message += " is/are required";
 				document.getElementById("message").innerHTML = message;
 				return false;
 			}
 			return true;
 		}
-		
-		function goBack(){
-			window.location.replace("../user")
+
+		function goBack() {
+			window.location.replace("../users")
 		}
 	</script>
 </body>

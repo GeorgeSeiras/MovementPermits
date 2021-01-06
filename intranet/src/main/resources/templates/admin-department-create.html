@@ -32,11 +32,13 @@
 			cache : false,
 			success : function(response) {
 				const superSelect = document.getElementById("super");
-				for (var i = 0; response.length; i++) {
+				for (var i = 0; i < response.length; i++) {
 					var opt = document.createElement("option");
-					opt.setAttribute("id", response.user_id);
-					opt.createTextNode(response.user_id + ", " + response.fname
-							+ ", " + response.lname);
+					opt.setAttribute("id", response[i].userID);
+					opt.value = response[i].userID + " " + response[i].fname
+							+ " " + response[i].lname;
+					opt.text = response[i].fname
+							+ " " + response[i].lname;
 					superSelect.appendChild(opt);
 				}
 			}
@@ -50,20 +52,21 @@
 				$
 						.ajax({
 							url : "/departments",
-							type : "GET",
+							type : "POST",
 							dataType : 'json',
-							data : {
-								"name" : document.getElementById("fname").value,
+							contentType : "application/json",
+							data : JSON.stringify({
+								"deptName" : document.getElementById("name").value,
 								"superId" : superParts[0],
-							},
+							}),
 							cache : false,
-							success : function(response) {
-								if (response.status === 200) {
+							statusCode: {
+							    200: function() {
 									message.innerHTML = "Succesfully created department"
-
-								}
-								message.innerHTML = "There was an error while creating the department"
-
+							    },
+							    400:function(){
+									message.innerHTML = "There was an error while creating the department"
+							    }
 							}
 						});
 			}
