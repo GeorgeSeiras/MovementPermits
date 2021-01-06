@@ -28,7 +28,7 @@ public class Role   {
 		return authority;
 	}
 
-	public void setauthority(String authority) {
+	public void setAuthority(String authority) {
 		this.authority = authority;
 	}
 
