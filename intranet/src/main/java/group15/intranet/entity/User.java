@@ -1,5 +1,6 @@
 package group15.intranet.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -18,14 +19,11 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
@@ -43,55 +41,27 @@ public class User {
 	@Column(name = "phone_num")
 	private String phoneNum;
 	
-	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "dep_id")
 	private Department dept;
 	
-
-	@JsonIgnore
+	@JsonBackReference
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Permit> permits;
-
-	@JsonBackReference
-	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
-			CascadeType.REFRESH })
-	@JoinTable(name = "rolesbyuser", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_name"))
-	private List<Role> roles;
-
-	@Column(name = "username")
+	
+	@Column(name="username")
 	private String username;
 	
-	@Column(name = "password")
+	@Column(name="password")
 	private String password;
 	
-	@Column(name = "enabled")
-	private Boolean enabled;
-	
-	
-	public String getUsername() {
-		return username;
-	}
+	@Column(name="enabled")
+	private String enabled;
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Boolean getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
-	}
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
+			CascadeType.REFRESH })
+	@JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "username",referencedColumnName="username"), inverseJoinColumns = @JoinColumn(name = "role",referencedColumnName="role"))
+	private List<Role> authorities;
 
 	public int getUserID() {
 		return userID;
@@ -149,18 +119,44 @@ public class User {
 		this.permits = permits;
 	}
 
-	public List<Role> getRoles() {
-		return roles;
+
+	public List<Role> getAuthorities() {
+		return authorities;
+	}
+	
+	public void setAuthorities(List<Role> authorities) {
+		this.authorities = authorities;
 	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public String getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(String enabled) {
+		this.enabled = enabled;
 	}
 
 	@Override
 	public String toString() {
-		return "Users [userID=" + userID + ", fname=" + fname + ", lname=" + lname + ", address=" + address
-				+ ", phoneNum=" + phoneNum + ", dept=" + dept + ", permits=" + permits + ", roles=" + roles + "]";
+		return "User [userID=" + userID + ", fname=" + fname + ", lname=" + lname + ", address=" + address
+				+ ", phoneNum=" + phoneNum + ", dept=" + dept + ", permits=" + permits + ", username=" + username
+				+ ", password=" + password + ", enabled=" + enabled + ", authorities=" + authorities + "]";
 	}
 
 	public User() {
@@ -175,10 +171,12 @@ public class User {
 	}
 
 	public void addRole(Role role) {
-		if (roles == null) {
-			roles = new ArrayList<Role>();
+		if (authorities == null) {
+			authorities = new ArrayList<Role>();
 		}
-		roles.add(role);
+		authorities.add(role);
 	}
+
+
 
 }

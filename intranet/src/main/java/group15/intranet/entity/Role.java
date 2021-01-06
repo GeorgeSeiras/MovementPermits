@@ -1,40 +1,35 @@
 package group15.intranet.entity;
 
 import java.util.List;
-import javax.persistence.JoinColumn;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Role   {
 	@Id
-	@Column(name = "role_name")
-	private String roleName;
+	@Column(name = "role")
+	private String role;
 	
-	@JsonManagedReference
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
-			CascadeType.REFRESH })
-	@JoinTable(name = "rolesbyuser", joinColumns = @JoinColumn(name = "role_name"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+			CascadeType.REFRESH },mappedBy="authorities")
 	private List<User> users;
 
-	public String getRoleName() {
-		return roleName;
+	public String getRole() {
+		return role;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setRole(String authority) {
+		this.role = authority;
 	}
 
 	public List<User> getUsers() {
@@ -47,7 +42,7 @@ public class Role {
 
 	@Override
 	public String toString() {
-		return "Role [roleName=" + roleName + ", users=" + users + "]";
+		return "Role [authority=" + role + ", users=" + users + "]";
 	}
 
 	public Role() {

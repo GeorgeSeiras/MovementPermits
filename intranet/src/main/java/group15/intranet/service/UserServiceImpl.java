@@ -36,9 +36,9 @@ public class UserServiceImpl implements UserService{
 		User temp = new User();
 		temp = userRepository.findById(u.getUserID());
 		List<Role> roles = new ArrayList();
-		roles = userRepository.findById(u.getUserID()).getRoles();
+		roles = userRepository.findById(u.getUserID()).getAuthorities();
 		roles.add(r);
-		temp.setRoles(roles);
+		temp.setAuthorities(roles);
 		userRepository.save(temp);
 	}
 
