@@ -21,12 +21,14 @@
 	<button onclick="goBack()">Back</button>
 
 	<script type="text/javascript">
+		var superMap = new Map();
 		$.ajax({
 			url : "/departments",
 			type : "GET",
 			dataType : 'json',
 			cache : false,
 			success : function(response) {
+				dep = response;
 				depToTable(response, document.getElementById("depTable"));
 			}
 		});
@@ -48,9 +50,12 @@
 						cache : false,
 						success : function(response) {
 							users = response;
+							users.forEach(function(user) {
+								superMap.set(user.userID, user);
+							});
+
 							for (var i = 0; i < dep.length; i++) {
 								var depId = dep[i].deptID;
-
 								const tr = document.createElement('tr');
 
 								const name_td = document.createElement("td");
@@ -64,25 +69,23 @@
 										.createElement("select");
 								superSelect
 										.setAttribute("id", "select" + depId)
-								var opt = document.createElement("option");
-								opt.setAttribute("id", null);
-								opt.value = null;
-								opt.text = "None";
-								superSelect.appendChild(opt);
-								for (var i = 0; i < users.length; i++) {
+								for (var j = 0; j < users.length; j++) {
 									var option = document
 											.createElement("option");
 									option.setAttribute("id", "superId"
-											+ users[i].userID);
-									option.value = users[i].userID + " "
-											+ users[i].fname + " "
-											+ users[i].lname;
-									option.text = users[i].userID + " "
-											+ users[i].fname + " "
-											+ users[i].lname;
+											+ users[j].userID);
+									option.value = users[j].userID + " "
+											+ users[j].fname + " "
+											+ users[j].lname;
+									option.text = users[j].userID + " "
+											+ users[j].fname + " "
+											+ users[j].lname;
 									superSelect.appendChild(option);
 								}
-
+								var preSelected = superMap.get(dep[i].supervisor);
+								superSelect.value = preSelected.userID + " "
+										+ preSelected.fname + " "
+										+ preSelected.lname;
 								const buttonUpdate_td = document
 										.createElement("td");
 								const buttonUpdate = document
@@ -95,7 +98,6 @@
 														+ depId).value;
 										const selectValueParts = selectValue
 												.split(" ");
-
 										$
 												.ajax({
 													url : "/departments",
@@ -108,9 +110,7 @@
 																"name" : document
 																		.getElementById("name"
 																				+ depId).value,
-																"superId" : document
-																		.getElementById("superId"
-																				+ selectValueParts[0]).value,
+																"supervisor" : selectValueParts[0],
 															}),
 													cache : false,
 													statusCode : {
