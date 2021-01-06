@@ -37,17 +37,6 @@ public class UsersRestController {
 		return userService.getAllUsers();
 	}
 	
-	@GetMapping("/test")
-	public String getJson() {
-		String json = "";
-		List<String> list = new ArrayList<String>();
-		list.add("Kappa");
-		ObjectMapper objectMapper = new ObjectMapper();
-		try {
-			json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(list);
-		}catch(Exception E) {}
-		return json;
-	}
 	
 	@GetMapping("/{id}")
 	@ResponseBody
@@ -63,7 +52,7 @@ public class UsersRestController {
 	
 	@PutMapping("/{id}")
 	@ResponseBody
-	public ResponseEntity<User> updateUser(@PathVariable int id, @Valid @RequestBody UpdateUserDetailsRequestModel user){
+	public ResponseEntity<User> updateUser(@PathVariable int id, @Valid @RequestBody UserDetailsRequestModel user){
 		return userService.updateUser(id,user);
 	}
 	

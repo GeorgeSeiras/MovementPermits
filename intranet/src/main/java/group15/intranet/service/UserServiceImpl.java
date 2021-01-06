@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public ResponseEntity<User> updateUser(int id, UpdateUserDetailsRequestModel user) {
+	public ResponseEntity<User> updateUser(int id, UserDetailsRequestModel user) {
 		User checkedUser = userRepository.findByUserID(id);
 		if(checkedUser==null) {
 			return new ResponseEntity<User>(checkedUser,HttpStatus.NOT_FOUND);
@@ -66,7 +66,12 @@ public class UserServiceImpl implements UserService {
 		checkedUser.setLname(user.getLname());
 		checkedUser.setAddress(user.getAddress());;
 		checkedUser.setPhoneNum(user.getPhoneNum());
-		checkedUser.setDept(user.getDep());
+		checkedUser.setDept(depRepository.findById(user.getDeptId()));
+		checkedUser.setUsername(user.getUsername());
+		checkedUser.setPassword(user.getPassword());
+		for(int i=0;i<user.getAuthorities().size();i++) {
+			checkedUser.addAuthority(roleRepository.findByAuthority(user.getAuthorities().get(0)));
+		}
 		userRepository.save(checkedUser);
 		return new ResponseEntity<User>(checkedUser, HttpStatus.OK);
 	}
