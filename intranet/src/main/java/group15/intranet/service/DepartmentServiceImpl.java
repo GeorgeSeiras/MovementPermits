@@ -1,6 +1,5 @@
 package group15.intranet.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import group15.intranet.entity.Department;
 import group15.intranet.entity.User;
@@ -69,7 +66,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 			return new ResponseEntity<Department>(dep, HttpStatus.NOT_ACCEPTABLE);
 		}
 		checkedSupervisor.setDept(dep);
-		//userRepository.save(checkedSupervisor);
 		departmentRepository.save(dep);
 		return new ResponseEntity<Department>(dep, HttpStatus.OK);
 	}
@@ -111,10 +107,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 		if (checkedDep.getDeptID() != checkedUser.getDept().getDeptID()) {
 			checkedUser.setDept(checkedDep);
-			userRepository.save(checkedUser);
 		}
-
-		departmentRepository.save(checkedDep);
 		return new ResponseEntity<Department>(dep, HttpStatus.OK);
 	}
 

@@ -19,7 +19,11 @@
 		</tr>
 	</table>
 
+	<p id="message" class="message"></p>
+
 	<button onclick="goBack()">Back</button>
+	<p></p>
+	<button onclick="logout()">Logout</button>
 
 	<script type="text/javascript">
 		$.ajax({
@@ -55,6 +59,8 @@
 		});
 		
 		function usersToTable(users, table) {
+			const message = document.getElementById("message");
+
 			while (table.rows.length > 1) {
 				table.deleteRow(1);
 			}
@@ -154,7 +160,13 @@
 									}),
 							contentType : "application/json",
 							cache : false,
-							success : function(response) {
+							statusCode: {
+							    200: function() {
+									message.innerHTML = "Succesfully updated user"
+							    },
+							    400:function(){
+									message.innerHTML = "There was an error while updating the user"
+							    }
 							}
 						});
 					};
@@ -175,6 +187,14 @@
 							success : function(response) {
 								var row = buttonDelete.parentNode.parentNode;
 								row.parentNode.removeChild(row)
+							},
+							statusCode: {
+							    200: function() {
+									message.innerHTML = "Succesfully deleted user"
+							    },
+							    400:function(){
+									message.innerHTML = "There was an error while deleting the user"
+							    }
 							}
 						});
 					};
@@ -201,6 +221,10 @@
 
 		function goBack() {
 			window.location.replace("../admin")
+		}
+		
+		function logout() {
+			window.location.replace("../logout")
 		}
 	</script>
 </body>

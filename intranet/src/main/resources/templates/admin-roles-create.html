@@ -19,6 +19,9 @@
 
 	<button onclick="goBack()">Back</button>
 
+	<p></p>
+	<button onclick="logout()">Logout</button>
+
 	<script type="text/javascript">
 		function createRole() {
 			const message = document.getElementById("message");
@@ -35,11 +38,11 @@
 												.getElementById("name").value
 									}),
 							cache : false,
-							statusCode:{
-								200: function(){
+							statusCode : {
+								200 : function() {
 									message.innerHTML = "Succesfully created role"
 								},
-								400:function(){
+								400 : function() {
 									message.innerHTML = "There was an error while creating the role"
 								}
 							}
@@ -57,6 +60,10 @@
 
 		function goBack() {
 			window.location.replace("../role")
+		}
+
+		function logout() {
+			window.location.replace("../../logout")
 		}
 	</script>
 </body>

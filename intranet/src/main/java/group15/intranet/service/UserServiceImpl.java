@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import group15.intranet.entity.Role;
 import group15.intranet.entity.User;
@@ -17,6 +19,7 @@ import group15.intranet.repository.RoleRepository;
 import group15.intranet.repository.UserRepository;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
 	@Autowired
@@ -28,6 +31,11 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	RoleRepository roleRepository;
 
+	@Autowired
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
 	@Override
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
@@ -47,7 +55,6 @@ public class UserServiceImpl implements UserService {
 		checkedUser.setPhoneNum(user.getPhoneNum());
 		checkedUser.setDept(depRepository.findByDeptName(user.getDepartment()));
 
-		userRepository.save(checkedUser);
 		return new ResponseEntity<User>(checkedUser, HttpStatus.OK);
 	}
 
@@ -94,7 +101,6 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		checkedUser.getAuthorities().add(authFound);
-		userRepository.save(checkedUser);
 		return new ResponseEntity<User>(checkedUser, HttpStatus.OK);
 
 	}
@@ -108,7 +114,6 @@ public class UserServiceImpl implements UserService {
 		for (int i = 0; i < user.getAuthorities().size(); i++) {
 			if (user.getAuthorities().get(i).getAuthority().equals(auth)) {
 				user.getAuthorities().remove(i);
-				userRepository.save(user);
 				return new ResponseEntity<User>(user, HttpStatus.OK);
 			}
 		}
@@ -128,7 +133,7 @@ public class UserServiceImpl implements UserService {
 		checkedUser.setPhoneNum(user.getPhoneNum());
 		checkedUser.setDept(depRepository.findByDeptName(user.getDepartment()));
 		checkedUser.setUsername(user.getUsername());
-		checkedUser.setPassword(user.getPassword());
+		checkedUser.setPassword(passwordEncoder().encode(user.getPassword()));
 		checkedUser.setEnabled(true);
 		for (int i = 0; i < user.getAuthorities().size(); i++) {
 			checkedUser.addAuthority(roleRepository.findByAuthority(user.getAuthorities().get(0)));

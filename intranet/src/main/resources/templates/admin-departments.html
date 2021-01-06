@@ -19,8 +19,9 @@
 
 	<p id="message" class="message"></p>
 	<button onclick="goBack()">Back</button>
-
-	<script type="text/javascript">
+	<p></p>
+	<button onclick="logout()">Logout</button>
+		<script type="text/javascript">
 		var superMap = new Map();
 		$.ajax({
 			url : "/departments",
@@ -173,6 +174,9 @@
 
 		function goBack() {
 			window.location.replace("../admin")
+		}
+		function logout() {
+			window.location.replace("../../../logout")
 		}
 	</script>
 </body>

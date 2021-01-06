@@ -34,9 +34,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		//auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("password")).roles("ADMIN");
-		// auth.inMemoryAuthentication().withUser("super").password(passwordEncoder().encode("password1")).roles("SUPERVISOR");
-
 		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder())
 				.usersByUsernameQuery("select username,password,enabled " + "from users " + "where username = ?")
 				.authoritiesByUsernameQuery("select username,authority " + "from authorities " + "where username = ?");

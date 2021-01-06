@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import group15.intranet.criteria.SearchCriteria;
 import group15.intranet.criteria.SearchOperation;
@@ -23,6 +24,7 @@ import group15.intranet.specification.PermitSpecification;
 import group15.intranet.specification.JoinPermitUserSpecification;
 
 @Service
+@Transactional
 public class PermitServiceImpl implements PermitService {
 
 	@Autowired
@@ -100,7 +102,6 @@ public class PermitServiceImpl implements PermitService {
 			return new ResponseEntity<Permit>(checkedPermit,HttpStatus.NOT_FOUND);
 		}else {
 			checkedPermit.setStatus(permitDetails.getStatus());
-			permitRepository.save(checkedPermit);
 			return new ResponseEntity<Permit>(checkedPermit, HttpStatus.OK);
 		}
 	}

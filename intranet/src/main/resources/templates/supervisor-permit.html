@@ -23,6 +23,8 @@
 	</div>
 	<form id="statusChange"></form>
 	<button onclick="goBack()">Back</button>
+	<p></p>
+	<button onclick="logout()">Logout</button>
 
 	<script type="text/javascript">
 		const url = window.location.href;
@@ -103,8 +105,10 @@
 						url : "/permits/" + permit.permitID + "/status",
 						dataType : 'json',
 						type : "PUT",
-						data :JSON.stringify({"status" : newStatus}),
-						contentType: "application/json; charset=utf-8",
+						data : JSON.stringify({
+							"status" : newStatus
+						}),
+						contentType : "application/json; charset=utf-8",
 						cache : false,
 						success : function(response) {
 							const newPermit = response;
@@ -135,6 +139,10 @@
 
 		function goBack() {
 			window.location.replace("../../")
+		}
+
+		function logout() {
+			window.location.replace("../../../logout")
 		}
 	</script>
 </body>

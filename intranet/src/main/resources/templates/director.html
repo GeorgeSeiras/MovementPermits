@@ -44,6 +44,9 @@
 			</div>
 		</div>
 	</div>
+	<p></p>
+	<button onclick="logout()">Logout</button>
+
 	<script type="text/javascript">
 		//get and show approved permits
 		$.ajax({
@@ -71,6 +74,10 @@
 			weeklyPermits.innerHTML = stats.weeklyPermits;
 			const monthlyPermits = document.getElementById("montlyPermits");
 			monthlyPermits.innerHTML = stats.monthlyPermits;
+		}
+		
+		function logout() {
+			window.location.replace("../logout")
 		}
 	</script>
 </body>

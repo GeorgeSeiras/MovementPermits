@@ -36,24 +36,27 @@
 	<p id="message" class="message"></p>
 
 	<button onclick="goBack()">Back</button>
+	<p></p>
+	<button onclick="logout()">Logout</button>
+
 
 	<script type="text/javascript">
-	$.ajax({
-		url : "/roles",
-		dataType : 'json',
-		type : "GET",
-		cache : false,
-		success : function(response) {
-			const depSelect = document.getElementById("role");
-			for (var i = 0; i < response.length; i++) {
-				var option = document.createElement("option");
-				option.setAttribute("id", response[i].authority);
-				option.value = response[i].authority;
-				option.text = response[i].authority;
-				depSelect.appendChild(option);
+		$.ajax({
+			url : "/roles",
+			dataType : 'json',
+			type : "GET",
+			cache : false,
+			success : function(response) {
+				const depSelect = document.getElementById("role");
+				for (var i = 0; i < response.length; i++) {
+					var option = document.createElement("option");
+					option.setAttribute("id", response[i].authority);
+					option.value = response[i].authority;
+					option.text = response[i].authority;
+					depSelect.appendChild(option);
+				}
 			}
-		}
-	});
+		});
 		$.ajax({
 			url : "/departments",
 			type : "GET",
@@ -96,7 +99,8 @@
 												.getElementById("phone").value,
 										"department" : document
 												.getElementById("department").value,
-										"authorities":[document.getElementById("role").value]
+										"authorities" : [ document
+												.getElementById("role").value ]
 									}),
 							cache : false,
 							statusCode : {
@@ -150,6 +154,10 @@
 
 		function goBack() {
 			window.location.replace("../users")
+		}
+		
+		function logout() {
+			window.location.replace("../../logout")
 		}
 	</script>
 </body>

@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import group15.intranet.entity.Role;
 import group15.intranet.entity.User;
 import group15.intranet.model_request.RolesDetailsModelRequest;
 import group15.intranet.repository.RoleRepository;
 
+@Transactional
 @Service
 public class RoleServiceImpl implements RoleService{
 	@Autowired
@@ -20,13 +22,13 @@ public class RoleServiceImpl implements RoleService{
 
 
 	@Override
-	public ResponseEntity<Role> addRole(RolesDetailsModelRequest roleName) {
-		Role checkedRole = roleRepository.findByAuthority(roleName.getRoleName());
+	public ResponseEntity<Role> addRole(RolesDetailsModelRequest authority) {
+		Role checkedRole = roleRepository.findByAuthority(authority.getAuthority());
 		if(checkedRole != null) {
 			return new ResponseEntity<Role>(checkedRole,HttpStatus.BAD_REQUEST);
 		}
 		Role role = new Role();
-		role.setAuthority(roleName.getRoleName());
+		role.setAuthority(authority.getAuthority());
 		role.setUsers(new ArrayList<User>());
 		roleRepository.save(role);
 		return new ResponseEntity<Role>(role, HttpStatus.OK);

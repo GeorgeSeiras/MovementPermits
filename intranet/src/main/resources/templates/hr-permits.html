@@ -32,6 +32,9 @@
 			</tr>
 		</table>
 	</div>
+	<p></p>
+	<button onclick="logout()">Logout</button>
+
 
 
 	<script type="text/javascript">
@@ -120,6 +123,10 @@
 
 				table.appendChild(tr);
 			}
+		}
+
+		function logout() {
+			window.location.replace("../logout")
 		}
 	</script>
 </body>

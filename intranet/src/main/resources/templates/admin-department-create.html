@@ -23,7 +23,9 @@
 	<p id="message" class="message"></p>
 
 	<button onclick="goBack()">Back</button>
-
+	<p></p>
+	<button onclick="logout()">Logout</button>
+	
 	<script type="text/javascript">
 		$.ajax({
 			url : "/users",
@@ -37,8 +39,7 @@
 					opt.setAttribute("id", response[i].userID);
 					opt.value = response[i].userID + " " + response[i].fname
 							+ " " + response[i].lname;
-					opt.text = response[i].fname
-							+ " " + response[i].lname;
+					opt.text = response[i].fname + " " + response[i].lname;
 					superSelect.appendChild(opt);
 				}
 			}
@@ -55,18 +56,20 @@
 							type : "POST",
 							dataType : 'json',
 							contentType : "application/json",
-							data : JSON.stringify({
-								"deptName" : document.getElementById("name").value,
-								"supervisor" : superParts[0],
-							}),
+							data : JSON
+									.stringify({
+										"deptName" : document
+												.getElementById("name").value,
+										"supervisor" : superParts[0],
+									}),
 							cache : false,
-							statusCode: {
-							    200: function() {
+							statusCode : {
+								200 : function() {
 									message.innerHTML = "Succesfully created department"
-							    },
-							    400:function(){
+								},
+								400 : function() {
 									message.innerHTML = "There was an error while creating the department"
-							    }
+								}
 							}
 						});
 			}
@@ -81,6 +84,10 @@
 		}
 		function goBack() {
 			window.location.replace("../department")
+		}
+		
+		function logout() {
+			window.location.replace("../../../logout")
 		}
 	</script>
 </body>

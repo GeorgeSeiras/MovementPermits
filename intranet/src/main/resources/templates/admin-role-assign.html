@@ -21,6 +21,9 @@
 	<p id="message" class="message"></p>
 
 	<button onclick="goBack()">Back</button>
+	<p></p>
+	<button onclick="logout()">Logout</button>
+
 
 	<script type="text/javascript">
 		const userID = window.location.pathname.split("/").pop();
@@ -147,6 +150,10 @@
 		
 		function goBack() {
 			window.location.replace("../users")
+		}
+		
+		function logout() {
+			window.location.replace("../../logout")
 		}
 	</script>
 </body>

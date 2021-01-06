@@ -66,6 +66,9 @@
 		</table>
 
 	</div>
+	<p></p>
+	<button onclick="logout()">Logout</button>
+
 
 	<script type="text/javascript">
 		document.getElementById("defaultOpen").click();
@@ -354,6 +357,10 @@
 					return c.substring(nameEQ.length, c.length);
 			}
 			return null;
+		}
+
+		function logout() {
+			window.location.replace("../logout")
 		}
 	</script>
 </body>

@@ -5,14 +5,14 @@ import javax.validation.constraints.NotNull;
 public class RolesDetailsModelRequest {
 
 	@NotNull
-	private String roleName;
+	private String authority;
 
-	public String getRoleName() {
-		return roleName;
+	public String getAuthority() {
+		return authority;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setAuthority(String authority) {
+		this.authority = authority;
 	}
 	
 	
