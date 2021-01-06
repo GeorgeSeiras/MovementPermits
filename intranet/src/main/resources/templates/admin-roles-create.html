@@ -20,7 +20,7 @@
 	<button onclick="goBack()">Back</button>
 
 	<script type="text/javascript">
-		function createDepartment() {
+		function createRole() {
 			const message = document.getElementById("message");
 			if (validateInput) {
 				$
@@ -28,17 +28,20 @@
 							url : "/roles",
 							type : "POST",
 							dataType : 'json',
-							data : {
-								"name" : document.getElementById("name").value
-							},
+							contentType : "application/json",
+							data : JSON
+									.stringify({
+										"authority" : document
+												.getElementById("name").value
+									}),
 							cache : false,
-							success : function(response) {
-								if (response.status === 200) {
+							statusCode:{
+								200: function(){
 									message.innerHTML = "Succesfully created role"
-
+								},
+								400:function(){
+									message.innerHTML = "There was an error while creating the role"
 								}
-								message.innerHTML = "There was an error while creating the role"
-
 							}
 						});
 			}
@@ -51,7 +54,7 @@
 			}
 			return true;
 		}
-		
+
 		function goBack() {
 			window.location.replace("../role")
 		}

@@ -11,8 +11,8 @@ import group15.intranet.entity.Role;
 import group15.intranet.entity.User;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Integer>, JpaSpecificationExecutor<Role> {
+public interface RoleRepository extends JpaRepository<Role, String>, JpaSpecificationExecutor<Role> {
 
-	User findById(int user_id);
+	Role findByAuthority(String authority);
 
 }

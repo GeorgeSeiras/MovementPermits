@@ -1,5 +1,6 @@
 package group15.intranet.service;
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,9 +16,11 @@ import org.springframework.stereotype.Service;
 import group15.intranet.criteria.SearchCriteria;
 import group15.intranet.criteria.SearchOperation;
 import group15.intranet.entity.Permit;
+import group15.intranet.model_request.PermitStatistics;
 import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
 import group15.intranet.repository.PermitRepository;
 import group15.intranet.specification.PermitSpecification;
+import group15.intranet.specification.JoinPermitUserSpecification;
 
 @Service
 public class PermitServiceImpl implements PermitService {
@@ -36,18 +39,14 @@ public class PermitServiceImpl implements PermitService {
 
 	@Override
 	public List<Permit> getPermits(Map<String, String> searchParams) {
-		// GenericSpecification<Permit> spec = new GenericSpecification<Permit>();
 		List<SearchCriteria> list = new ArrayList<>();
-		;
 		if (searchParams.containsKey("id")) {
 			list.add(new SearchCriteria("permitID", searchParams.get("id"), SearchOperation.EQUAL));
 		}
-		if (searchParams.containsKey("fname")) {
-			list.add(new SearchCriteria("fname", searchParams.get("fname"), SearchOperation.EQUAL));
+		if (searchParams.containsKey("fname") && searchParams.containsKey("lname")) {
+			return permitRepository.findAll(JoinPermitUserSpecification.buildQuery(searchParams.get("fname"), searchParams.get("lname")));
 		}
-		if (searchParams.containsKey("lname")) {
-			list.add(new SearchCriteria("lname", searchParams.get("lname"), SearchOperation.EQUAL));
-		}
+		
 		if (searchParams.containsKey("start_date")) {
 			java.util.Date utilDate = null;
 			java.sql.Date sqlDate = null;
@@ -104,6 +103,19 @@ public class PermitServiceImpl implements PermitService {
 			permitRepository.save(checkedPermit);
 			return new ResponseEntity<Permit>(checkedPermit, HttpStatus.OK);
 		}
+	}
+
+	@Override
+	public PermitStatistics getStatistics() {
+		int totalPermits = permitRepository.findAll().size();
+		int validPermits = permitRepository.findByStatus("APPROVED").size();
+		int invalidPermits = permitRepository.findByStatus("DENIED").size();
+		int activePermits = permitRepository.findActive(new Date(System.currentTimeMillis())).size();
+		int inactivePermits = permitRepository.findInactive(new Date(System.currentTimeMillis())).size();
+		int dailyPermits = permitRepository.findByTypeAndStatus("daily","APPROVED").size();
+		int weeklyPermits = permitRepository.findByTypeAndStatus("weekly","APPROVED").size();
+		int monthlyPermits = permitRepository.findByTypeAndStatus("monthly","APPROVED").size();
+		return new PermitStatistics(totalPermits,validPermits,invalidPermits,activePermits,inactivePermits,dailyPermits,weeklyPermits,monthlyPermits);
 	}
 
 }

@@ -1,5 +1,6 @@
 package group15.intranet.repository;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -16,8 +17,19 @@ public interface PermitRepository extends JpaRepository<Permit, Integer>, JpaSpe
 
 	List<Permit> findAll(Specification<Permit> spec);
 	
-	@Query("select p from Permit p where p.status= ?1")
 	List<Permit> findByStatus(String status);
+	
+	List<Permit> findByType(String type);
+	
+	List<Permit> findByTypeAndStatus(String type,String status);
+
+	
+	@Query("select p from Permit p where p.startDate< ?1 and p.endDate> ?1")
+	List<Permit> findActive(Date curDate);
+	
+	@Query("select p from Permit p where p.startDate> ?1 or p.endDate< ?1")
+	List<Permit> findInactive(Date curDate);
+	
 	
 	
 	

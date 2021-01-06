@@ -131,7 +131,7 @@ public class User implements Serializable{
 	public String getUsername() {
 		return username;
 	}
-
+	
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -151,7 +151,7 @@ public class User implements Serializable{
 	public void setEnabled(String enabled) {
 		this.enabled = enabled;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "User [userID=" + userID + ", fname=" + fname + ", lname=" + lname + ", address=" + address

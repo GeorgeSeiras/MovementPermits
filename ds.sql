@@ -8,7 +8,7 @@ CREATE TABLE `ds`.`users` (
   `phone_num` VARCHAR(45) NULL,
   `dep_id` INT NULL,
   `username` VARCHAR(50) UNIQUE NOT NULL ,
-  `password` VARCHAR(100) NOT NULL,
+  `password` VARCHAR(150) NOT NULL,
   `enabled` TINYINT NOT NULL DEFAULT 1,
   PRIMARY KEY (`user_id`));
 
@@ -19,8 +19,8 @@ CREATE TABLE `ds`.`departments` (
   PRIMARY KEY (`dept_id`));
 
 CREATE TABLE `ds`.`roles` (
-  `role_name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`role_name`));
+  `authority` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`authority`));
 
 CREATE TABLE `ds`.`permits` (
   `permit_id` INT NOT NULL AUTO_INCREMENT,
@@ -63,13 +63,14 @@ ADD CONSTRAINT `permit_fk_user`
   ON UPDATE NO ACTION;
 
 ALTER TABLE `ds`.`authorities` 
-ADD CONSTRAINT `rbu_fk_users`
+ADD CONSTRAINT `auth_fk_users`
   FOREIGN KEY (`username`)
   REFERENCES `ds`.`users` (`username`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION,
-ADD CONSTRAINT `rbu_fk_roles`
+
+ADD CONSTRAINT `auth_fk_roles`
   FOREIGN KEY (`authority`)
-  REFERENCES `ds`.`roles` (`role_name`)
+  REFERENCES `ds`.`roles` (`authority`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;

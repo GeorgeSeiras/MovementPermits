@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html >
+<html>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <head>
@@ -26,7 +26,7 @@
 
 	<script type="text/javascript">
 		const url = window.location.href;
-		const permitId = url.substr(url.lastIndexOf('/') + 1);
+		const permitId = url.substr(url.lastIndexOf('/') + 1).split('?')[0];
 		$.ajax({
 			url : "/permits?id=" + permitId,
 			type : "GET",
@@ -51,7 +51,7 @@
 			const lname_td = document.createElement("td");
 			const lname_text = document.createTextNode(permit.user.lname);
 			lname_td.appendChild(lname_text);
-			
+
 			const from_td = document.createElement("td");
 			const from_text = document.createTextNode(permit.startDate);
 			from_td.appendChild(from_text);
@@ -63,15 +63,15 @@
 			const type_td = document.createElement("td");
 			const type_text = document.createTextNode(permit.type);
 			type_td.appendChild(type_text);
-			
+
 			const status_td = document.createElement("td");
 			const status_text = document.createTextNode(permit.status);
 			status_td.appendChild(status_text);
-			
+
 			const address_td = document.createElement("td");
 			const address_text = document.createTextNode(permit.address);
 			address_td.appendChild(address_text);
-			
+
 			tr.appendChild(fname_td);
 			tr.appendChild(lname_td);
 			tr.appendChild(from_td);
@@ -91,13 +91,20 @@
 				const submitButton = document.createElement("BUTTON");
 				submitButton.innerHTML = "Update Status";
 				submitButton.onclick = function() {
-					const newStatus = $('input[name=newStatus]:checked',
+					const value = $('input[name=newStatus]:checked',
 							'#statusChange').val();
+					var newStatus;
+					if (value === "Deny") {
+						newStatus = "DENIED";
+					} else if (value === "Approve") {
+						newStatus = "APPROVED";
+					}
 					$.ajax({
-						url : "/permits/" + permit.id + "/status",
+						url : "/permits/" + permit.permitID + "/status",
 						dataType : 'json',
-						type : "POST",
-						data : "status:" + newStatus,
+						type : "PUT",
+						data :JSON.stringify({"status" : newStatus}),
+						contentType: "application/json; charset=utf-8",
 						cache : false,
 						success : function(response) {
 							const newPermit = response;
@@ -125,8 +132,8 @@
 			label.appendChild(document.createTextNode(text));
 			return label;
 		}
-		
-		function goBack(){
+
+		function goBack() {
 			window.location.replace("../../")
 		}
 	</script>
