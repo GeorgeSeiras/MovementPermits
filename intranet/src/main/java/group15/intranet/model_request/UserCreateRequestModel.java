@@ -2,12 +2,7 @@ package group15.intranet.model_request;
 
 import java.util.List;
 
-import group15.intranet.entity.Department;
-import group15.intranet.entity.Role;
-
-public class UserDetailsRequestModel {
-
-	
+public class UserCreateRequestModel {
 	private int userID;
 	private String fname;
 	private String lname;
@@ -16,7 +11,16 @@ public class UserDetailsRequestModel {
 	private String department;
 	private String username;
 	private String password;
-
+	private List<String> authorities;
+	
+	
+	
+	public List<String> getAuthorities() {
+		return authorities;
+	}
+	public void setAuthorities(List<String> authorities) {
+		this.authorities = authorities;
+	}
 	public String getDepartment() {
 		return department;
 	}
@@ -65,6 +69,4 @@ public class UserDetailsRequestModel {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
 }

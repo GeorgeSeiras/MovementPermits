@@ -12,43 +12,53 @@
 			<th>Authorities</th>
 		</tr>
 	</table>
-	
-	<p>Assign new role
-	<select id="authorities"></select>
-	<button onclick="assign()">Assign</button>
-</p>
+
+	<p>
+		Assign new role <select id="authorities"></select>
+		<button onclick="assign()">Assign</button>
+	</p>
+
+	<p id="message" class="message"></p>
 
 	<button onclick="goBack()">Back</button>
 
 	<script type="text/javascript">
 		const userID = window.location.pathname.split("/").pop();
 		//get user
+		var user;
 		$.ajax({
 			url : "/users/" + userID,
 			dataType : 'json',
 			type : "GET",
 			cache : false,
 			success : function(response) {
+				user=response;
 				authToTable(response, document.getElementById("authTable"));
-			}
-		});
-
-		$.ajax({
-			url : "/roles",
-			dataType : 'json',
-			type : "GET",
-			cache : false,
-			success : function(response) {
-				authToSelect(response, document.getElementById("authorities"));
+				$.ajax({
+					url : "/roles",
+					dataType : 'json',
+					type : "GET",
+					cache : false,
+					success : function(response) {
+						authToSelect(response,user, document.getElementById("authorities"));
+					}
+				});
 			}
 		});
 		
-		function authToSelect(authorities,select){
+		
+		function authToSelect(authorities,user,select){
+			var userAuthorities = new Map();
+			for(const userAuth of user.authorities){
+				userAuthorities.set(userAuth.authority,userAuth.authority);
+			}
 			for(const auth of authorities){
-				const option = document.createElement("option");
-				option.value = auth.authority;
-				option.text = auth.authority;
-				select.appendChild(option)
+				if(userAuthorities.get(auth.authority) === undefined){
+					const option = document.createElement("option");
+					option.value = auth.authority;
+					option.text = auth.authority;
+					select.appendChild(option);
+				}
 			} 
 		}
 		
@@ -78,7 +88,14 @@
 							cache : false,
 							success : function(response) {
 								var row = buttonRemove.parentNode.parentNode;
-								row.parentNode.removeChild(row)
+								var auth = row.cells[0].innerHTML
+								//re-add removed authority to the available authorities to assign
+								const select = document.getElementById("authorities")
+								const option = document.createElement("option");
+								option.value = auth;
+								option.text = auth;
+								select.appendChild(option);
+								row.parentNode.removeChild(row);
 							},
 							statusCode:{
 								200: function(){
@@ -92,26 +109,30 @@
 					}
 				}
 				addOnClickDelete(auth);
-				buttonRemove_td.appendChild(buttonRemove);
 				
-				table.appendChild(auth_td);
-				table.appendChild(buttonRemove_td);
+				buttonRemove_td.appendChild(buttonRemove);
+				tr.appendChild(auth_td);
+				tr.appendChild(buttonRemove_td);
+				table.appendChild(tr);
+
 			}
 		}
 		
 		function assign(){
 			
 			$.ajax({
-				url : "/users/",
+				url : "/users/"+window.location.pathname.split("/").pop()+"/role",
 				type : "PUT",
 				data : JSON
 						.stringify({
-							authority:document.getElementById("authorities").values
+							authority:document.getElementById("authorities").value
 						}),
 				contentType : "application/json",
 				cache : false,
 				success : function(response) {
-					authToTable(response,document.getElementById("authTable"))
+					authToTable(response,document.getElementById("authTable"));
+					const auth = document.getElementById("authorities");
+					auth.removeChild(auth.querySelector('option[value="' + auth.value + '"]'))
 				},
 				statusCode:{
 					200: function(){

@@ -21,4 +21,6 @@ public interface DepartmentRepository extends JpaRepository<Department, Integer>
 	Department findById(int dept_id);
 
 	List<Department> findAll();
+
+	Department findByDeptName(String deptName);
 }

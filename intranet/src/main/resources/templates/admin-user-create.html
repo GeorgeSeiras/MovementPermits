@@ -26,8 +26,10 @@
 		Phone Number: <input type="text" id="phone">
 	</p>
 	<p>
-		Department: <select id="department">
-		</select>
+		Department: <select id="department"></select>
+	</p>
+	<p>
+		Role: <select id="role"></select>
 	</p>
 	<button type="button" onclick="createUser()">Create User</button>
 
@@ -36,6 +38,22 @@
 	<button onclick="goBack()">Back</button>
 
 	<script type="text/javascript">
+	$.ajax({
+		url : "/roles",
+		dataType : 'json',
+		type : "GET",
+		cache : false,
+		success : function(response) {
+			const depSelect = document.getElementById("role");
+			for (var i = 0; i < response.length; i++) {
+				var option = document.createElement("option");
+				option.setAttribute("id", response[i].authority);
+				option.value = response[i].authority;
+				option.text = response[i].authority;
+				depSelect.appendChild(option);
+			}
+		}
+	});
 		$.ajax({
 			url : "/departments",
 			type : "GET",
@@ -43,7 +61,7 @@
 			cache : false,
 			success : function(response) {
 				const depSelect = document.getElementById("department");
-				for (var i = 0;i< response.length; i++) {
+				for (var i = 0; i < response.length; i++) {
 					var option = document.createElement("option");
 					option.setAttribute("id", response[i].deptName);
 					option.value = response[i].deptName;
@@ -74,10 +92,11 @@
 												.getElementById("lname").value,
 										"address" : document
 												.getElementById("address").value,
-										"phone" : document
+										"phoneNum" : document
 												.getElementById("phone").value,
 										"department" : document
-												.getElementById("department").value
+												.getElementById("department").value,
+										"authorities":[document.getElementById("role").value]
 									}),
 							cache : false,
 							statusCode : {

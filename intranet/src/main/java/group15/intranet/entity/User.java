@@ -66,7 +66,7 @@ public class User implements Serializable{
 	private String password;
 	
 	@Column(name="enabled")
-	private String enabled;
+	private boolean enabled;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
 			CascadeType.REFRESH })
@@ -158,11 +158,11 @@ public class User implements Serializable{
 		this.password = password;
 	}
 	
-	public String getEnabled() {
+	public boolean getEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(String enabled) {
+	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
 	

@@ -89,9 +89,6 @@
 				select_dep.name="departments";
 				select_dep.id="department"+users[i].userID;
 				const emptyOption = document.createElement("option");
-				emptyOption.value = null;
-				emptyOption.text = "None";
-				select_dep.appendChild(emptyOption);
 				for(const dep of departments){
 					const option = document.createElement("option");
 					option.value = dep.deptName;
@@ -107,7 +104,7 @@
 				const auth_td = document.createElement("td");
 				var authText = "";
 				users[i].authorities.forEach(function(auth) {
-					authText += auth.authority + ", "
+					authText += auth.authority + " "
 				})
 				if (authText === undefined) {
 					authText = "None";
@@ -134,7 +131,7 @@
 				var addOnClickUpdate = function(userID) {
 					buttonUpdate.onclick = function() {
 						$.ajax({
-							url : "/users/",
+							url : "/users/"+userID,
 							type : "PUT",
 							data : JSON
 									.stringify({
