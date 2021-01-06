@@ -92,23 +92,31 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	public ResponseEntity<Department> updateDepartment(Department dep) {
 		Department checkedDep = departmentRepository.findById(dep.getDeptID());
-		if (checkedDep == null) {
-			return new ResponseEntity<Department>(dep, HttpStatus.NOT_FOUND);
-		}
-		Department uniqueSuperCheck = departmentRepository.findBySupervisor(dep.getSupervisor());
-		if(uniqueSuperCheck!=null) {
-			return new ResponseEntity<Department>(dep, HttpStatus.BAD_REQUEST);
-		}
-		checkedDep.setSupervisor(dep.getSupervisor());
-		User checkedUser = userRepository.findByUserID(dep.getSupervisor());
-		if (checkedUser == null) {
-			return new ResponseEntity<Department>(dep, HttpStatus.NOT_FOUND);
-		}
+		// if supervisor hasnt changed
+		System.out.println(checkedDep.getSupervisor() == dep.getSupervisor());
+		if (checkedDep.getSupervisor() == dep.getSupervisor()) {
+			checkedDep.setDeptName(dep.getDeptName());
+			return new ResponseEntity<Department>(dep, HttpStatus.OK);
+		} else {
+			// supervisor has been changed
+			if (checkedDep == null) {
+				return new ResponseEntity<Department>(dep, HttpStatus.NOT_FOUND);
+			}
+			Department uniqueSuperCheck = departmentRepository.findBySupervisor(dep.getSupervisor());
+			if (uniqueSuperCheck != null) {
+				return new ResponseEntity<Department>(dep, HttpStatus.BAD_REQUEST);
+			}
+			checkedDep.setSupervisor(dep.getSupervisor());
+			User checkedUser = userRepository.findByUserID(dep.getSupervisor());
+			if (checkedUser == null) {
+				return new ResponseEntity<Department>(dep, HttpStatus.NOT_FOUND);
+			}
 
-		if (checkedDep.getDeptID() != checkedUser.getDept().getDeptID()) {
-			checkedUser.setDept(checkedDep);
+			if (checkedDep.getDeptID() != checkedUser.getDept().getDeptID()) {
+				checkedUser.setDept(checkedDep);
+			}
+			return new ResponseEntity<Department>(dep, HttpStatus.OK);
 		}
-		return new ResponseEntity<Department>(dep, HttpStatus.OK);
 	}
 
 	@Override

@@ -76,7 +76,7 @@
 
 		function createUser() {
 			const message = document.getElementById("message");
-			if (validateInput) {
+			if (validateInput()) {
 				$
 						.ajax({
 							url : "/users",
@@ -116,7 +116,7 @@
 		}
 
 		function validateInput() {
-			const message = ""
+			var message = ""
 			if (document.getElementById("fname").value === "") {
 				message += "fname";
 			}
@@ -144,6 +144,18 @@
 				}
 				message += "department";
 			}
+			if (document.getElementById("username").value === "") {
+				if (message !== "") {
+					message += ", "
+				}
+				message += "username";
+			}
+			if (document.getElementById("password").value === "") {
+				if (message !== "") {
+					message += ", "
+				}
+				message += "password";
+			}
 			if (message !== "") {
 				message += " is/are required";
 				document.getElementById("message").innerHTML = message;
@@ -155,7 +167,7 @@
 		function goBack() {
 			window.location.replace("../users")
 		}
-		
+
 		function logout() {
 			window.location.replace("../../logout")
 		}
