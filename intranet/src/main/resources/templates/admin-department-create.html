@@ -49,7 +49,7 @@
 			const message = document.getElementById("message");
 			const supervisor = document.getElementById("super").value;
 			const superParts = supervisor.split(" ");
-			if (validateInput) {
+			if (validateInput()) {
 				$
 						.ajax({
 							url : "/departments",
