@@ -26,6 +26,28 @@
 	<button onclick="logout()">Logout</button>
 
 	<script type="text/javascript">
+	var departments;
+	$.ajax({
+		url : "/departments",
+		type : "GET",
+		dataType : 'json',
+		cache : false,
+		success : function(response) {
+			departments = response;
+		}
+	});
+
+	var roles;
+	$.ajax({
+		url : "/roles",
+		type : "GET",
+		dataType : 'json',
+		cache : false,
+		success : function(response) {
+			roles = response;
+		}
+	});
+	
 		$.ajax({
 			url : "/users",
 			dataType : 'json',
@@ -36,27 +58,7 @@
 			}
 		});
 
-		var departments;
-		$.ajax({
-			url : "/departments",
-			type : "GET",
-			dataType : 'json',
-			cache : false,
-			success : function(response) {
-				departments = response;
-			}
-		});
-
-		var roles;
-		$.ajax({
-			url : "/roles",
-			type : "GET",
-			dataType : 'json',
-			cache : false,
-			success : function(response) {
-				roles = response;
-			}
-		});
+		
 		
 		function usersToTable(users, table) {
 			const message = document.getElementById("message");
