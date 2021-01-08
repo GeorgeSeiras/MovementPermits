@@ -9,9 +9,5 @@ import group15.intranet.model_request.RolesDetailsModelRequest;
 
 public interface RoleService {
 
-	ResponseEntity<Role> addRole(RolesDetailsModelRequest roleName);
-
-	ResponseEntity<Role> deleteRole(String roleName);
-
 	List<Role> getRoles();
 }

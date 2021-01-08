@@ -34,15 +34,4 @@ public class RolesRestController {
 		return roleService.getRoles();
 	}
 	
-	@PostMapping
-	@ResponseBody
-	public ResponseEntity<Role> addRole(@Valid @RequestBody RolesDetailsModelRequest roleName){
-		return roleService.addRole(roleName);
-	}
-	
-	@DeleteMapping("/{roleName}")
-	@ResponseBody
-	public ResponseEntity<Role> deleteRole(@PathVariable String roleName){
-		return roleService.deleteRole(roleName);
-	}
 }

@@ -33,18 +33,4 @@ public class AdminController {
 		return "admin-department-create";
 	}
 	
-	@GetMapping("role")
-	public String adminCreateRole() {
-		return "admin-roles";
-	}
-	
-	@GetMapping("role/create")
-	public String adminDeleteRole() {
-		return "admin-roles-create";
-	}
-	
-	@GetMapping("roles/{id}")
-	public String adminRoleAssign() {
-		return "admin-role-assign";
-	}
 }
