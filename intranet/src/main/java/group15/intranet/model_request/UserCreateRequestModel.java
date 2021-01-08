@@ -2,15 +2,25 @@ package group15.intranet.model_request;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 public class UserCreateRequestModel {
 	private int userID;
+	@NotNull
 	private String fname;
+	@NotNull
 	private String lname;
+	@NotNull
 	private String address;
+	@NotNull
 	private String phoneNum;
+	@NotNull
 	private String department;
+	@NotNull
 	private String username;
+	@NotNull
 	private String password;
+	
 	private List<String> authorities;
 	
 	

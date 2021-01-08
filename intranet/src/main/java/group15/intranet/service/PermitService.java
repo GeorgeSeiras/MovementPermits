@@ -14,6 +14,8 @@ public interface PermitService {
 	List<Permit> getPermits(Map<String, String> searchParams);
 	
 	ResponseEntity<Permit> getPermitById(int id);
+	
+	ResponseEntity<List<Permit>> getSupervisorPermits(int supervisorId);
 
 	void deleteById(int id);
 	

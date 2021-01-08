@@ -20,6 +20,7 @@ import group15.intranet.entity.Permit;
 import group15.intranet.model_request.PermitStatistics;
 import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
 import group15.intranet.repository.PermitRepository;
+import group15.intranet.repository.UserRepository;
 import group15.intranet.specification.PermitSpecification;
 import group15.intranet.specification.JoinPermitUserSpecification;
 
@@ -29,6 +30,9 @@ public class PermitServiceImpl implements PermitService {
 
 	@Autowired
 	PermitRepository permitRepository;
+	
+	@Autowired
+	UserRepository userRepository;
 
 	@Override
 	public ResponseEntity<Permit> getPermitById(int id) {
@@ -117,6 +121,18 @@ public class PermitServiceImpl implements PermitService {
 		int weeklyPermits = permitRepository.findByTypeAndStatus("weekly","APPROVED").size();
 		int monthlyPermits = permitRepository.findByTypeAndStatus("monthly","APPROVED").size();
 		return new PermitStatistics(totalPermits,validPermits,invalidPermits,activePermits,inactivePermits,dailyPermits,weeklyPermits,monthlyPermits);
+	}
+
+	@Override
+	public ResponseEntity<List<Permit>> getSupervisorPermits(int supervisorId) {
+		List<Permit> permits = permitRepository.findAll();
+		List<Permit> supervisorPermits = new ArrayList<Permit>();
+		for(int i =0; i<permits.size();i++) {
+			if(permits.get(i).getUser().getDept().getSupervisor()== userRepository.findByUserID(supervisorId).getUserID()) {
+				supervisorPermits.add(permits.get(i));
+			}
+		}
+		return new ResponseEntity<List<Permit>>(supervisorPermits,HttpStatus.OK);
 	}
 
 }
