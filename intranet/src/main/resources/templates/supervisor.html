@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Supervisor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -69,33 +70,34 @@
 	<p></p>
 	<button onclick="logout()">Logout</button>
 
-
+	<script th:inline="javascript">
+		var username = /*[[${#authentication.principal.username}]]*/;
+	</script>
 	<script type="text/javascript">
 		document.getElementById("defaultOpen").click();
-		//const myCookie = readCookie(user);
 		var user;
 		//get me
-		/*$.ajax({
-			url : "/supervisor/me?token=" + myCookie,
-			type : "GET",
-			cache : false,
-			success : function(response) {
-				console.log(response)
-				user = JSON.parse(response);
-			}
-		})*/
-
-		//get and show the permits for my department
 		$.ajax({
-			url : "/permits",//"/permits?dep=" + user.depID,
+			url : "/users/me?username="+username,
 			type : "GET",
-			dataType : 'json',
 			cache : false,
 			success : function(response) {
-				const permits = response
-				permitsToTable(permits)
+				user =response;
+				//get and show the permits for my department
+				$.ajax({
+					url : "/permits/supervisor/" + user.userID,
+					type : "GET",
+					dataType : 'json',
+					cache : false,
+					success : function(response) {
+						const permits = response
+						permitsToTable(permits)
+					}
+				})
 			}
 		})
+
+		
 
 		//validate input for the permit search
 		function formValidation(dropdownValue, searchValue) {
@@ -141,11 +143,11 @@
 				} else if (dropdownValue === "EndDate") {
 					queryParameter = "end_date=" + searchValue;
 				}
-				//const finalQueryParameters = string.concat(queryParameter,
-				//		"&depId=" + depId)
 				var url = "/permits";
 				if (queryParameter !== "") {
-					url += "?" + queryParameter
+					url += "?" + queryParameter+"&superId=" + user.userID
+				}else{
+					url+="?superId=" + user.userID
 				}
 				$.ajax({
 					url : url,
@@ -176,11 +178,14 @@
 				} else if (dropdownValue === "EndDate") {
 					queryParameter = "end_date=" + searchValue;
 				}
-				//const finalQueryParameters = string.concat(queryParameter,
-				//		"&depId=" + depId)
 				var url = "/permits?status=PENDING&";
 				if (queryParameter !== "") {
-					url += queryParameter
+					
+				}
+				if (queryParameter !== "") {
+					url += queryParameter+"&superId=" + user.userID
+				}else{
+					url+="&superId=" + user.userID
 				}
 				$.ajax({
 					url : url,

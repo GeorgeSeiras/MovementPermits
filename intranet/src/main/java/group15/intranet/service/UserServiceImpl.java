@@ -142,5 +142,12 @@ public class UserServiceImpl implements UserService {
 		return new ResponseEntity<User>(checkedUser, HttpStatus.OK);
 	}
 
-
+	@Override
+	public ResponseEntity<User> getMe(String username){
+		User user = userRepository.findOneByUsername(username);
+		if(user == null) {
+			return new ResponseEntity<User>(new User(), HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
 }

@@ -14,5 +14,7 @@ import group15.intranet.entity.User;
 public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
 
 	User findByUserID(int user_id);
+
+	User findOneByUsername(String username);
 	
 }

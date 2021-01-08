@@ -42,6 +42,11 @@ public class UsersRestController {
 		return userService.getAllUsers();
 	}
 
+	@GetMapping("/me")
+	public ResponseEntity<User> getMe(@RequestParam String username) {
+		return userService.getMe(username);
+	}
+	
 	@GetMapping("/{id}")
 	@ResponseBody
 	public ResponseEntity<User> findUserById(@PathVariable int id) {

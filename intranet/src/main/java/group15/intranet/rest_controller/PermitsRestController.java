@@ -49,8 +49,8 @@ public class PermitsRestController {
 	}
 	
 	@GetMapping("/supervisor/{id}")
-	public ResponseEntity<List<Permit>> getSupervisorPermits(@PathVariable int supervisorId){
-		return this.permitService.getSupervisorPermits(supervisorId);
+	public ResponseEntity<List<Permit>> getSupervisorPermits(@PathVariable int id){
+		return this.permitService.getSupervisorPermits(id);
 	}
 	
 	@PostMapping()
