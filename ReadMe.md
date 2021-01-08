@@ -10,7 +10,7 @@ Github Repository : [GitHub - GeorgeSeiras/MovementPermits](https://github.com/G
 
 1. Create the database:
    
-   The databse should be run on port 3306.
+   The databse should be running on port 3306.
    
    Run the db.sql script to create the database.
 
