@@ -1,7 +1,5 @@
 Github Repository : [GitHub - GeorgeSeiras/MovementPermits](https://github.com/GeorgeSeiras/MovementPermits)
 
-
-
 # Installation Guide
 
 ## Intranet
@@ -16,7 +14,7 @@ Github Repository : [GitHub - GeorgeSeiras/MovementPermits](https://github.com/G
 
 2. Run the initialization dbInit.sql script.
    
-   This script creates a department with the name ADMIN, a user named Adam Smith with the username: admin and password:password assigned to the ADMIN department, a role named ROLE_ADMIN and finally assigns the ROLE_ADMIN to the created user.
+   This script creates a department with the name ADMIN, a user named Adam Smith with the username: admin and password:password assigned to the ADMIN department, the 4 Roles ADMIN,SUPERVISOR,HR,DIRECTOR and finally assigns the ROLE_ADMIN to the created user.
 
 3. Run the group15_intranet.jar file under the intranet folder.
    
