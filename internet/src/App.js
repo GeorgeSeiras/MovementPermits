@@ -12,9 +12,9 @@ function App() {
     <main>
       <Router>
         <Switch>
-          <Route path="/permits" component={viewPermits} />
+          <Route exact path="/permits" component={viewPermits} />
           <Route path="/permits/create" component={createPermit} />
-          <Route path="permits/{id}" component={viewPermit} />
+          <Route path="/permits/:id" component={viewPermit} />
           <Route component={Error} />
         </Switch>
       </Router>
