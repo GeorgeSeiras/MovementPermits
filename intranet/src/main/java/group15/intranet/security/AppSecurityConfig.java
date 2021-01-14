@@ -46,7 +46,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/admin", "/admin/**").hasRole("ADMIN")
+		http.cors().and().authorizeRequests().antMatchers("/admin", "/admin/**").hasRole("ADMIN")
 				.antMatchers("/supervisor", "/supervisor/**").hasRole("SUPERVISOR").antMatchers("/hr", "/hr/**")
 				.hasRole("HR").antMatchers("/director").hasRole("DIRECTOR").and().formLogin().permitAll()
 				.successHandler(authenticationSuccessHandler).and().logout().permitAll().and().authorizeRequests()
