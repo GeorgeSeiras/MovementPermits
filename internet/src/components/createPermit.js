@@ -4,8 +4,8 @@ class createPermit extends React.Component {
         return (
             <div>
                 <h1>Fill the form to submit a movement permit application</h1>
-               <p> Address: <input type="text" id="address"></input></p>
-               <p>Type :<select id="type">
+                <p> Address: <input type="text" id="address"></input></p>
+                <p>Type :<select id="type">
                     <option value="daily">Daily</option>
                     <option value="weekly">Weekly</option>
                     <option value="montly">Montly</option>
