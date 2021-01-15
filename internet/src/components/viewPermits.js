@@ -4,14 +4,24 @@ class viewPermits extends React.Component {
     constructor() {
         super();
         this.state = {
-            permits: []
+            permits: [],
+            user: {}
         }
     };
-    componentDidMount() {
-        fetch("http://localhost:8080/permits")
-            .then(response => response.json())
-            .then((response) => this.setState({ permits: response }))
-            .catch(err => console.error('Error ', err.toString()));
+    async componentDidMount() {
+        const responseMe = await fetch("http://localhost:8080/user/me")
+        if (!responseMe.ok) {
+            document.getElementById("message").innerHTML = "There was an error while retrieving your permits";
+        }
+        const dataMe = await responseMe.json();
+        this.setState({ user: dataMe });
+
+        const responsePermits = await fetch("http://localhost:8080/permits?userId=" + this.state.user.userID);
+        if (!responsePermits.ok) {
+            document.getElementById("message").innerHTML = "There was an error while retrieving your permits";
+        }
+        const dataPermits = await responsePermits.json();
+        this.setState({ permits: dataPermits })
 
     }
     render() {
@@ -20,6 +30,9 @@ class viewPermits extends React.Component {
         }
         return (
             <div>
+                <button onClick={
+                    window.location.replace = "/permits/create"
+                }>Create Permit Request</button>
                 <table >
                     <tbody id="permitTable">
                         <tr>
@@ -29,16 +42,17 @@ class viewPermits extends React.Component {
                             <td>Status</td>
                         </tr>
                         {this.state.permits.map((permit, index) => {
-                            return (<tr index={index}>
+                            return (<tr index={index} key={index}>
                                 <td>{permit.type}</td>
                                 <td>{permit.startDate}</td>
                                 <td>{permit.endDate}</td>
                                 <td>{permit.status}</td>
-                                <button type="button" onclick={() => { window.location.replace("/permits/" + permit.permitID) }}>View</button>
+                                <td><button type="button" onClick={() => { window.location.replace("/permits/" + permit.permitID) }}>View</button></td>
                             </tr>)
                         })}
                     </tbody>
                 </table>
+                <p id="message" style={{ color: "red" }}></p>
             </div>
         )
     }

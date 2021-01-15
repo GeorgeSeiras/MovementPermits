@@ -7,11 +7,14 @@ class viewPermit extends React.Component {
         }
     };
 
-    componentDidMount() {
-        fetch('http://localhost:8080/permits/' + this.getPermitId())
-            .then(response => response.json())
-            .then((response) => this.setState({ permit: response }))
-            .catch(err => console.error('Error ', err.toString()));
+    async componentDidMount() {
+        const response = await fetch('http://localhost:8080/permits/' + this.getPermitId());
+        if (!response.ok) {
+            document.getElementById("message").innerHTML = "There was an error while retrieving your permits";
+        }
+        const data = await response.json();
+        this.setState({ permit: data });
+
     }
 
     render() {
@@ -48,6 +51,7 @@ class viewPermit extends React.Component {
                         }
                     </tbody>
                 </table>
+                <p id="message" style={{ color: "red" }}></p>
             </div >
         )
     }
