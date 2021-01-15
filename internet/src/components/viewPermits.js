@@ -8,8 +8,15 @@ class viewPermits extends React.Component {
             user: {}
         }
     };
+
     async componentDidMount() {
-        const responseMe = await fetch("http://localhost:8080/user/me")
+        const responseMe = await fetch("http://localhost:8080/user/me", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: localStorage.getItem('token') })
+        });
         if (!responseMe.ok) {
             document.getElementById("message").innerHTML = "There was an error while retrieving your permits";
         }
