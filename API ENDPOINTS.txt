@@ -1,0 +1,29 @@
+API ENDPOINTS
+
+POST /login
+receives body:{
+	username: username,
+	password: password
+}
+Το password δεν ειναι encrypted(πρως το παρον τουλαχιστον)
+Returns a jsonwebtoken which contains the username
+
+GET /user/me
+receivers body:{
+	token:token
+}
+Decrypts the token and returns the corresponding user
+
+
+POST /permit
+receives body:{ whatever a permit needs}
+creates a permit
+return: the created permit
+
+
+/permits/user/{id}
+Returns all permits for a userId
+
+Αν βαλουμε search functions για τα permits 
+/permits/user?queryparams
+τα query params θα ειναι για startDate και endDate(?)
