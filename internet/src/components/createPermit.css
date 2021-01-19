@@ -1,0 +1,12 @@
+body, html{
+    margin: 0;
+    height: 100vh;
+}
+
+.container{
+    background:lightgray;
+    display: inline-block;
+    text-align:center;
+    min-height: 100vh;
+
+}

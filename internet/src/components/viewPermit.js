@@ -1,6 +1,6 @@
 import React from "react";
 
-class viewPermit extends React.Component {
+class ViewPermit extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -60,4 +60,4 @@ class viewPermit extends React.Component {
     }
 }
 
-export default viewPermit;
+export default ViewPermit;

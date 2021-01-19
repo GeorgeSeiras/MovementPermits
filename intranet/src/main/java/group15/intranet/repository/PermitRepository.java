@@ -29,6 +29,8 @@ public interface PermitRepository extends JpaRepository<Permit, Integer>, JpaSpe
 	
 	@Query("select p from Permit p where p.startDate> ?1 or p.endDate< ?1")
 	List<Permit> findInactive(Date curDate);
+
+	List<Permit> findByUser_userID(int userID);
 	
 	
 	

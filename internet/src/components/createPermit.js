@@ -1,42 +1,42 @@
 import React from "react";
-class createPermit extends React.Component {
+import "./createPermit.css";
+class CreatePermit extends React.Component {
     render() {
         return (
-            <div>
+            <div className="container">
                 <h1>Fill the form to submit a movement permit application</h1>
                 <p> Address: <input type="text" id="address"></input></p>
                 <p>Type :<select id="type">
                     <option value="daily">Daily</option>
                     <option value="weekly">Weekly</option>
-                    <option value="montly">Montly</option>
+                    <option value="monthly">Montly</option>
                 </select></p>
                 <p> Start Date:<input type="date" id="startDate" onChange={() => {
-                    const type = document.getElementById("type").nodeValue;
-                    var newDate = document.getElementById("startDate").innerHTML;
+                    const type = document.getElementById("type").value;
+                    document.getElementById("endDate").value = document.getElementById("startDate").value;
                     if (type === "daily") {
-                        newDate += 1;
+                        document.getElementById("endDate").stepUp();
+
                     } else if (type === "weekly") {
-                        newDate += 7;
+                        document.getElementById("endDate").stepUp(7);
                     } else if (type === "monthly") {
-                        newDate += 30;
+                        document.getElementById("endDate").stepUp(30);
                     }
-                    document.getElementById("endDate").innerHTML = newDate;
                 }}></input></p>
                 <p> End Date:<input type="date" id="endDate" onChange={() => {
-                    const type = document.getElementById("type").nodeValue;
-                    var newDate = document.getElementById("endDate").innerHTML;
+                    const type = document.getElementById("type").value;
+                    document.getElementById("startDate").value = document.getElementById("endDate").value;
                     if (type === "daily") {
-                        newDate += 1;
+                        document.getElementById("startDate").stepDown();
                     } else if (type === "weekly") {
-                        newDate += 7;
+                        document.getElementById("startDate").stepDown(7);
                     } else if (type === "monthly") {
-                        newDate += 30;
+                        document.getElementById("startDate").stepDown(30);
                     }
-                    document.getElementById("startDate").innerHTML = newDate;
                 }}></input></p>
-                <p id="message" class="message"></p>
+                <p id="message" className="message"></p>
                 <p>
-                    <button onclick={async () => {
+                    <button onClick={async () => {
                         if (this.validateInput()) {
                             const requestOptions = {
                                 method: 'POST',
@@ -94,4 +94,4 @@ class createPermit extends React.Component {
     }
 }
 
-export default createPermit;
+export default CreatePermit;

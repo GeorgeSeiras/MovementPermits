@@ -86,6 +86,9 @@ public class PermitServiceImpl implements PermitService {
 			}
 			permits = permitRepository.findAll(PermitSpecification.buildQuery(list));
 		}
+		if (searchParams.containsKey("userID")) {
+			permits = permitRepository.findByUser_userID(Integer.parseInt(searchParams.get("userID")));
+		}
 		if (searchParams.containsKey("superId")) {
 			List<Permit> finalPermits = new ArrayList<Permit>();
 			for (Permit permit : permits) {

@@ -5,9 +5,9 @@ import {
   Route
 } from "react-router-dom";
 import React from 'react';
-import createPermit from "./components/createPermit";
-import viewPermits from "./components/viewPermits";
-import viewPermit from "./components/viewPermit";
+import CreatePermit from "./components/createPermit";
+import ViewPermits from "./components/viewPermits";
+import ViewPermit from "./components/viewPermit";
 import Login from "./components/login";
 import Token from "./components/token";
 
@@ -16,9 +16,9 @@ function App() {
 
   const { token, setToken } = Token();
 
-  if (!token) {
-    return <Login setToken={setToken} />
-  }
+  // if (!token) {
+  //   return <Login setToken={setToken} />
+  // }
 
   return (
     <main>
@@ -26,9 +26,9 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/login"> <Login /> </Route>
-            <Route exact path={["/","/permits"]}> <viewPermits /> </Route>
-            <Route exact path="/permits/create"> <createPermit /> </Route>
-            <Route exact path="/permits/:id"> <viewPermit /> </Route>
+            <Route exact path={["/","/permits"]}> <ViewPermits/> </Route>
+            <Route exact path="/permits/create"> <CreatePermit /> </Route>
+            <Route exact path="/permits/:id"> <ViewPermit /> </Route>
           </Switch>
         </Router>
       </div>
