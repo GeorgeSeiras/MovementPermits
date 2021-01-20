@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./viewPermit.css"
 class ViewPermit extends React.Component {
     constructor() {
         super();
@@ -24,8 +24,8 @@ class ViewPermit extends React.Component {
             )
         }
         return (
-            <div>
-                <table>
+            <div className="container">
+                <table className="table">
                     <tbody>
                         <tr>
                             <td>First Name</td>
@@ -51,7 +51,7 @@ class ViewPermit extends React.Component {
                         }
                     </tbody>
                 </table>
-                <p id="message" style={{ color: "red" }}></p>
+                <p id="message" className="message"></p>
             </div >
         )
     }

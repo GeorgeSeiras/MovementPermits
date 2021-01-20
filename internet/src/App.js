@@ -10,7 +10,7 @@ import ViewPermits from "./components/viewPermits";
 import ViewPermit from "./components/viewPermit";
 import Login from "./components/login";
 import Token from "./components/token";
-
+import Header from "./components/header";
 
 function App() {
 
@@ -23,6 +23,7 @@ function App() {
   return (
     <main>
       <div className="wrapper">
+        <Header/>
         <Router>
           <Switch>
             <Route exact path="/login"> <Login /> </Route>

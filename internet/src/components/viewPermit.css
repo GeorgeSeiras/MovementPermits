@@ -10,13 +10,13 @@ body, html{
     min-height: 100vh;
 }
 
-.backButton{
-    float:left;
-}
-
-.logoutButton{
-    float:right;
-}
 .message{
     color:crimson
+}
+
+.table{
+    margin:auto;
+}
+.message{
+    margin:auto;
 }
