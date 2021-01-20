@@ -42,10 +42,10 @@ class CreatePermit extends React.Component {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({
-                                    address: document.getElementById("address"),
-                                    type: document.getElementById("type"),
-                                    startDate: document.getElementById("startDate"),
-                                    endDate: document.getElementById("endDate")
+                                    address: document.getElementById("address").value,
+                                    type: document.getElementById("type").value,
+                                    startDate: document.getElementById("startDate").value,
+                                    endDate: document.getElementById("endDate").value
                                 })
                             }
                             const response = await fetch("http://localhost:8080/permits", requestOptions)
@@ -59,19 +59,19 @@ class CreatePermit extends React.Component {
         )
     }
     validateInput() {
-        const address = document.getElementById("address");
-        const startDate = document.getElementById("startDate");
-        const endDate = document.getElementById("endDate");
+        const address = document.getElementById("address").value;
+        const startDate = document.getElementById("startDate").value;
+        const endDate = document.getElementById("endDate").value;
         var message = "";
         const invalidFields = [];
         if (address === "") {
-            invalidFields.add("address");
+            invalidFields.push("address");
         }
         if (startDate === "") {
-            invalidFields.add("startDate");
+            invalidFields.push("startDate");
         }
         if (endDate === "") {
-            invalidFields.add("endDate");
+            invalidFields.push("endDate");
         }
         if (invalidFields.length === 0) {
             return true;
