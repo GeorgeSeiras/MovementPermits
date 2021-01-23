@@ -1,5 +1,6 @@
 package group15.intranet.service;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
 
 public interface PermitService {
 	
-	List<Permit> getPermits(Map<String, String> searchParams);
+	List<Permit> getPermits(Map<String, String> searchParams) throws ParseException;
 	
 	ResponseEntity<Permit> getPermitById(int id);
 	
