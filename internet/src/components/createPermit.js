@@ -1,6 +1,29 @@
 import React from "react";
 import "./createPermit.css";
 class CreatePermit extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            user: {}
+        }
+    };
+
+    async componentDidMount() {
+        // const response = await fetch("http://localhost:8080/user/me", {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({ token: localStorage.getItem('token') })
+        // });
+        // if (!response.ok) {
+        //     document.getElementById("message").innerHTML = "There was an error while retrieving your data";
+        // }
+        // const data = await response.json();
+        // this.setState({ user: data });
+
+    }
+
     render() {
         return (
             <div className="container">
@@ -45,7 +68,9 @@ class CreatePermit extends React.Component {
                                     address: document.getElementById("address").value,
                                     type: document.getElementById("type").value,
                                     startDate: document.getElementById("startDate").value,
-                                    endDate: document.getElementById("endDate").value
+                                    endDate: document.getElementById("endDate").value,
+                                    status:"PENDING",
+                                    user:this.state.user.userID
                                 })
                             }
                             const response = await fetch("http://localhost:8080/permits", requestOptions)
