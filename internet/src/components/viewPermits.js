@@ -19,7 +19,7 @@ class ViewPermits extends React.Component {
         //     body: JSON.stringify({ token: localStorage.getItem('token') })
         // });
         // if (!responseMe.ok) {
-        //     document.getElementById("message").innerHTML = "There was an error while retrieving your permits";
+        //     document.getElementById("message").innerHTML = "There was an error while retrieving your data";
         // }
         // const dataMe = await responseMe.json();
         // this.setState({ user: dataMe });

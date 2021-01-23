@@ -1,6 +1,7 @@
 package group15.intranet.rest_controller;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public class PermitsRestController {
 
 	@GetMapping
 	@ResponseBody
-	public List<Permit> getPermits(@RequestParam(required = false) Map<String, String> searchParams) {
+	public List<Permit> getPermits(@RequestParam(required = false) Map<String, String> searchParams) throws ParseException {
 		return this.permitService.getPermits(searchParams);
 	}
 	

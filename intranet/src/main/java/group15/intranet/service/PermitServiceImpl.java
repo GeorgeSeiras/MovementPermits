@@ -49,7 +49,7 @@ public class PermitServiceImpl implements PermitService {
 	}
 
 	@Override
-	public List<Permit> getPermits(Map<String, String> searchParams) {
+	public List<Permit> getPermits(Map<String, String> searchParams) throws ParseException {
 		List<SearchCriteria> list = new ArrayList<>();
 		List<Permit> permits = new ArrayList<>();
 		if (searchParams.containsKey("fname") && searchParams.containsKey("lname")) {
@@ -64,26 +64,16 @@ public class PermitServiceImpl implements PermitService {
 				java.util.Date utilDate = null;
 				java.sql.Date sqlDate = null;
 
-				try {
-
-					utilDate = new SimpleDateFormat("yyy-MM-dd").parse(searchParams.get("start_date"));
-					sqlDate = new java.sql.Date(utilDate.getTime());
-
-				} catch (ParseException e) {
-				}
+				utilDate = new SimpleDateFormat("yyy-MM-dd").parse(searchParams.get("start_date"));
+				sqlDate = new java.sql.Date(utilDate.getTime());
 
 				list.add(new SearchCriteria("startDate", sqlDate, SearchOperation.EQUAL));
 			} else if (searchParams.containsKey("end_date")) {
 				java.util.Date utilDate = null;
 				java.sql.Date sqlDate = null;
 
-				try {
-
-					utilDate = new SimpleDateFormat("yyy-MM-dd").parse(searchParams.get("end_date"));
-					sqlDate = new java.sql.Date(utilDate.getTime());
-
-				} catch (ParseException e) {
-				}
+				utilDate = new SimpleDateFormat("yyy-MM-dd").parse(searchParams.get("end_date"));
+				sqlDate = new java.sql.Date(utilDate.getTime());
 
 				list.add(new SearchCriteria("endDate", sqlDate, SearchOperation.EQUAL));
 			} else if (searchParams.containsKey("status")) {
