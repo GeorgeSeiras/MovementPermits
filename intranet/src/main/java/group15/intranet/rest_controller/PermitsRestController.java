@@ -53,6 +53,11 @@ public class PermitsRestController {
 		return this.permitService.getSupervisorPermits(id);
 	}
 	
+	@GetMapping("/user/{id}")
+	public ResponseEntity<List<Permit>> getUserPermits(@PathVariable int userId){
+		return this.permitService.getUserPermits(userId);
+	}
+	
 	@PostMapping()
 	@ResponseBody
 	public ResponseEntity<Permit> addPermit(@Valid @RequestBody Permit permit){

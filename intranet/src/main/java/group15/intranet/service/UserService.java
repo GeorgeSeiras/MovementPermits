@@ -20,5 +20,6 @@ public interface UserService {
 	ResponseEntity<User> assignRoleToUser(int id, AuthorityRequestModel authority);
 	ResponseEntity<User> removeRoleFromUser(int id, String auth);
 	ResponseEntity<User> addUser(UserCreateRequestModel user);
-	ResponseEntity<User> getMe(String username);	
+	ResponseEntity<User> getMe(String username);
+	
 }

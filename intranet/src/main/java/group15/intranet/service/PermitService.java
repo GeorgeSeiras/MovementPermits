@@ -25,4 +25,6 @@ public interface PermitService {
 	ResponseEntity<Permit> updatePermit(int id, UpdatePermitDetailsRequestModel permitDetails);
 	
 	PermitStatistics getStatistics();
+	
+	ResponseEntity<List<Permit>> getUserPermits(int userId);
 }

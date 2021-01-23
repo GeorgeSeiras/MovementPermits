@@ -16,9 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import group15.intranet.criteria.SearchCriteria;
 import group15.intranet.criteria.SearchOperation;
+import group15.intranet.entity.Department;
 import group15.intranet.entity.Permit;
 import group15.intranet.model_request.PermitStatistics;
 import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
+import group15.intranet.repository.DepartmentRepository;
 import group15.intranet.repository.PermitRepository;
 import group15.intranet.repository.UserRepository;
 import group15.intranet.specification.PermitSpecification;
@@ -33,6 +35,9 @@ public class PermitServiceImpl implements PermitService {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	DepartmentRepository deptRepository;
 
 	@Override
 	public ResponseEntity<Permit> getPermitById(int id) {
@@ -146,13 +151,18 @@ public class PermitServiceImpl implements PermitService {
 	public ResponseEntity<List<Permit>> getSupervisorPermits(int supervisorId) {
 		List<Permit> permits = permitRepository.findAll();
 		List<Permit> supervisorPermits = new ArrayList<Permit>();
+		Department dept = deptRepository.findBySupervisor(supervisorId);
 		for (int i = 0; i < permits.size(); i++) {
-			if (permits.get(i).getUser().getDept().getSupervisor() == userRepository.findByUserID(supervisorId)
-					.getUserID()) {
+			if (permits.get(i).getUser().getDept().getDeptID() == dept.getDeptID()) {
 				supervisorPermits.add(permits.get(i));
 			}
 		}
 		return new ResponseEntity<List<Permit>>(supervisorPermits, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<List<Permit>> getUserPermits(int userId) {
+		return new ResponseEntity<List<Permit>>(this.permitRepository.findByUser_userID(userId),HttpStatus.OK);
 	}
 
 }
