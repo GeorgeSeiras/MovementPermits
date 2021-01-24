@@ -1,26 +1,21 @@
 import { useState } from "react";
+import Cookies from 'universal-cookie';
+
 
 export default function Token() {
+    const cookies = new Cookies();
     const getToken = () => {
-        const tokenString = localStorage.getItem('token');
-        const token = JSON.parse(tokenString);
-        return token?.token;
+        return cookies.get('token');
     }
 
     const [token, setToken] = useState(getToken());
 
     const saveToken = userToken => {
-        localStorage.setItem('token', JSON.stringify(userToken));
-        setToken(userToken.token);
+        cookies.set('token', userToken, { path: '/', maxAge: 31536000 });
+        setToken(userToken.token)
     };
-    const deleteToken = () => {
-        localStorage.removeItem('token');
-    }
     return {
         setToken: saveToken,
-        deleteToken: deleteToken,
         token
     }
-
-
 }

@@ -1,7 +1,9 @@
 import React from "react";
 import "./viewPermits.css";
+import Cookies from 'universal-cookie';
 
 class ViewPermits extends React.Component {
+
     constructor() {
         super();
         this.state = {
@@ -11,23 +13,21 @@ class ViewPermits extends React.Component {
     };
 
     async componentDidMount() {
-        // const responseMe = await fetch("http://localhost:8080/user/me", {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({ token: localStorage.getItem('token') })
-        // });
-        // if (!responseMe.ok) {
-        //     document.getElementById("message").innerHTML = "There was an error while retrieving your data";
-        // }
-        // const dataMe = await responseMe.json();
-        // this.setState({ user: dataMe });
+
+        const cookies = new Cookies();
+        const responseMe = await fetch("http://localhost:8080/auth/me?jwt=" + cookies.get('token'), {
+            method: 'GET'
+        });
+        if (!responseMe.ok) {
+            document.getElementById("message").value = "There was an error while retrieving your data";
+        }
+        const dataMe = await responseMe.json();
+        this.setState({ user: dataMe });
 
         const responsePermits = await fetch("http://localhost:8080/permits"/*?userID=" + this.state.user.userID*/);
-        // if (!responsePermits.ok) {
-        //     document.getElementById("message").innerHTML = "There was an error while retrieving your permits";
-        // }
+        if (!responsePermits.ok) {
+            document.getElementById("message").value = "There was an error while retrieving your permits";
+        }
         const dataPermits = await responsePermits.json();
         this.setState({ permits: dataPermits })
 
@@ -43,6 +43,8 @@ class ViewPermits extends React.Component {
                     <button className="createButton" onClick={() => {
                         window.location.replace("/permits/create")
                     }}>Create Permit Request</button>
+                    <p id="message" className="message" style={{ color: "red" }}></p>
+
                     <table className="permitTable">
                         <tbody id="permitTable">
                             <tr>
@@ -62,7 +64,6 @@ class ViewPermits extends React.Component {
                             })}
                         </tbody>
                     </table>
-                    <p id="message" className="message" style={{ color: "red" }}></p>
                 </div>
                 <div className="right"></div>
             </div>
