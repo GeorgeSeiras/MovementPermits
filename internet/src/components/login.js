@@ -13,9 +13,11 @@ async function loginUser(username, password) {
             "password": password
         })
     });
-    if (result.status === 403) {
+    if (result.status === 401) {
         document.getElementById("loginMessage").innerHTML = "Incorrect username or password";
         return null;
+    }else if(result.status === 403){
+        document.getElementById("loginMessage").innerHTML = "You do not have the permission to access this. Please contact a system admininistrator if you think you should have the permission.";
     } else if (result.ok) {
         return result.json();
     }
@@ -27,7 +29,7 @@ export default function Login({ setToken }) {
     const handleSubmit = async e => {
         e.preventDefault();
         const token = await loginUser(username, password);
-        if(token !== null){
+        if(token !== null && token !== undefined){
             setToken(token.jwt);
             window.location.replace(".");
         }

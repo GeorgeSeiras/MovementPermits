@@ -27,7 +27,6 @@ public class AuthRestController {
 	@GetMapping("/me")
 	@ResponseBody
 	public ResponseEntity<User> authUser(@RequestParam String jwt){
-		System.out.println(jwt);
 		return this.authService.authUser(jwt);
 	}
 	
