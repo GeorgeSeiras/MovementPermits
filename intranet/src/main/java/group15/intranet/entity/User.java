@@ -22,57 +22,48 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-
 @Entity
 @Table(name = "users")
-public class User implements Serializable{
+public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
 	private int userID;
 
-	
 	@Column(name = "fname")
 	private String fname;
 
-	
 	@Column(name = "lname")
 	private String lname;
 
-	
 	@Column(name = "address")
 	private String address;
 
-	
 	@Column(name = "phone_num")
 	private String phoneNum;
-	
 
-	
-	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "dep_id")
 	private Department dept;
-	
-	@JsonManagedReference
+
+	@JsonBackReference
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Permit> permits;
-	
-	
-	@Column(name="username")
+
+	@Column(name = "username")
 	private String username;
-	
-	
-	@Column(name="password")
+
+	@Column(name = "password")
 	private String password;
-	
-	@Column(name="enabled")
+
+	@Column(name = "enabled")
 	private boolean enabled;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
 			CascadeType.REFRESH })
-	@JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "username",referencedColumnName="username"), inverseJoinColumns = @JoinColumn(name = "authority",referencedColumnName="authority"))
-	private List<Role> authorities= new ArrayList<Role>();
-	
+	@JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"), inverseJoinColumns = @JoinColumn(name = "authority", referencedColumnName = "authority"))
+	private List<Role> authorities = new ArrayList<Role>();
+
 	public void addAuthority(Role role) {
 		this.authorities.add(role);
 	}
@@ -133,11 +124,10 @@ public class User implements Serializable{
 		this.permits = permits;
 	}
 
-
 	public List<Role> getAuthorities() {
 		return authorities;
 	}
-	
+
 	public void setAuthorities(List<Role> authorities) {
 		this.authorities = authorities;
 	}
@@ -145,7 +135,7 @@ public class User implements Serializable{
 	public String getUsername() {
 		return username;
 	}
-	
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -157,7 +147,7 @@ public class User implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public boolean getEnabled() {
 		return enabled;
 	}
@@ -165,12 +155,12 @@ public class User implements Serializable{
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "User [userID=" + userID + ", fname=" + fname + ", lname=" + lname + ", address=" + address
-				+ ", phoneNum=" + phoneNum + ", dept=" + dept +", username=" + username
-				+ ", password=" + password + ", enabled=" + enabled + ", authorities=" + authorities + "]";
+				+ ", phoneNum=" + phoneNum + ", dept=" + dept + ", username=" + username + ", password=" + password
+				+ ", enabled=" + enabled + ", authorities=" + authorities + "]";
 	}
 
 	public User() {
@@ -189,7 +179,5 @@ public class User implements Serializable{
 		}
 		authorities.add(role);
 	}
-
-
 
 }

@@ -14,14 +14,14 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "roles")
-public class Role   {
+public class Role {
 	@Id
 	@Column(name = "authority")
 	private String authority;
-	
+
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
-			CascadeType.REFRESH },mappedBy="authorities")
+			CascadeType.REFRESH }, mappedBy = "authorities")
 	private List<User> users;
 
 	public String getAuthority() {
