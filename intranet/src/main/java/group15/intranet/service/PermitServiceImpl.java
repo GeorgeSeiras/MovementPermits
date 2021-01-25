@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +25,6 @@ import group15.intranet.repository.DepartmentRepository;
 import group15.intranet.repository.PermitRepository;
 import group15.intranet.repository.UserRepository;
 import group15.intranet.specification.PermitSpecification;
-import group15.intranet.specification.JoinPermitUserSpecification;
 
 @Service
 @Transactional
@@ -55,8 +53,7 @@ public class PermitServiceImpl implements PermitService {
 		List<SearchCriteria> list = new ArrayList<>();
 		List<Permit> permits = new ArrayList<>();
 		if (searchParams.containsKey("fname") && searchParams.containsKey("lname")) {
-			permits = permitRepository.findAll(
-					JoinPermitUserSpecification.buildQuery(searchParams.get("fname"), searchParams.get("lname")));
+			permits = permitRepository.findByStatusAndUser_fnameAndUser_lname(searchParams.get("status"),searchParams.get("fname"), searchParams.get("lname"));
 		} else {
 
 			if (searchParams.containsKey("id")) {
