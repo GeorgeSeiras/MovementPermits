@@ -6,20 +6,20 @@ class ViewPermit extends React.Component {
         super();
         this.state = {
             permit: null,
-            user:null
+            user: null
         }
     };
 
     async componentDidMount() {
         const cookies = new Cookies();
-        const responseJwt = await fetch("http://localhost:8080/auth/me?jwt=" + cookies.get('token'));
+        const responseJwt = await fetch(process.env.REACT_APP_API + "/auth/me?jwt=" + cookies.get('token'));
         if (!responseJwt.ok) {
             document.getElementById("message").innerHTML = "There was an error while retrieving your data";
             return;
         }
         const user = await responseJwt.json();
-        this.setState({ user:  user});
-        const response = await fetch('http://localhost:8080/permits/'+ this.getPermitId()+"?userID="+this.state.user.userID);
+        this.setState({ user: user });
+        const response = await fetch(process.env.REACT_APP_API + '/permits/' + this.getPermitId() + "?userID=" + this.state.user.userID);
         if (!response.ok) {
             document.getElementById("message").innerHTML = "Permit does not exist";
             return;

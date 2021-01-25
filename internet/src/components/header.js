@@ -11,10 +11,23 @@ class Header extends React.Component {
     logout() {
         const cookies = new Cookies();
         cookies.remove('token', { path: '/' });
-        console.log(cookies.get('token'));
     }
 
     render() {
+        const path = window.location.href;
+        if (path === process.env.REACT_APP_URL || path === process.env.REACT_APP_URL+"/"  || path === process.env.REACT_APP_URL+"/permits" ) {
+            return (
+                <div className="header">
+                <button className="logoutButton" onClick={() => {
+                    this.logout();
+                    window.location.reload();
+                }}>Logout</button>
+                <button className="backButton" onClick={() => {
+                    window.location.replace("../permits");
+                }} style ={{"display":"none"}}>Back</button>
+            </div>
+            )
+        }
         return (
             <div className="header">
                 <button className="logoutButton" onClick={() => {

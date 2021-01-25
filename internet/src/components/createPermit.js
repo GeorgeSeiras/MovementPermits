@@ -11,7 +11,7 @@ class CreatePermit extends React.Component {
 
     async componentDidMount() {
         const cookies = new Cookies();
-        const response = await fetch("http://localhost:8080/auth/me?jwt=" + cookies.get('token'));
+        const response = await fetch(process.env.REACT_APP_API+"/auth/me?jwt=" + cookies.get('token'));
         if (!response.ok) {
             document.getElementById("message").innerHTML = "There was an error while retrieving your data";
         }
@@ -86,7 +86,7 @@ class CreatePermit extends React.Component {
                                     userID: this.state.user.userID
                                 })
                             }
-                            const response = await fetch("http://localhost:8080/permits", requestOptions)
+                            const response = await fetch(process.env.REACT_APP_API+"/permits", requestOptions)
                             if (response.ok) {
                                 document.getElementById("message").innerHTML = "Successfully created permit";
                                 document.getElementById("message").style.color = "green";

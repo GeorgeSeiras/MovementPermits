@@ -15,7 +15,7 @@ class ViewPermits extends React.Component {
     async componentDidMount() {
 
         const cookies = new Cookies();
-        const responseMe = await fetch("http://localhost:8080/auth/me?jwt=" + cookies.get('token'), {
+        const responseMe = await fetch(process.env.REACT_APP_API + "/auth/me?jwt=" + cookies.get('token'), {
             method: 'GET'
         });
         if (!responseMe.ok) {
@@ -24,7 +24,7 @@ class ViewPermits extends React.Component {
         const dataMe = await responseMe.json();
         this.setState({ user: dataMe });
 
-        const responsePermits = await fetch("http://localhost:8080/permits"/*?userID=" + this.state.user.userID*/);
+        const responsePermits = await fetch(process.env.REACT_APP_API + "/permits?userID=" + this.state.user.userID);
         if (!responsePermits.ok) {
             document.getElementById("message").value = "There was an error while retrieving your permits";
         }
