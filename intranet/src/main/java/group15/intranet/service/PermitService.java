@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 
 import group15.intranet.entity.Permit;
+import group15.intranet.model_request.CreatePermitRequestModel;
 import group15.intranet.model_request.PermitStatistics;
 import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
 
@@ -20,7 +21,7 @@ public interface PermitService {
 
 	void deleteById(int id);
 	
-	ResponseEntity<Permit> addPermit(Permit p);
+	ResponseEntity<Permit> addPermit(CreatePermitRequestModel permitCreateModel);
 
 
 	ResponseEntity<Permit> updatePermit(int id, UpdatePermitDetailsRequestModel permitDetails);

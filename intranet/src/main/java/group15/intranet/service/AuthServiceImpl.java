@@ -1,6 +1,8 @@
 package group15.intranet.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import group15.intranet.entity.Role;
 import group15.intranet.entity.User;
 import group15.intranet.model_request.LogInRequestModel;
+import group15.intranet.repository.RoleRepository;
 import group15.intranet.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -28,6 +31,9 @@ public class AuthServiceImpl implements AuthService {
 	UserRepository userRepository;
 
 	@Autowired
+	RoleRepository roleRepository;
+	
+	@Autowired
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
@@ -41,8 +47,7 @@ public class AuthServiceImpl implements AuthService {
 		if (!passwordEncoder().matches(loginCredentials.getPassword(), user.getPassword())) {
 			return new ResponseEntity<HashMap<String, String>>(new HashMap<>(), HttpStatus.UNAUTHORIZED);
 		}
-		Role userRole = new Role();
-		userRole.setAuthority("ROLE_USER");
+		Role userRole = roleRepository.findByAuthority("ROLE_USER");
 		if (user.getAuthorities().indexOf(userRole) == -1) {
 			return new ResponseEntity<HashMap<String, String>>(new HashMap<>(), HttpStatus.FORBIDDEN);
 

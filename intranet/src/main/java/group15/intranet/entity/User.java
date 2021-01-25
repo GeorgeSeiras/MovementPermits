@@ -53,7 +53,7 @@ public class User implements Serializable{
 	@JoinColumn(name = "dep_id")
 	private Department dept;
 	
-	@JsonIgnore
+	@JsonManagedReference
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Permit> permits;
 	

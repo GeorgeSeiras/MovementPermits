@@ -18,6 +18,8 @@ import group15.intranet.criteria.SearchCriteria;
 import group15.intranet.criteria.SearchOperation;
 import group15.intranet.entity.Department;
 import group15.intranet.entity.Permit;
+import group15.intranet.entity.User;
+import group15.intranet.model_request.CreatePermitRequestModel;
 import group15.intranet.model_request.PermitStatistics;
 import group15.intranet.model_request.UpdatePermitDetailsRequestModel;
 import group15.intranet.repository.DepartmentRepository;
@@ -35,7 +37,7 @@ public class PermitServiceImpl implements PermitService {
 
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	DepartmentRepository deptRepository;
 
@@ -100,13 +102,19 @@ public class PermitServiceImpl implements PermitService {
 
 	@Override
 	public void deleteById(int id) {
-
 		permitRepository.deleteById(id);
 
 	}
 
 	@Override
-	public ResponseEntity<Permit> addPermit(Permit permit) {
+	public ResponseEntity<Permit> addPermit(CreatePermitRequestModel permitCreateModel) {
+		User user = userRepository.findByUserID(permitCreateModel.getUserID());
+		if (user == null) {
+			return new ResponseEntity<Permit>(HttpStatus.NOT_FOUND);
+		}
+		Permit permit = new Permit();
+		permit = permitCreateModel.getPermit();
+		permit.setUser(user);
 		permitRepository.save(permit);
 		return new ResponseEntity<Permit>(permit, HttpStatus.OK);
 
@@ -152,7 +160,7 @@ public class PermitServiceImpl implements PermitService {
 
 	@Override
 	public ResponseEntity<List<Permit>> getUserPermits(int userId) {
-		return new ResponseEntity<List<Permit>>(this.permitRepository.findByUser_userID(userId),HttpStatus.OK);
+		return new ResponseEntity<List<Permit>>(this.permitRepository.findByUser_userID(userId), HttpStatus.OK);
 	}
 
 }
