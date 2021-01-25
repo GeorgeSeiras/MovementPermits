@@ -15,7 +15,7 @@ public interface PermitService {
 	
 	List<Permit> getPermits(Map<String, String> searchParams) throws ParseException;
 	
-	ResponseEntity<Permit> getPermitById(int id);
+	ResponseEntity<Permit> getPermitById(int permitID, int userID);
 	
 	ResponseEntity<List<Permit>> getSupervisorPermits(int supervisorId);
 

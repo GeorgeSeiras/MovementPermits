@@ -43,9 +43,9 @@ public class PermitsRestController {
 		return permitService.getStatistics();
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Permit> getPermitById(@PathVariable int id) {
-		return this.permitService.getPermitById(id);
+	@GetMapping("/{permitID}")
+	public ResponseEntity<Permit> getPermitById(@PathVariable int permitID,@RequestParam(required = false) int userID) {
+		return this.permitService.getPermitById(permitID,userID);
 	}
 
 	@GetMapping("/supervisor/{id}")

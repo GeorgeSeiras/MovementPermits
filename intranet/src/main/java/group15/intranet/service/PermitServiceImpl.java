@@ -42,8 +42,8 @@ public class PermitServiceImpl implements PermitService {
 	DepartmentRepository deptRepository;
 
 	@Override
-	public ResponseEntity<Permit> getPermitById(int id) {
-		Permit checkedPermit = permitRepository.findById(id);
+	public ResponseEntity<Permit> getPermitById(int permitID,int userID) {
+		Permit checkedPermit = permitRepository.findByPermitIDAndUser_userID(permitID,userID);
 		if (checkedPermit == null) {
 			return new ResponseEntity<Permit>(checkedPermit, HttpStatus.NOT_FOUND);
 		}

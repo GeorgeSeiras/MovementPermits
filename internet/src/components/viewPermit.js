@@ -4,6 +4,7 @@ class ViewPermit extends React.Component {
     constructor() {
         super();
         this.state = {
+            permit: null
         }
     };
 
@@ -14,13 +15,13 @@ class ViewPermit extends React.Component {
         }
         const data = await response.json();
         this.setState({ permit: data });
-
+        console.log(this.state.permit)
     }
 
     render() {
-        if (this.state.permit === undefined) {
+        if (this.state.permit === undefined || this.state.permit === null || this.state.permit === {}) {
             return (
-                <h3>No permits found</h3>
+                <h3>Something went wrong while retrieving the permit</h3>
             )
         }
         return (

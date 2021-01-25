@@ -31,6 +31,8 @@ public interface PermitRepository extends JpaRepository<Permit, Integer>, JpaSpe
 	List<Permit> findInactive(Date curDate);
 
 	List<Permit> findByUser_userID(int userID);
+
+	Permit findByPermitIDAndUser_userID(int permitID, int userID);
 	
 	
 	
