@@ -53,9 +53,13 @@ public class PermitServiceImpl implements PermitService {
 		List<SearchCriteria> list = new ArrayList<>();
 		List<Permit> permits = new ArrayList<>();
 		if (searchParams.containsKey("fname") && searchParams.containsKey("lname")) {
-			permits = permitRepository.findByStatusAndUser_fnameAndUser_lname(searchParams.get("status"),searchParams.get("fname"), searchParams.get("lname"));
-		} else {
+			if(searchParams.containsKey("status")) {
+				permits = permitRepository.findByStatusAndUser_fnameAndUser_lname(searchParams.get("status"),searchParams.get("fname"), searchParams.get("lname"));
+			}else {
+				permits = permitRepository.findByUser_fnameAndUser_lname(searchParams.get("fname"), searchParams.get("lname"));
+			}
 
+		} else {
 			if (searchParams.containsKey("id")) {
 				list.add(new SearchCriteria("permitID", searchParams.get("id"), SearchOperation.EQUAL));
 
@@ -75,7 +79,8 @@ public class PermitServiceImpl implements PermitService {
 				sqlDate = new java.sql.Date(utilDate.getTime());
 
 				list.add(new SearchCriteria("endDate", sqlDate, SearchOperation.EQUAL));
-			} else if (searchParams.containsKey("status")) {
+			} 
+			if (searchParams.containsKey("status")) {
 				list.add(new SearchCriteria("status", searchParams.get("status"), SearchOperation.EQUAL));
 			}
 			permits = permitRepository.findAll(PermitSpecification.buildQuery(list));

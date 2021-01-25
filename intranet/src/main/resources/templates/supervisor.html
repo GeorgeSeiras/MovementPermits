@@ -103,19 +103,30 @@
 		function formValidation(dropdownValue, searchValue) {
 			document.getElementById("formValidationErrorPending").innerHTML = "";
 			document.getElementById("formValidationErrorPermit").innerHTML = "";
-			if (dropdownValue === "Name") {
-				const fullname = searchValue.split(" ");
-				if (fullname[0] == undefined || fullname[1] == undefined) {
-					changeMessage("Both first and last name are required e.x John Doe");
-					return false;
-				}
-			} else if (dropdownValue === "StartDate"
-					|| dropdownValue === "EndDate") {
-				const isValid = moment(searchValue, 'YYY-MM-DD', true)
-						.isValid();
-				if (!isValid) {
-					changeMessage("Date must be in yyyy-mm-dd format");
-				}
+			if(searchValue === ""){
+				return true;
+			}
+			var isValid;
+			switch(dropdownValue){
+				case "Name":
+					const fullname = searchValue.split(" ");
+					if (fullname[0] == undefined || fullname[1] == undefined) {
+						changeMessage("Both first and last name are required e.x John Doe");
+						return false;
+					}
+					break;
+				case "StartDate":
+					isValid = moment(searchValue, 'YYY-MM-DD', true).isValid();
+					if (!isValid) {
+						changeMessage("Date must be in yyyy-mm-dd format");
+					}
+					break;
+				case "EndDate":
+					isValid = moment(searchValue, 'YYY-MM-DD', true).isValid();
+					if (!isValid) {
+						changeMessage("Date must be in yyyy-mm-dd format");
+					}
+					break;
 			}
 			return true;
 		}
@@ -134,14 +145,16 @@
 			const searchValue = document.getElementById("searchValue").value;
 			if (formValidation(dropdownValue, searchValue)) {
 				var queryParameter = "";
-				if (dropdownValue === "Name") {
-					const fullname = searchValue.split(" ");
-					queryParameter = "fname=" + fullname[0] + "&lname="
-							+ fullname[1];
-				} else if (dropdownValue === "StartDate") {
-					queryParameter = "start_date=" + searchValue;
-				} else if (dropdownValue === "EndDate") {
-					queryParameter = "end_date=" + searchValue;
+				if(searchValue !== ""){
+					if (dropdownValue === "Name") {
+						const fullname = searchValue.split(" ");
+						queryParameter = "fname=" + fullname[0] + "&lname="
+								+ fullname[1];
+					} else if (dropdownValue === "StartDate") {
+						queryParameter = "start_date=" + searchValue;
+					} else if (dropdownValue === "EndDate") {
+						queryParameter = "end_date=" + searchValue;
+					}	
 				}
 				var url = "/permits";
 				if (queryParameter !== "") {
@@ -169,19 +182,18 @@
 			const searchValue = document.getElementById("searchValuePending").value
 			if (formValidation(dropdownValue, searchValue)) {
 				var queryParameter;
-				if (dropdownValue === "Name") {
-					const fullname = searchValue.split(" ");
-					queryParameter = "fname=" + fullname[0] + "&lname="
-							+ fullname[1];
-				} else if (dropdownValue === "StartDate") {
-					queryParameter = "start_date=" + searchValue;
-				} else if (dropdownValue === "EndDate") {
-					queryParameter = "end_date=" + searchValue;
+				if(searchValue !==""){
+					if (dropdownValue === "Name") {
+						const fullname = searchValue.split(" ");
+						queryParameter = "fname=" + fullname[0] + "&lname="
+								+ fullname[1];
+					} else if (dropdownValue === "StartDate") {
+						queryParameter = "start_date=" + searchValue;
+					} else if (dropdownValue === "EndDate") {
+						queryParameter = "end_date=" + searchValue;
+					}
 				}
 				var url = "/permits?status=PENDING&";
-				if (queryParameter !== "") {
-					
-				}
 				if (queryParameter !== "") {
 					url += queryParameter+"&superId=" + user.userID
 				}else{

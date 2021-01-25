@@ -35,6 +35,8 @@ public interface PermitRepository extends JpaRepository<Permit, Integer>, JpaSpe
 	Permit findByPermitIDAndUser_userID(int permitID, int userID);
 
 	List<Permit> findByStatusAndUser_fnameAndUser_lname(String string, String string2, String string3);
+
+	List<Permit> findByUser_fnameAndUser_lname(String string, String string2);
 	
 	
 	
