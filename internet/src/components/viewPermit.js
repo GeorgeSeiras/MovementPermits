@@ -1,27 +1,39 @@
 import React from "react";
-import "./viewPermit.css"
+import "./viewPermit.css";
+import Cookies from "universal-cookie";
 class ViewPermit extends React.Component {
     constructor() {
         super();
         this.state = {
-            permit: null
+            permit: null,
+            user:null
         }
     };
 
     async componentDidMount() {
-        const response = await fetch('http://localhost:8080/permits/' + this.getPermitId());
+        const cookies = new Cookies();
+        const responseJwt = await fetch("http://localhost:8080/auth/me?jwt=" + cookies.get('token'));
+        if (!responseJwt.ok) {
+            document.getElementById("message").innerHTML = "There was an error while retrieving your data";
+            return;
+        }
+        const user = await responseJwt.json();
+        this.setState({ user:  user});
+        const response = await fetch('http://localhost:8080/permits/'+ this.getPermitId()+"?userID="+this.state.user.userID);
         if (!response.ok) {
-            document.getElementById("message").innerHTML = "There was an error while retrieving your permits";
+            document.getElementById("message").innerHTML = "Permit does not exist";
+            return;
         }
         const data = await response.json();
         this.setState({ permit: data });
-        console.log(this.state.permit)
     }
 
     render() {
-        if (this.state.permit === undefined || this.state.permit === null || this.state.permit === {}) {
+        if (this.state.permit === undefined || this.state.permit === null) {
             return (
-                <h3>Something went wrong while retrieving the permit</h3>
+                <div className="container">
+                    <p id="message" className="message"></p>
+                </div >
             )
         }
         return (
