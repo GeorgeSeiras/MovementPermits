@@ -33,4 +33,8 @@ public class AdminController {
 		return "admin-department-create";
 	}
 	
+	@GetMapping("roles/{id}")
+	public String adminUserRoles() {
+		return "admin-role-assign";
+	}
 }

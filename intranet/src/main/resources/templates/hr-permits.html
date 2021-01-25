@@ -5,6 +5,12 @@
 <title>Human Resources</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script>
+	//initialize moment.js object
+	moment().format();
+</script>
 </head>
 <body>
 
@@ -46,38 +52,75 @@
 			cache : false,
 			success : function(response) {
 				const permits = response;
-				console.log(permits)
 				const table = document.getElementById("permitsTable");
 				permitsToTable(table, permits)
 			}
 		})
 
+		function formValidation(dropdownValue, searchValue) {
+			document.getElementById("formValidationErrorPermit").innerHTML = "";
+			if (searchValue === "") {
+				return true;
+			}
+			var isValid;
+			switch (dropdownValue) {
+			case "Name":
+				const fullname = searchValue.split(" ");
+				if (fullname[0] == undefined || fullname[1] == undefined) {
+					document.getElementById("formValidationErrorPermit").innerHTML = "Both first and last name are required e.x John Doe";
+					return false;
+				}
+				break;
+			case "StartDate":
+				isValid = moment(searchValue, 'YYY-MM-DD', true).isValid();
+				if (!isValid) {
+					document.getElementById("formValidationErrorPermit").innerHTML = "Date must be in yyyy-mm-dd format";
+				}
+				break;
+			case "EndDate":
+				isValid = moment(searchValue, 'YYY-MM-DD', true).isValid();
+				if (!isValid) {
+					document.getElementById("formValidationErrorPermit").innerHTML = "Date must be in yyyy-mm-dd format";
+				}
+				break;
+			}
+			return true;
+		}
+
 		function permitSearch() {
 			const dropdownValue = document.getElementById("searchBy").value;
 			const searchValue = document.getElementById("searchValue").value
-			var queryParameter;
-			if (dropdownValue === "Name") {
-				const fullname = searchValue.split(" ");
-				queryParameter = "fname=" + fullname[0] + "&lname="
-						+ fullname[1];
-			} else if (dropdownValue === "StartDate") {
-				queryParameter = "start_date=" + searchValue;
-			} else if (dropdownValue === "EndDate") {
-				queryParameter = "end_date=" + searchValue;
-			}
-			const finalQueryParameters = string.concat(queryParameter,
-					"&depId=" + depId)
-			$.ajax({
-				url : BASE_URL + "/permits=?" + finalQueryParameters,
-				type : "GET",
-				dataType : 'json',
-				cache : false,
-				success : function(response) {
-					const permits = response
-					const table = document.getElementById("permitsTable")
-					permitsToTable(table, permits)
+			var queryParameter = "";
+			if (formValidation(dropdownValue, searchValue)) {
+				if (searchValue !== "") {
+					if (dropdownValue === "Name") {
+						const fullname = searchValue.split(" ");
+						queryParameter = "fname=" + fullname[0] + "&lname="
+								+ fullname[1];
+					} else if (dropdownValue === "StartDate") {
+						queryParameter = "start_date=" + searchValue;
+					} else if (dropdownValue === "EndDate") {
+						queryParameter = "end_date=" + searchValue;
+					}
 				}
-			});
+				if (queryParameter !== "") {
+					queryParameter += "&status=APPROVED";
+				} else {
+					queryParameter += "status=APPROVED";
+				}
+				console.log("/permits?" + queryParameter)
+				$.ajax({
+					url : "/permits?" + queryParameter,
+					type : "GET",
+					dataType : 'json',
+					cache : false,
+					success : function(response) {
+						const permits = response
+						const table = document.getElementById("permitsTable")
+						permitsToTable(table, permits)
+					}
+				});
+			}
 		}
 
 		//remove all existing rows of the permit table, and populate it with the new permits
