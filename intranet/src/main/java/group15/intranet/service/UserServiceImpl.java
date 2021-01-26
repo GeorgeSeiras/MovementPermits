@@ -126,6 +126,10 @@ public class UserServiceImpl implements UserService {
 		if (checkedUser != null) {
 			return new ResponseEntity<User>(checkedUser, HttpStatus.ALREADY_REPORTED);
 		}
+		User checkUsername = userRepository.findOneByUsername(user.getUsername());
+		if(checkUsername != null) {
+			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+		}
 		checkedUser = new User();
 		checkedUser.setFname(user.getFname());
 		checkedUser.setLname(user.getLname());

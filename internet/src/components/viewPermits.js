@@ -33,9 +33,6 @@ class ViewPermits extends React.Component {
 
     }
     render() {
-        if (this.state.permits.length === 0) {
-            return (<h2>No permits found</h2>)
-        }
         return (
             <div className="container">
                 <div className="left"></div>
