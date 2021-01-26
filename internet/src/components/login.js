@@ -3,7 +3,7 @@ import './login.css';
 import PropTypes from 'prop-types';
 
 async function loginUser(username, password) {
-    const result = await fetch('http://localhost:8080/auth/login', {
+    const result = await fetch(process.env.REACT_APP_API+'/auth/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
