@@ -16,7 +16,7 @@ Github Repository : [GitHub - GeorgeSeiras/MovementPermits](https://github.com/G
    
    This script creates a department with the name ADMIN, a user named Adam Smith with the username: admin and password:password assigned to the ADMIN department, the 4 Roles ADMIN,SUPERVISOR,HR,DIRECTOR and finally assigns the ROLE_ADMIN to the created user.
 
-1.  Create a file called application.properties at the path :   
+3. Create a file called application.properties at the path :   
    
    > MovementPermits\intranet\src\main\resources\application\.properties
    
@@ -44,13 +44,13 @@ Github Repository : [GitHub - GeorgeSeiras/MovementPermits](https://github.com/G
    
    You can modify the server.port, the spring.datasource.url/username/password and the secret, to the desired port and database. The secret needs to be at least 1024 bits.
 
-2. Compile the code.
+4. Compile the code.
    
    ```
    mvn pacakge
    ```
 
-3. Run the group15_intranet.jar file under the intranet folder.
+5. Run the group15_intranet.jar file under the intranet/target folder.
    
    ```
    java -jar group15_intranet.jar
@@ -58,7 +58,7 @@ Github Repository : [GitHub - GeorgeSeiras/MovementPermits](https://github.com/G
    
    This will run the application on the port you specified.
 
-4. Connect to the application (e.x. localhost:8080).
+6. Connect to the application (e.x. localhost:8080).
 
 ## Internet
 
@@ -91,5 +91,3 @@ This application requires Node.js and npm to run.
    ```
 
 3. Connect to the application (e.x. localhost 3000).
-   
-   
